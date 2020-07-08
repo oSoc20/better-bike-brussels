@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""
+    />
+    <style>
+      #map {
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script
+      src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""
+    ></script>
+    <script src="osmtogeojson.js"></script>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", (event) => {
+        init();
+      });
+
+      function init() {
+        console.log(document.getElementById("map"));
+        var map = L.map("map").setView([50.8503, 4.3517], 18);
+
+        L.tileLayer(
+          "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+          {
+            attribution:
+              'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: "mapbox/streets-v11",
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken:
+              "pk.eyJ1Ijoid291dHZlcmJpZXN0IiwiYSI6ImNrY2J6M2hobzI5enIyc28wbjl3aDU3b3oifQ.RyMH0nBp_ewvl1yxXLogkg",
+          }
+        ).addTo(map);
+
+        getData(map);
+
+        map.on("moveend", function () {
+          
+          console.log(map.getBounds());
+        });
+      }
+
+      function getData(map) {
+        const url = `https://overpass-api.de/api/interpreter?data=[out:json][timeout:25]${getbbox(
+          map
+        )};(node[amenity=bicycle_parking];);out body;>;out skel qt;`;
+        const url2 = `https://overpass-api.de/api/interpreter?data=[out:json][timeout:25]${getbbox(
+          map
+        )};(node[amenity=compressed_air];);out body;>;out skel qt;`;
+
+        var parkingsstyle = {
+          radius: 5,
+          fillColor: "#ff00ff",
+          color: "#000",
+          weight: 1,
+          opacity: 1,
+          fillOpacity: 0.8,
+        };
+
+        fetch(url)
+          .then((response) => response.json())
+          .then((json) => {
+
+            L.geoJSON(osmtogeojson(json), {
+              pointToLayer: function (feature, latlng) {
+                var parkingicon = new L.Icon({
+                  iconUrl: "/parking.png",
+                  iconSize: [25, 25],
+                  iconAnchor: [22, 94],
+                  popupAnchor: [-3, -76],
+                });
+                return L.marker(latlng, { icon: parkingicon });
+              },
+            }).addTo(map);
+
+            console.log("done parking");
+          })
+          .catch((error) => console.log(error));
+
+        var airpumpsstyle = {
+          radius: 5,
+          fillColor: "#ff7800",
+          color: "#000",
+          weight: 1,
+          opacity: 1,
+          fillOpacity: 0.8,
+        };
+
+        fetch(url2)
+          .then((response) => response.json())
+          .then((json) => {
+            L.geoJSON(osmtogeojson(json), {
+              pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, airpumpsstyle);
+              },
+            }).addTo(map);
+            console.log("done airpumps");
+          });
+      }
+
+      function getbbox(map) {
+        let bounds = map.getBounds();
+        console.log(map.getBounds());
+        let south = bounds._southWest.lat.toFixed(3);
+        let west = bounds._southWest.lng.toFixed(3);
+        let north = bounds._northEast.lat.toFixed(3);
+        let east = bounds._northEast.lng.toFixed(3);
+
+        return `[bbox:${south},${west},${north},${east}]`;
+      }
+    </script>
+  </body>
+</html>
