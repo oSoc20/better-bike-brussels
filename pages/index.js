@@ -1,7 +1,12 @@
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 
-const Map = dynamic(() => import('./components/map'))
+//const Map = dynamic(() => import('./components/map'))
+
+const Map = dynamic(
+  () => import('./components/map'),
+  { ssr: false }
+)
 
 export default function Home() {
   return (

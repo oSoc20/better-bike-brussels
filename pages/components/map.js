@@ -27,7 +27,22 @@ export default class Map extends Component{
         }
     ).addTo(this.map);
 
-    getData(this.map);
+    //getData(this.map);
+    L.marker([50.846859, 4.352297]).addTo(this.map);
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+      
+    }
+    else{
+      alert("Geolocation is not supported by this browser.");
+    }
+
+    function showPosition(position) {
+      console.log("");
+      alert("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude);
+      L.marker([position.coords.latitude, position.coords.longitude]).addTo(this.map);
+    }
 
     function getbbox(map) {
         let bounds = map.getBounds();
@@ -101,7 +116,11 @@ export default class Map extends Component{
 
   render(){
     return (
-      <Wrapper width="50vw" height="50vh" id="map"/>
+      <Fragment>
+        <div >
+          <Wrapper width="50vw" height="50vh" id="map"></Wrapper>
+        </div>
+      </Fragment>
     )
   }
     
