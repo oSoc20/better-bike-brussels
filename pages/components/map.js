@@ -30,8 +30,31 @@ export default class Map extends Component{
     //getData(this.map);
     L.marker([50.846859, 4.352297]).addTo(this.map);
 
+
+
+    var options = {
+      enableHighAccuracy: true,
+      timeout: 2000,
+      maximumAge: 0
+    };
+    
+    function success(pos) {
+      var crd = pos.coords;
+    
+      console.log('Votre position actuelle est :');
+      console.log(`Latitude : ${crd.latitude}`);
+      console.log(`Longitude : ${crd.longitude}`);
+      console.log(`La précision est de ${crd.accuracy} mètres.`);
+    }
+    
+    function error(err) {
+      console.warn(`ERREUR (${err.code}): ${err.message}`);
+    }
+    
+
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
+      navigator.geolocation.getCurrentPosition((pos)=>{console.log("success");}, (error) => {alert(error)});
+
       
     }
     else{
@@ -39,7 +62,7 @@ export default class Map extends Component{
     }
 
     function showPosition(position) {
-      console.log("");
+      
       alert("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude);
       L.marker([position.coords.latitude, position.coords.longitude]).addTo(this.map);
     }
@@ -117,9 +140,7 @@ export default class Map extends Component{
   render(){
     return (
       <Fragment>
-        <div >
-          <Wrapper width="50vw" height="50vh" id="map"></Wrapper>
-        </div>
+        <Wrapper width="50vw" height="50vh" id="map"></Wrapper>
       </Fragment>
     )
   }
