@@ -1,7 +1,6 @@
 import React, {Component, Fragment} from "react"; 
 import L from "leaflet"
 import styled from "styled-components"
-import osmtogeojson from '../osmtogeojson.js'
 
 const Wrapper= styled.div`
   width:${props => props.width};
@@ -10,8 +9,28 @@ const Wrapper= styled.div`
 
 export default class Map extends Component{ 
   componentDidMount(){
+    const server_url = process.env.SERVER_URL;
+    let radius = 1000;
 
-    this.map= L.map("map").setView([50.8503, 4.3517], 18);
+    this.map= L.map("map").setView([50.846859, 4.352297], 18);
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((success),(error => {
+        let pos = {coords:{
+          "latitude": 50.846859,
+          "longitude": 4.352297,
+          "accuracy": 5,
+        }}
+        //success(pos);
+        getEndpoints(pos, this.map);
+
+        //TODO get user geolocation properly
+        }
+      ));
+    }
+    else {
+      console.log("Geolocation is not supported by this browser.");
+    }
 
     L.tileLayer(
         "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
@@ -27,120 +46,74 @@ export default class Map extends Component{
         }
     ).addTo(this.map);
 
-    //getData(this.map);
     L.marker([50.846859, 4.352297]).addTo(this.map);
 
+    function getEndpoints(pos, map){
+      let position = "?lat=" + pos.coords.latitude + "&lng=" + pos.coords.longitude + "&radius=" + radius;      
+      let url = server_url + "/api/v1/map/endpoints" + position;
+      let endpoint_list = {};
 
-
-    var options = {
-      enableHighAccuracy: true,
-      timeout: 2000,
-      maximumAge: 0
-    };
-    
-    function success(pos) {
-      var crd = pos.coords;
-    
-      console.log('Votre position actuelle est :');
-      console.log(`Latitude : ${crd.latitude}`);
-      console.log(`Longitude : ${crd.longitude}`);
-      console.log(`La précision est de ${crd.accuracy} mètres.`);
-    }
-    
-    function error(err) {
-      console.warn(`ERREUR (${err.code}): ${err.message}`);
-    }
-    
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos)=>{console.log("success");}, (error) => {alert(error)});
-
-      
-    }
-    else{
-      alert("Geolocation is not supported by this browser.");
+      fetch(url)
+        .then((response) => response.json())
+        .then((json) => {
+          endpoint_list = json.success;
+          getDataFromEndpoints(endpoint_list, position, map);
+        })
+        .catch((error) => console.log(error));
     }
 
-    function showPosition(position) {
-      
-      alert("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude);
-      L.marker([position.coords.latitude, position.coords.longitude]).addTo(this.map);
-    }
+    function getDataFromEndpoints(endpoint_list, position, map){
+      let max_answers = 5;
+      position = position + "&max_answers=" + max_answers;
+      for (let endp = 0; endp < endpoint_list.length; endp++) {
+        let endpoint_url = server_url + endpoint_list[endp] + position;
+        console.log(endpoint_url);
 
-    function getbbox(map) {
-        let bounds = map.getBounds();
-        console.log(map.getBounds());
-        let south = bounds._southWest.lat.toFixed(3);
-        let west = bounds._southWest.lng.toFixed(3);
-        let north = bounds._northEast.lat.toFixed(3);
-        let east = bounds._northEast.lng.toFixed(3);
-    
-        return `[bbox:${south},${west},${north},${east}]`;
-    }
-
-    function getData(map) {
-        const url = `https://overpass-api.de/api/interpreter?data=[out:json][timeout:25]${getbbox(
-          map
-        )};(node[amenity=bicycle_parking];);out body;>;out skel qt;`;
-        const url2 = `https://overpass-api.de/api/interpreter?data=[out:json][timeout:25]${getbbox(
-          map
-        )};(node[amenity=compressed_air];);out body;>;out skel qt;`;
-    
-        var parkingsstyle = {
-          radius: 5,
-          fillColor: "#ff00ff",
-          color: "#000",
-          weight: 1,
-          opacity: 1,
-          fillOpacity: 0.8,
-        };
-    
-        fetch(url)
+        fetch(endpoint_url)
           .then((response) => response.json())
           .then((json) => {
-    
-            L.geoJSON(osmtogeojson(json), {
+            L.geoJSON(json, {
               pointToLayer: function (feature, latlng) {
-                var parkingicon = new L.Icon({
-                  iconUrl: "/parking.png",
+                var endpoint_icon = new L.Icon({
+                  iconUrl: process.env.APP_URL + "/parking.png",
                   iconSize: [25, 25],
                   iconAnchor: [22, 94],
                   popupAnchor: [-3, -76],
                 });
-                return L.marker(latlng, { icon: parkingicon });
+                //var parkingicon = new L.Icon(json.icon);
+                return L.marker(latlng, { icon: endpoint_icon });
               },
             }).addTo(map);
-    
-            console.log("done parking");
-          })
-          .catch((error) => console.log(error));
-    
-        var airpumpsstyle = {
-          radius: 5,
-          fillColor: "#ff7800",
-          color: "#000",
-          weight: 1,
-          opacity: 1,
-          fillOpacity: 0.8,
-        };
-    
-        fetch(url2)
-          .then((response) => response.json())
-          .then((json) => {
-            L.geoJSON(osmtogeojson(json), {
-              pointToLayer: function (feature, latlng) {
-                return L.circleMarker(latlng, airpumpsstyle);
-              },
-            }).addTo(map);
-            console.log("done airpumps");
           });
       }
+    }
+
+    // TODO get user geolocation properly
+    
+    function success(pos) {
+      var crd = pos.coords;
+    
+      console.log('Your current position is :');
+      console.log(`Latitude : ${crd.latitude}`);
+      console.log(`Longitude : ${crd.longitude}`);
+      console.log(`Accuracy is ${crd.accuracy} meters.`);
+    }
+
+    /*var options = {
+      enableHighAccuracy: true,
+      timeout: 2000,
+      maximumAge: 0
+    };
+    function showPosition(position) {
+      alert("works");
+      alert("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude);
+    }*/
   }
 
   render(){
     return (
       <Fragment>
-        <Wrapper width="50vw" height="50vh" id="map"></Wrapper>
+        <Wrapper width="100vw" height="80vh" id="map"></Wrapper>
       </Fragment>
     )
   }
