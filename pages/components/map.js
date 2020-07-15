@@ -63,7 +63,7 @@ export default class Map extends Component{
     }
 
     function getDataFromEndpoints(endpoint_list, position, map){
-      let max_answers = 5;
+      let max_answers = 10;
       position = position + "&max_answers=" + max_answers;
       for (let endp = 0; endp < endpoint_list.length; endp++) {
         let endpoint_url = server_url + endpoint_list[endp] + position;
@@ -72,15 +72,26 @@ export default class Map extends Component{
         fetch(endpoint_url)
           .then((response) => response.json())
           .then((json) => {
+            console.log(json);
             L.geoJSON(json, {
               pointToLayer: function (feature, latlng) {
-                var endpoint_icon = new L.Icon({
-                  iconUrl: process.env.APP_URL + "/parking.png",
+                // Check if a image file exists
+                let image = new Image();
+                let url_image = process.env.APP_URL + "/" + json.icon;
+                image.src = url_image;
+                let endpoint_icon = url_image;
+                
+                if (image.width == 0) { // default image
+                  endpoint_icon = process.env.APP_URL + "/vercel.svg" ;
+                }
+
+                endpoint_icon = new L.Icon({
+                  iconUrl: process.env.APP_URL + "/vercel.svg",
+                  //iconUrl: process.env.APP_URL + "/" + json.icon,
                   iconSize: [25, 25],
                   iconAnchor: [22, 94],
                   popupAnchor: [-3, -76],
                 });
-                //var parkingicon = new L.Icon(json.icon);
                 return L.marker(latlng, { icon: endpoint_icon });
               },
             }).addTo(map);
