@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from "react"; 
+import React, {Component, Fragment} from "react"
 import L from "leaflet"
 import styled from "styled-components"
 
@@ -86,8 +86,7 @@ export default class Map extends Component{
                 }
 
                 endpoint_icon = new L.Icon({
-                  iconUrl: process.env.APP_URL + "/vercel.svg",
-                  //iconUrl: process.env.APP_URL + "/" + json.icon,
+                  iconUrl: process.env.APP_URL + "/" + json.icon,
                   iconSize: [25, 25],
                   iconAnchor: [22, 94],
                   popupAnchor: [-3, -76],
@@ -109,22 +108,12 @@ export default class Map extends Component{
       console.log(`Longitude : ${crd.longitude}`);
       console.log(`Accuracy is ${crd.accuracy} meters.`);
     }
-
-    /*var options = {
-      enableHighAccuracy: true,
-      timeout: 2000,
-      maximumAge: 0
-    };
-    function showPosition(position) {
-      alert("works");
-      alert("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude);
-    }*/
   }
 
   render(){
     return (
       <Fragment>
-        <Wrapper width="100vw" height="80vh" id="map"></Wrapper>
+        <Wrapper width="100vw" height="75vh" id="map"></Wrapper>
       </Fragment>
     )
   }
