@@ -14,7 +14,7 @@ class HomeEvent extends React.Component {
         <h2>{today}</h2>
 
         {this.props.events.map(x => {
-            return <EventCard event={x}/>
+            return <EventCard key={x.id} event={x}/>
         })}
 
         <style jsx>{`
