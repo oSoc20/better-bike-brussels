@@ -26,52 +26,7 @@ const Index = (props) => (
         </div>
         <SearchBar />
       </div>
-
-      <div className="box">
-        <div className="interest">
-          <div className="interest-name">Pitstops</div>
-          <div>
-            <div>
-              <span>bike pumps</span>
-            </div>
-            <ul>
-              <li>Street_name</li>
-              <li>Street_name</li>
-            </ul>
-          </div>
-          <div>
-            <div>
-              <span>repair shops</span>
-            </div>
-            <ul>
-              <li>Street_name</li>
-              <li>Street_name</li>
-            </ul>
-          </div>
-        </div>
-        <div className="interest">
-          <div className="interest-name">Parking spaces</div>
-          <ul>
-            <li>Street_name</li>
-            <li>Street_name</li>
-            <li>Street_name</li>
-          </ul>
-        </div>
-        <div className="interest">
-          <div className="interest-name">Water taps</div>
-          <ul>
-            <li>Street_name</li>
-            <li>Street_name</li>
-          </ul>
-        </div>
-        <div className="interest">
-          <div className="interest-name">Road obstructions</div>
-          <ul>
-            <li>Street_name</li>
-            <li>Street_name</li>
-          </ul>
-        </div>
-      </div>
+        
       <HomeGeoLocation/>
 
       <HomeEvent events={props.data}/>
