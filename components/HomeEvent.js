@@ -1,5 +1,6 @@
 import EventCard from '../components/EventCard';
 
+
 class HomeEvent extends React.Component {
   render() {
     var today = new Date();

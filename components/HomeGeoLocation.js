@@ -1,5 +1,4 @@
-import Index from "../pages";
-import { render } from "react-dom";
+import Mansonry from "../components/Mansonry";
 
 class HomeGeoLocation extends React.Component {
   constructor(props) {
@@ -20,7 +19,7 @@ class HomeGeoLocation extends React.Component {
         lat: 50.8503,
         lng: 4.33517,
       });
-      fetchLocationData().then(res => this.setState({
+      fetchLocationData(this.state.lat, this.state.lng).then(res => this.setState({
         displayComponents: true,
         lat: this.state.lat,
         lng: this.state.lng,
@@ -34,7 +33,7 @@ class HomeGeoLocation extends React.Component {
             lat: pos.coords.latitude,
             lng: pos.coords.longitude,
           });
-          fetchLocationData().then(res => this.setState({
+          fetchLocationData(this.state.lat, this.state.lng).then(res => this.setState({
               displayComponents: true,
               lat: this.state.lat,
               lng: this.state.lng,
@@ -47,7 +46,7 @@ class HomeGeoLocation extends React.Component {
             lat: 50.8503,
             lng: 4.33517,
           });
-          fetchLocationData().then(res => this.setState({
+          fetchLocationData(this.state.lat, this.state.lng).then(res => this.setState({
             displayComponents: true,
             lat: this.state.lat,
             lng: this.state.lng,
@@ -57,14 +56,14 @@ class HomeGeoLocation extends React.Component {
       );
     }
 
-    async function fetchLocationData() {
+    async function fetchLocationData(lat, lng) {
       let host = "http://localhost:8080";
 
       const endpoints = (await getData(`${host}/api/v1/map/endpoints`)).success;
 
       const promises = endpoints.map((endpoint) =>
         getData(
-          `${host}${endpoint}?lat=50.849747&lng=4.3511706&radius=2000&max_answers=5`
+          `${host}${endpoint}?lat=${lat}&lng=${lng}&radius=2000&max_answers=3`
         )
       );
 
@@ -101,7 +100,8 @@ class HomeGeoLocation extends React.Component {
 
         {displayComponents ? (
           <div>
-            {latitude}, {longitude}, {data[0].features[0].id}
+            {latitude}, {longitude}
+            <Mansonry data = {data} lat={latitude} lng={longitude}/>
           </div>
         ) : (
           "loading"
