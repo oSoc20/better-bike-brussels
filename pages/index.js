@@ -2,9 +2,9 @@ import Head from "next/head";
 import dynamic from "next/dynamic";
 
 import SearchBar from "./components/search_bar";
-import Footer from "./components/footer";
 import Layout from "../components/Layout";
 import HomeEvent from "../components/HomeEvent";
+import HomeGeoLocation from "../components/HomeGeoLocation";
 
 const Map = dynamic(() => import("./components/map_component"), { ssr: false });
 
@@ -72,6 +72,7 @@ const Index = (props) => (
           </ul>
         </div>
       </div>
+      <HomeGeoLocation/>
 
       <HomeEvent events={props.data}/>
 
