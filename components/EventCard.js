@@ -41,7 +41,7 @@ class EventCard extends React.Component {
           <h3>{title}</h3>
           <p>{starttime} - {endtime} | {place}</p>
         </article>
-        <Link href={`/event/${this.props.event.id}`}>
+        <Link href="fr/event/[id]" as={`fr/event/${this.props.event.id}`}>
           <a>More info</a>
         </Link>
 
