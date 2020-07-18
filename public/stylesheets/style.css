@@ -7,3 +7,8 @@ header h1{
     padding:20px;
     font-size:2rem;
 }
+
+body{
+    overflow-x: hidden;
+    text-overflow: clip;
+}
