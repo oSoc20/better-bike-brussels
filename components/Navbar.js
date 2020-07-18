@@ -14,7 +14,7 @@ const Navbar = () => (
         </Link>
       </li>
       <li>
-        <Link href="/event">
+        <Link href="/events">
           <a><img src="/events.svg" /></a>
         </Link>
       </li>
