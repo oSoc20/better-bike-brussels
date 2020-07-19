@@ -103,10 +103,14 @@ Index.getInitialProps = async function () {
 
 
   let startdate = new Date();
+  startdate.setHours(0);
+  startdate.setMinutes(0);
+  startdate.setSeconds(0);
+  startdate.setUTCMilliseconds(0);
   let enddate =  new Date(startdate);
 
   
-  enddate.setDate(enddate.getDate() + 1);//TODO THIS SHOWS EVENTS OF TOMORROW
+  enddate.setDate(enddate.getDate() + 1);
 
 
   console.log(Date.parse(startdate)/1000,Date.parse(enddate)/1000);

@@ -47,11 +47,16 @@ Index.getInitialProps = async function () {
   let host = "http://localhost:8080";
 
   let startdate = new Date();
+  startdate.setHours(0);
+  startdate.setMinutes(0);
+  startdate.setSeconds(0);
+  startdate.setUTCMilliseconds(0);
+
   let tomorrow = new Date(startdate);
-  tomorrow.setDate(tomorrow.getDate() + 1); //TODO FIX THIS
+  tomorrow.setDate(tomorrow.getDate() + 1);
 
   let enddate = new Date(startdate);
-  enddate.setDate(enddate.getDate() + 30); //TODO FIX THIS
+  enddate.setDate(enddate.getDate() + 30);
 
   let today = await getData(
     `${host}/api/v1/event/official?from=${Date.parse(startdate) / 1000}&to=${
@@ -59,7 +64,7 @@ Index.getInitialProps = async function () {
     }`
   );
   let future = await getData(
-    `${host}/api/v1/event/official?from=${Date.parse(startdate) / 1000}&to=${
+    `${host}/api/v1/event/official?from=${Date.parse(tomorrow) / 1000}&to=${
       Date.parse(enddate) / 1000
     }`
   );
