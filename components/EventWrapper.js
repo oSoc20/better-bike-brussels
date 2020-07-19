@@ -81,7 +81,7 @@ class EventWrapper extends React.Component {
           <h1>Ongoing events today</h1>
           <h2>{date}</h2>
           {displayTodayComponent ? (
-            <EventLoop data={todayEvents} />
+            <EventLoop data={todayEvents} language={this.props.language}/>
           ) : (
             <p>loading</p>
           )}
@@ -89,7 +89,7 @@ class EventWrapper extends React.Component {
         <article className="futureview">
           <h1>Other events in the future</h1>
           {displayFutureComponent ? (
-            <EventLoop data={futureEvents} />
+            <EventLoop data={futureEvents} language={this.props.language}/>
           ) : (
             <p>loading</p>
           )}

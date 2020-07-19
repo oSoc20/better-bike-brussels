@@ -1,20 +1,23 @@
 import Link from "next/link";
 
-const Navbar = () => (
-  <div>
+class Navbar extends React.Component{
+  render(){
+    var language = this.props.language;
+    return(
+      <div>
     <ul>
       <li>
-        <Link href="/">
+        <Link href="/[language]/" as={`/${language}/`}>
           <a><img src="/home.svg" /></a>
         </Link>
       </li>
       <li>
-        <Link href="/map">
+        <Link href="/[language/map" as={`/${language}/map`}>
           <a><img src="/map.svg" /></a>
         </Link>
       </li>
       <li>
-        <Link href="/events">
+        <Link href="/[language]/events" as={`/${language}/events`}>
           <a><img src="/events.svg" /></a>
         </Link>
       </li>
@@ -37,6 +40,9 @@ const Navbar = () => (
       }
     `}</style>
   </div>
-);
+    )
+  }
+}
+
 
 export default Navbar;

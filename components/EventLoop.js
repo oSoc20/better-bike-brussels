@@ -6,7 +6,7 @@ class EventLoop extends React.Component {
     return (
             <div>
         {this.props.data.map(x => {
-            return <div><EventCard event={x}/></div>
+            return <div><EventCard event={x} language={this.props.language}/></div>
         })}
         </div>
     );

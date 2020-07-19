@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Head from "next/head";
+import LanguageStorage from "../../../../components/LanguageStorage";
 
 const Event = (props) => {
   try {
@@ -65,7 +66,8 @@ const Event = (props) => {
       <Head>
         <title>Event</title>
       </Head>
-      <Link href="/events">
+      <LanguageStorage language={props.language}/>
+      <Link href="/[language]/events" as={`/${props.language}/events`}>
         <img className="backbutton" src="/icons/back.svg" />
       </Link>
 

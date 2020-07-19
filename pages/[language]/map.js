@@ -1,11 +1,11 @@
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 
-import SearchBar from './components/search_bar'
-import Footer from './components/footer'
+import SearchBar from '../components/search_bar'
+import Footer from '../components/footer'
 
 const Map = dynamic(
-  () => import('./components/map_component'),
+  () => import('../components/map_component'),
   { ssr: false }
 )
 

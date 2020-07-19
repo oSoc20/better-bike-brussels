@@ -3,9 +3,6 @@ import Link from 'next/link';
 
 class EventCard extends React.Component {
   render() {
-
-    
-
     try{
       if (!this.props.event.media[0]) {
         var title = this.props.event.media.translations.en.title;
@@ -41,7 +38,7 @@ class EventCard extends React.Component {
           <h3>{title}</h3>
           <p>{starttime} - {endtime} | {place}</p>
         </article>
-        <Link href="fr/event/[id]" as={`fr/event/${this.props.event.id}`}>
+        <Link href="/[language]/event/[id]" as={`/${this.props.language}/event/${this.props.event.id}`}>
           <a>More info</a>
         </Link>
 
