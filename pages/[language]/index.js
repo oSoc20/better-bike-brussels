@@ -10,10 +10,12 @@ import LanguageStorage from "../../components/LanguageStorage";
 const Index = (props) => (
   <Layout language={props.language}>
     <LanguageStorage language={props.language} />
+    <Head>
+    <title>Home</title>
+    </Head>
     <div className="container">
       <Link href="/[language]/settings" as={`/${props.language}/settings`}>
         <img className="infobutton" src="/icons/info.svg" />
-        <title>Home</title>
       </Link>
 
       <div id="header">
