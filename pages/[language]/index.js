@@ -13,18 +13,16 @@ const Index = (props) => (
     <div className="container">
       <Link href="/[language]/settings" as={`/${props.language}/settings`}>
         <img className="infobutton" src="/icons/info.svg" />
+        <title>Home</title>
       </Link>
 
       <div id="header">
-        <div id="wrapper">
-          <div id="c1">busy</div>
           <div>
             <img src={`/icons/weather/${props.weather.icon}.png`} />
             <p>
               {props.weather.temperature} &amp; {props.weather.description}
             </p>
           </div>
-        </div>
       </div>
 
       <HomeGeoLocation language={props.language} />
