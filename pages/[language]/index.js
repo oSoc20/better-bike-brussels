@@ -1,25 +1,24 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
-
+import Link from "next/link";
 import SearchBar from "../components/search_bar";
 import Layout from "../../components/Layout";
 import HomeEvent from "../../components/HomeEvent";
 import HomeGeoLocation from "../../components/HomeGeoLocation";
 import LanguageStorage from "../../components/LanguageStorage";
 
-const Map = dynamic(() => import("../components/map_component"), {
-  ssr: false,
-});
-
 const Index = (props) => (
   <Layout language={props.language}>
-    <LanguageStorage language={props.language}/>
+    <LanguageStorage language={props.language} />
     <div className="container">
+      <Link href="/[language]/settings" as={`/${props.language}/settings`}>
+        <img className="infobutton" src="/icons/info.svg" />
+      </Link>
+
       <div id="header">
         <div id="wrapper">
           <div id="c1">busy</div>
           <div id="c2">bring a light coat</div>
-          <div id="c3">i</div>
         </div>
         ​
         <div id="position">
@@ -33,7 +32,7 @@ const Index = (props) => (
 
       <HomeGeoLocation />
 
-      <HomeEvent events={props.data} />
+      <HomeEvent events={props.data} language={props.language} />
 
       <style jsx>{`
         .box {
@@ -95,6 +94,14 @@ const Index = (props) => (
           margin-right: auto;
           width: 30px;
           height: 30px;
+        }
+
+        img.infobutton {
+          width: 30px;
+          height: 30px;
+          position: absolute;
+          top: 16px;
+          right: 16px;
         }
       `}</style>
     </div>
