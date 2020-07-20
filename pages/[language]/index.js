@@ -10,16 +10,21 @@ import LanguageStorage from "../../components/LanguageStorage";
 const Index = (props) => (
   <Layout language={props.language}>
     <LanguageStorage language={props.language} />
+    <Head>
+    <title>Home</title>
+    </Head>
     <div className="container">
       <Link href="/[language]/settings" as={`/${props.language}/settings`}>
         <img className="infobutton" src="/icons/info.svg" />
       </Link>
 
       <div id="header">
-        <div id="wrapper">
-          <div id="c1">busy</div>
-          <div id="c2">bring a light coat</div>
-        </div>
+          <div>
+            <img src={`/icons/weather/${props.weather.icon}.png`} />
+            <p>
+              {props.weather.temperature} &amp; {props.weather.description}
+            </p>
+          </div>
       </div>
 
       <HomeGeoLocation language={props.language} />
@@ -74,19 +79,20 @@ const Index = (props) => (
           padding: 10px;
         }
 
-        #c3 {
-          float: right;
-          border: 1px solid black;
-          border-radius: 50%;
-          padding: 5px;
-        }
-        ​ img {
-          display: inline-block;
-          margin-left: auto;
-          margin-right: auto;
-          width: 30px;
+        
+        ​
+        img {
           height: 30px;
+          width: 30px;
         }
+        img {
+          height: 30px;
+          width: 30px;
+        }
+
+        
+
+        
 
         img.infobutton {
           width: 30px;
@@ -120,6 +126,10 @@ Index.getInitialProps = async function ({ query }) {
     }`
   );
 
+  let weather = await getData(
+    `${host}/api/v1/weather/current?language=${query.language}`
+  );
+
   //console.log(events);
 
   function getData(url) {
@@ -133,6 +143,7 @@ Index.getInitialProps = async function ({ query }) {
   return {
     data: events.events,
     language: query.language,
+    weather: weather,
   };
 };
 
