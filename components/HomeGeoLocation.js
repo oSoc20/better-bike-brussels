@@ -8,23 +8,45 @@ class HomeGeoLocation extends React.Component {
       displayComponents: false,
       lat: 0,
       lng: 0,
+      displayStreet: false,
+      street: "",
     };
   }
 
   componentDidMount() {
+    var host = "http://localhost:8080";
     if (!navigator.geolocation) {
       console.log("geolocation not available");
       this.setState({
         displayComponents: false,
         lat: 50.8503,
         lng: 4.33517,
+        data: this.state.data,
+        displayStreet: this.state.displayStreet,
+        street: this.state.street,
       });
-      fetchLocationData(this.state.lat, this.state.lng).then(res => this.setState({
-        displayComponents: true,
-        lat: this.state.lat,
-        lng: this.state.lng,
-        data: res,
-    }));
+      fetchLocationData(this.state.lat, this.state.lng).then((res) =>
+        this.setState({
+          displayComponents: true,
+          lat: this.state.lat,
+          lng: this.state.lng,
+          data: res,
+          displayStreet: this.state.displayStreet,
+          street: this.state.street,
+        })
+      );
+      getData(
+        `${host}/api/v1/map/current-street?lat=${this.state.lat}&lng=${this.state.lng}`
+      ).then((res) =>
+        this.setState({
+          displayComponents: this.state.displayComponents,
+          lat: this.state.lat,
+          lng: this.state.lng,
+          data: this.state.data,
+          displayStreet: true,
+          street: res,
+        })
+      );
     } else {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
@@ -32,26 +54,64 @@ class HomeGeoLocation extends React.Component {
             displayComponents: false,
             lat: pos.coords.latitude,
             lng: pos.coords.longitude,
+            data: this.state.data,
+            displayStreet: this.state.displayStreet,
+            street: this.state.street,
           });
-          fetchLocationData(this.state.lat, this.state.lng).then(res => this.setState({
+          fetchLocationData(this.state.lat, this.state.lng).then((res) =>
+            this.setState({
               displayComponents: true,
               lat: this.state.lat,
               lng: this.state.lng,
               data: res,
-          }));
+              displayStreet: this.state.displayStreet,
+              street: this.state.street,
+            })
+          );
+          getData(
+            `${host}/api/v1/map/current-street?lat=${this.state.lat}&lng=${this.state.lng}`
+          ).then((res) =>
+            this.setState({
+              displayComponents: this.state.displayComponents,
+              lat: this.state.lat,
+              lng: this.state.lng,
+              data: this.state.data,
+              displayStreet: true,
+              street: res,
+            })
+          );
         },
         () => {
           this.setState({
             displayComponents: false,
             lat: 50.8503,
             lng: 4.33517,
+            data: this.state.data,
+            displayStreet: this.state.displayStreet,
+            street: this.state.street,
           });
-          fetchLocationData(this.state.lat, this.state.lng).then(res => this.setState({
-            displayComponents: true,
-            lat: this.state.lat,
-            lng: this.state.lng,
-            data: res,
-        }));
+          fetchLocationData(this.state.lat, this.state.lng).then((res) =>
+            this.setState({
+              displayComponents: true,
+              lat: this.state.lat,
+              lng: this.state.lng,
+              data: res,
+              displayStreet: this.state.displayStreet,
+              street: this.state.street,
+            })
+          );
+          getData(
+            `${host}/api/v1/map/current-street?lat=${this.state.lat}&lng=${this.state.lng}`
+          ).then((res) =>
+            this.setState({
+              displayComponents: this.state.displayComponents,
+              lat: this.state.lat,
+              lng: this.state.lng,
+              data: this.state.data,
+              displayStreet: true,
+              street: res,
+            })
+          );
         }
       );
     }
@@ -74,6 +134,21 @@ class HomeGeoLocation extends React.Component {
       return data;
     }
 
+    async function fetchStreetData(lat, lng) {
+      let host = "http://localhost:8080";
+
+      getData(`${host}/api/v1/map/current-street?lat=${lat}&lng=${lng}`).then(
+        (res) =>
+          this.setState({
+            displayComponents: this.state.displayComponents,
+            lat: this.state.lat,
+            lng: this.state.lng,
+            displayStreet: true,
+            street: res,
+          })
+      );
+    }
+
     function getData(url) {
       return fetch(url)
         .then((res) => res.json())
@@ -89,19 +164,77 @@ class HomeGeoLocation extends React.Component {
     let longitude = this.state.lng;
     let data = this.state.data;
 
+    let displayStreet = this.state.displayStreet;
+    let street = this.state.street;
+
+    let language = this.props.language;
+
     return (
       <div>
-        <h2>What do you want to find?</h2>
-        <p>list view</p>
+        <header>
+          {displayStreet && language == "nl" ? (
+            <div>
+              <p>U bevindt zich hier</p>
+              <h1>{street.streetname_nl}</h1>
+            </div>
+          ) : (
+            ""
+          )}
+          {displayStreet && language == "fr" ? (
+            <div>
+              <p>Vous êtes sur</p>
+              <h1>{street.streetname_fr}</h1>
+            </div>
+          ) : (
+            ""
+          )}
+          {displayStreet && language == "en" ? (
+            <div>
+              <p>You are at</p>
+              <h1>{street.streetname_fr} - {street.streetname_nl}</h1>
+            </div>
+          ) : (
+            ""
+          )}
+        </header>
 
-        <h2>
-          Within a <i>2 km</i> radius from you
-        </h2>
+        {
+          language == "nl" ? (
+            <h2>Wat zoekt u?</h2>
+          ) : null
+        }
+        {
+          language == "en" ? (
+            <h2>What do you want to find?</h2>
+          ) : null
+        }
+        {
+          language == "fr" ? (
+            <h2>TODO</h2>
+          ) : null
+        }
+
+        <p>list</p>
+
+        {
+          language == "nl" ? (
+            <h2>Binnen een straal van <i>2 km</i></h2>
+          ) : null
+        }
+        {
+          language == "en" ? (
+            <h2>Within a <i>2 km</i> radius from you</h2>
+          ) : null
+        }
+        {
+          language == "fr" ? (
+            <h2>TODO</h2>
+          ) : null
+        }
 
         {displayComponents ? (
           <div>
-            {latitude}, {longitude}
-            <Mansonry data = {data} lat={latitude} lng={longitude}/>
+            <Mansonry data={data} lat={latitude} lng={longitude} />
           </div>
         ) : (
           "loading"

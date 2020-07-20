@@ -20,17 +20,9 @@ const Index = (props) => (
           <div id="c1">busy</div>
           <div id="c2">bring a light coat</div>
         </div>
-        ​
-        <div id="position">
-          You are at
-          <p id="place">
-            <img src="/place.svg" /> <strong>Mellery Street</strong>
-          </p>
-        </div>
-        <SearchBar />
       </div>
 
-      <HomeGeoLocation />
+      <HomeGeoLocation language={props.language} />
 
       <HomeEvent events={props.data} language={props.language} />
 
