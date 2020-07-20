@@ -1,6 +1,7 @@
 import EventCard from '../components/EventCard';
 
 
+
 class HomeEvent extends React.Component {
   render() {
     var today = new Date();
@@ -11,7 +12,7 @@ class HomeEvent extends React.Component {
 
     return (
       <div>
-        <h1>Ongoing events today</h1>
+        <h1 className="events__title">Ongoing events today</h1>
         <h2>{today}</h2>
 
         {this.props.events.map(x => {
@@ -23,6 +24,10 @@ class HomeEvent extends React.Component {
               color:white;
             background-color: #003b8b;
             padding:20px 10px 100px 10px;
+          }
+
+          .events__title {
+            font-size: 2rem
           }
         `}</style>
       </div>
