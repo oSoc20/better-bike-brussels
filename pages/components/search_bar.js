@@ -1,7 +1,63 @@
 import React, {Component, Fragment} from "react"
 
 class HeaderComponent extends Component {
+    constructor(props) {
+        super(props);
+        this.buttonColor = {
+            default: "#E2E2E2",
+            clicked: "#00BFFF"
+        }
+        this.state = {
+            defaultColor: true,
+            bikeBumpColor: true,
+            waterFountainColor: true,
+            parkingColor: true,
+            repairColor: true,
+            villoColor: true
+         }
+    };
+
+    changeColor(){
+        this.setState({defaultColor: !this.state.defaultColor})
+    }
+
+
+    showBikeBumps() {
+        //this.changeColor();
+        this.setState({bikeBumpColor: !this.state.bikeBumpColor})
+        this.props.showBikeBumps();
+    }
+
+    showWaterFountains = () => {
+        //this.changeColor();
+        this.setState({waterFountainColor: !this.state.waterFountainColor})
+        this.props.showWaterFountains();
+    }
+
+    showParkings = () => {
+        //this.changeColor();
+        this.setState({parkingColor: !this.state.parkingColor})
+        this.props.showParkings();
+    }
+
+    showRepairs = () => {
+        //this.changeColor();
+        this.setState({repairColor: !this.state.repairColor})
+        this.props.showRepairs();
+    }
+
+    showVillos = () => {
+        //this.changeColor();
+        this.setState({villoColor: !this.state.villoColor})
+        this.props.showVillos();
+    }
+
     render() {
+        let btn_bike_bump = this.state.bikeBumpColor ? "" : "buttonClicked";
+        let btn_water_fountain = this.state.waterFountainColor ? "" : "buttonClicked";
+        let btn_parking = this.state.parkingColor ? "" : "buttonClicked";
+        let btn_repair = this.state.repairColor ? "" : "buttonClicked";
+        let btn_villo = this.state.villoColor ? "" : "buttonClicked";
         return (
             <div id="flex-container">
                 <form>
@@ -11,29 +67,20 @@ class HeaderComponent extends Component {
                     </div>
                 </form>
                 <div className="box">
-                    <div id="position">
-                        <img src="/place.svg" />&nbsp;
-                        <strong>Mellory Street</strong>
-                    </div>
-                    <button>
-                        <img src="/favicon.ico" />
-                        Element 1
+                    <button className={btn_bike_bump} onClick={this.showBikeBumps.bind(this)}>
+                        <img src="/compressed_air.svg" /> bike bump
                     </button>
-                    <button>
-                        <img src="/favicon.ico" />
-                        Element 2
+                    <button className={btn_water_fountain} onClick={this.showWaterFountains.bind(this)}>
+                        <img src="/drinking_water.svg" /> water fountain
                     </button>
-                    <button>
-                        <img src="/favicon.ico" />
-                        Element 3
+                    <button className={btn_parking} onClick={this.showParkings.bind(this)}>
+                        <img src="/bicycle_parking.svg" /> parking
                     </button>
-                    <button>
-                        <img src="/favicon.ico" />
-                        Element 4
+                    <button className={btn_repair} onClick={this.showRepairs.bind(this)}>
+                        <img src="/bicycle_repair_station.svg" /> repair
                     </button>
-                    <button>
-                        <img src="/favicon.ico" />
-                        Element 5
+                    <button className={btn_villo} onClick={this.showVillos.bind(this)}>
+                        <img src="/villo_station.svg" /> villo
                     </button>
                 </div>
                 <style jsx>{`
@@ -55,7 +102,6 @@ class HeaderComponent extends Component {
                     
                     .box button, .box div {
                         display: inline-block;
-                        background-color: #E2E2E2;
                         padding: 5px;
                         margin: 3px;
                     }
@@ -97,6 +143,11 @@ class HeaderComponent extends Component {
 
                     button {
                         border-radius: 15px;
+                    }
+
+                    .buttonClicked {
+                        background-color: #00BFFF;
+                        color: yellow;
                     }
                 `}
                 </style>
