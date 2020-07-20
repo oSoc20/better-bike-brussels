@@ -1,5 +1,6 @@
 import EventCard from '../components/EventCard';
 
+
 class HomeEvent extends React.Component {
   render() {
     var today = new Date();
@@ -14,7 +15,7 @@ class HomeEvent extends React.Component {
         <h2>{today}</h2>
 
         {this.props.events.map(x => {
-            return <EventCard event={x}/>
+            return <EventCard key={x.id} event={x} language={this.props.language}/>
         })}
 
         <style jsx>{`

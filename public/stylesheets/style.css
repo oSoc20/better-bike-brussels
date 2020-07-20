@@ -1,0 +1,14 @@
+header{
+    color:white;
+    background-color:#003b8b;
+    text-align: center;
+}
+header h1{
+    padding:20px;
+    font-size:2rem;
+}
+
+body{
+    overflow-x: hidden;
+    text-overflow: clip;
+}
