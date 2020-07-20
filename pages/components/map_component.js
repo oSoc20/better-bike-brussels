@@ -1,4 +1,5 @@
 import React, {Component, Fragment} from "react"
+import L from "leaflet"
 import styled from "styled-components"
 
 const Wrapper= styled.div`
@@ -17,12 +18,12 @@ class Map extends React.Component{
       max_answers: 10
     }
 
-    this.featureGeoJSON = {
-      bike_bump: null,
-      water_fountain: null,
-      parking: null,
-      repair: null,
-      villo: null
+    this.pois_layer = {
+      bike_bump: '',
+      water_fountain: '',
+      parking: '',
+      repair: '',
+      villo: ''
     }
 
     this.endpoint = {
@@ -46,7 +47,7 @@ class Map extends React.Component{
       "longitude": this.state.pos[1],
     }}
 
-    this.map= L.map("map").setView([pos.coords.latitude, pos.coords.longitude], 18);
+    this.map= L.map("map").setView([pos.coords.latitude, pos.coords.longitude], 11);
     //this.map = L.map('map').fitWorld();
     L.tileLayer(
       "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
@@ -65,7 +66,6 @@ class Map extends React.Component{
 
     // USER LOCATION
 
-    this.map.locate({setView: true, maxZoom: 16});
     function onLocationFound(e) {
       var radius = e.accuracy;
 
@@ -75,18 +75,21 @@ class Map extends React.Component{
       L.circle(e.latlng, radius).addTo(this.map);
       this.setView([e.latitude, e.longitude], 18);
     }
-
-    this.map.on('locationfound', onLocationFound);
-
     function onLocationError(e) {
-      //alert(e.message);
-      L.marker([pos.coords.latitude, pos.coords.longitude]).addTo(this);
-      //this.setView([pos.coords.latitude, pos.coords.longitude], 18);
+      let endpoint_icon = new L.Icon({
+        iconUrl: process.env.APP_URL + "/place.svg",
+        iconSize: [35, 35],
+        iconAnchor: [12, 12],
+        popupAnchor: [-3, -76],
+      });
+      L.marker([pos.coords.latitude, pos.coords.longitude], { icon: endpoint_icon }).addTo(this);
+      this.setView([pos.coords.latitude, pos.coords.longitude], 18);
     }
 
+    this.map.locate({setView: true, maxZoom: 16});
+    this.map.on('locationfound', onLocationFound);
     this.map.on('locationerror', onLocationError);
     this.state.map = this.map;
-
   }
 
   componentWillUnmount() {
@@ -94,34 +97,63 @@ class Map extends React.Component{
   }
 
   showBikeBumps() {
-    this.getDataFromEndpoint(this.endpoint.bike_bump);
+    if (this.pois_layer.bike_bump == '') {
+      this.getDataFromEndpoint(this.endpoint.bike_bump);
+    }
+    else {
+      this.map.removeLayer(this.pois_layer.bike_bump);
+      this.pois_layer.bike_bump = '';
+    }
   }
 
-  showWaterFountains() {
-    this.getDataFromEndpoint(this.endpoint.water_fountain);
+  async showWaterFountains() {
+    if (this.pois_layer.water_fountain == '') {
+      this.getDataFromEndpoint(this.endpoint.water_fountain);
+    }
+    else {
+      this.map.removeLayer(this.pois_layer.water_fountain);
+      this.pois_layer.water_fountain = '';
+    }
   }
 
   showParkings() {
-    this.getDataFromEndpoint(this.endpoint.parking);
+    if (this.pois_layer.parking == '') {
+      this.getDataFromEndpoint(this.endpoint.parking);
+    }
+    else {
+      this.map.removeLayer(this.pois_layer.parking);
+      this.pois_layer.parking = '';
+    }
   }
 
   showRepairs() {
-    this.getDataFromEndpoint(this.endpoint.repair);
+    if (this.pois_layer.repair == '') {
+      this.getDataFromEndpoint(this.endpoint.repair);
+    }
+    else {
+      this.map.removeLayer(this.pois_layer.repair);
+      this.pois_layer.repair = '';
+    }
   }
 
   showVillos() {
-    this.getDataFromEndpoint(this.endpoint.villo);
+    if (this.pois_layer.villo == '') {
+      this.getDataFromEndpoint(this.endpoint.villo);
+    }
+    else {
+      this.map.removeLayer(this.pois_layer.villo);
+      this.pois_layer.villo = '';
+    }
   }
 
-  getDataFromEndpoint(endpoint) {
+  async getDataFromEndpoint(endpoint) {
     let position = "?lat=" + this.state.pos[0] + "&lng=" + this.state.pos[1] + "&radius=" + this.state.radius
     let endpoint_url = "http://localhost:8080" + "/api/v1/map/" + endpoint + "/" + position + "&max_answers=" + this.state.max_answers;
+    
     fetch(endpoint_url)
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
-
-        let featureGeoJSON = L.geoJSON(json, {
+        let pois_layer = L.geoJSON(json, {
           pointToLayer: function (feature, latlng) {
             // Check if a image file exists
             let image = new Image();
@@ -141,31 +173,31 @@ class Map extends React.Component{
             return L.marker(latlng, { icon: endpoint_icon });
           }
         });
-        featureGeoJSON.addTo(this.state.map);
-        //saveEndpoint(endpoint, featureGeoJSON);
+        pois_layer.addTo(this.state.map);
+        this.saveEndpoint(endpoint, pois_layer);
       });
   }
 
-  saveEndpoint(endpoint, featureGeoJSON) {
+  saveEndpoint(endpoint, poisGeoJSON) {
     switch (endpoint) {
       case this.endpoint.bike_bump:
-        this.featureGeoJSON.bike_bump = featureGeoJSON;
+        this.pois_layer.bike_bump = poisGeoJSON;
         break;
 
       case this.endpoint.water_fountain:
-        this.featureGeoJSON.water_fountain = featureGeoJSON;
+        this.pois_layer.water_fountain = poisGeoJSON;
         break;
 
       case this.endpoint.parking:
-        this.featureGeoJSON.parking = featureGeoJSON;
+        this.pois_layer.parking = poisGeoJSON;
         break;
 
       case this.endpoint.repair:
-        this.featureGeoJSON.repair = featureGeoJSON;
+        this.pois_layer.repair = poisGeoJSON;
         break;
 
       case this.endpoint.villo:
-        this.featureGeoJSON.villo = featureGeoJSON;
+        this.pois_layer.villo = poisGeoJSON;
         break;
     
       default:
