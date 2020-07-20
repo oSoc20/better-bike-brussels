@@ -7,7 +7,7 @@ const Wrapper= styled.div`
   height:${props => props.height};
 `;
 
-class Map extends React.Component{ 
+class Map extends React.Component{
   constructor(props) {
     super(props);
 
@@ -69,14 +69,14 @@ class Map extends React.Component{
     this.map.locate({setView: true, maxZoom: 16});
     function onLocationFound(e) {
       var radius = e.accuracy;
-  
+
       L.marker(e.latlng).addTo(this.map)
         .bindPopup("You are within " + radius + " meters from this point").openPopup();
-  
+
       L.circle(e.latlng, radius).addTo(this.map);
       this.setView([e.latitude, e.longitude], 18);
     }
-    
+
     this.map.on('locationfound', onLocationFound);
 
     function onLocationError(e) {
@@ -84,10 +84,10 @@ class Map extends React.Component{
       L.marker([pos.coords.latitude, pos.coords.longitude]).addTo(this);
       //this.setView([pos.coords.latitude, pos.coords.longitude], 18);
     }
-    
+
     this.map.on('locationerror', onLocationError);
     this.state.map = this.map;
-    
+
   }
 
   componentWillUnmount() {
@@ -95,7 +95,7 @@ class Map extends React.Component{
   }
 
   showBikeBumps() {
-    this.getDataFromEndpoint(this.endpoint.bike_bump);   
+    this.getDataFromEndpoint(this.endpoint.bike_bump);
   }
 
   showWaterFountains() {
@@ -116,7 +116,7 @@ class Map extends React.Component{
 
   getDataFromEndpoint(endpoint) {
     let position = "?lat=" + this.state.pos[0] + "&lng=" + this.state.pos[1] + "&radius=" + this.state.radius
-    let endpoint_url = process.env.SERVER_URL + "/api/v1/map/" + endpoint + "/" + position + "&max_answers=" + this.state.max_answers;
+    let endpoint_url = "http://localhost:8080" + "/api/v1/map/" + endpoint + "/" + position + "&max_answers=" + this.state.max_answers;
     fetch(endpoint_url)
       .then((response) => response.json())
       .then((json) => {
@@ -129,7 +129,7 @@ class Map extends React.Component{
             let icon_url = process.env.APP_URL + "/" + json.icon;
             image.src = icon_url;
             let endpoint_icon = process.env.APP_URL + "/favicon.ico"; // default icon
-            
+
             if (image != null && image.width != 0)
               endpoint_icon = icon_url;
 
@@ -149,23 +149,23 @@ class Map extends React.Component{
 
   saveEndpoint(endpoint, featureGeoJSON) {
     switch (endpoint) {
-      case this.endpoint.bike_bump:        
+      case this.endpoint.bike_bump:
         this.featureGeoJSON.bike_bump = featureGeoJSON;
         break;
 
-      case this.endpoint.water_fountain:        
+      case this.endpoint.water_fountain:
         this.featureGeoJSON.water_fountain = featureGeoJSON;
         break;
 
-      case this.endpoint.parking:        
+      case this.endpoint.parking:
         this.featureGeoJSON.parking = featureGeoJSON;
         break;
 
-      case this.endpoint.repair:        
+      case this.endpoint.repair:
         this.featureGeoJSON.repair = featureGeoJSON;
         break;
 
-      case this.endpoint.villo:        
+      case this.endpoint.villo:
         this.featureGeoJSON.villo = featureGeoJSON;
         break;
     
@@ -181,7 +181,7 @@ class Map extends React.Component{
       </Fragment>
     )
   }
-    
-} 
+
+}
 
 export default Map
