@@ -90,17 +90,16 @@ class HomeGeoLocation extends React.Component {
     let data = this.state.data;
 
     return (
-      <div>
-        <h2>What do you want to find?</h2>
-        <p>list view</p>
+      <div className="wrapper">
+        {/* <p>list view</p> */}
 
-        <h2>
-          Within a <i>2 km</i> radius from you
+        <h2 className="sub">
+          Within a <i>2 km</i> <br></br> radius from you are
         </h2>
 
         {displayComponents ? (
           <div>
-            {latitude}, {longitude}
+            {/* {latitude}, {longitude} */}
             <Mansonry data = {data} lat={latitude} lng={longitude}/>
           </div>
         ) : (
@@ -109,7 +108,22 @@ class HomeGeoLocation extends React.Component {
 
         <style jsx>{`
           i {
-            background-color: yellow;
+            background-color: #FDC400;
+            padding: 0 .3rem
+          }
+
+          .wrapper {
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+          }
+
+          .sub {
+            font-size:1.7rem;
+            font-weight: 700;
+            align-self: center;
+            margin: 1rem 0;
+            text-align: center;
           }
         `}</style>
       </div>

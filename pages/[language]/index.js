@@ -27,7 +27,11 @@ const Index = (props) => (
             <img src="/place.svg" /> <strong>Mellery Street</strong>
           </p>
         </div>
-        <SearchBar />
+      </div>
+
+      <div className="wrapper__search">
+      <p className="sub">What do you want to find?</p>
+      <SearchBar />
       </div>
 
       <HomeGeoLocation />
@@ -40,6 +44,21 @@ const Index = (props) => (
           align: center;
           flex-wrap: wrap;
           text-align: center;
+        }
+
+        .sub {
+          font-size:1.7rem;
+          font-weight: 700;
+          align-self: center;
+          margin: 1rem 0;
+        }
+
+        .wrapper__search {
+          display: flex;
+          // justify-content: center;
+          // align-items: center;
+          flex-flow: column;
+          margin: 3rem 0;
         }
 
         .box div.interest {
@@ -56,20 +75,25 @@ const Index = (props) => (
 
         #position {
           text-align: center;
+          color: white;
+          font-size: 1.2rem;
         }
 
         #place {
-          font-size: 32px;
+          font-size: 3rem;
+          font-weight: bold;
+          color: white;
         }
 
         #header {
-          background: #bcbaba;
+          background: #003B8B;
+          padding: 0 0 3rem 0;
         }
 
         #wrapper {
           padding: 10px;
-          margin: 10px;
           overflow: auto;
+          color: white;
         }
 
         #wrapper div {
