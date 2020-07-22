@@ -175,7 +175,7 @@ class HomeGeoLocation extends React.Component {
 
           {
               language == "fr" ? (
-                  <h2 className="sub">TODO</h2>
+                  <h2 className="sub">À moins de <i>2 km</i> de vous</h2>
               ) : null
           }
           {

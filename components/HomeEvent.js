@@ -17,7 +17,7 @@ class HomeEvent extends React.Component {
           <h1 className="events__title">Ongoing events today</h1>
         ) : null}
         {this.props.language == "fr" ? (
-          <h1 className="events__title">TODO</h1>
+          <h1 className="events__title">Évènement se déroulant aujourd'hui</h1>
         ) : null}
 
         <h2 className="date">{today}</h2>
@@ -38,7 +38,7 @@ class HomeEvent extends React.Component {
           : this.props.language == "en"
           ? "no events today"
           : this.props.language == "fr"
-          ? "TODO"
+          ? "Aucun énènements aujourd'hui"
           : ""}
 
         <style jsx>{`

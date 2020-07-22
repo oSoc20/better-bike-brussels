@@ -82,7 +82,7 @@ class EventWrapper extends React.Component {
         <article className="todayview">
           {language == "nl" ? <h1 className="title__ongoing">Lopende evenementen</h1> : null}
           {language == "en" ? <h1 className="title__ongoing">Ongoing events today</h1> : null}
-          {language == "fr" ? <h1 className="title__ongoing">TODO</h1> : null}
+          {language == "fr" ? <h1 className="title__ongoing">Évènement se déroulant aujourd'hui</h1> : null}
 
           <h2 className="date">{date}</h2>
           {displayTodayComponent ? (
@@ -94,7 +94,7 @@ class EventWrapper extends React.Component {
         <article className="futureview">
           {language == "nl" ? <h1 className="title__ongoing">Andere evenementen in de toekomst</h1> : null}
           {language == "en" ? <h1 className="title__ongoing">Other events in the future</h1> : null}
-          {language == "fr" ? <h1 className="title__ongoing">TODO</h1> : null}
+          {language == "fr" ? <h1 className="title__ongoing">Autres évènement à venir</h1> : null}
 
           {displayFutureComponent ? (
             <EventLoop data={futureEvents} language={this.props.language}/>
