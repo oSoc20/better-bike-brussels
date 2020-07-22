@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 class LocationCard extends React.Component {
   constructor(props) {
     super(props);
@@ -5,9 +7,18 @@ class LocationCard extends React.Component {
     this.state = {
       displayComponents: false,
     };
+    this.pois = '';
   }
 
   componentDidMount() {
+    switch (this.props.data.title) {
+      case "Bicycle parking":
+        this.pois = "";
+        break;
+    
+      default:
+        break;
+    }
     /*
 
         if(this.props.data.features && this.props.data.features[0]){
@@ -43,6 +54,9 @@ class LocationCard extends React.Component {
   }
 
   render() {
+    let lat = this.props.lat;
+    let lng = this.props.lng;
+    let language = localStorage.getItem('_language');
     console.log(this.props.data.features);
     if(this.props.data.features && this.props.data.features[0]){
       var valid = true;
@@ -53,9 +67,11 @@ class LocationCard extends React.Component {
         {valid ? this.props.data.features.map((x) => {
           // console.log(x.id);
           return <div key={x.id} className="grid">
-
-            <p key={x.id} className="distance">{x.properties.dist.distance}{x.properties.dist.unit}</p>
-
+            <p key={x.id} className="distance">
+              <Link href={`/${language}/map/?lat=${lat}&lng=${lng}&pois=${this.props.data.title}`}>
+                <a>{x.properties.dist.distance}{x.properties.dist.unit}</a>
+              </Link>
+            </p>
 
           </div>;
         }) : 'Nothing in your area'}
