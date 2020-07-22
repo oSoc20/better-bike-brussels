@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Head from "next/head";
 import LanguageStorage from "../../../../components/LanguageStorage";
+import AddToCalendar from 'react-add-to-calendar';
 
 const Event = (props) => {
   try {
@@ -66,8 +67,15 @@ const Event = (props) => {
 
   console.log(props.event)
 
+  let event = {
+    title: title,
+    description: description,
+    location: props.event.place.translations.en.address_street_name + " " + props.event.place.translations.en.address_street_number + " " + props.event.place.translations.en.address_city,
+    startTime: date + starttime,
+    endTime: date + endtime
+}
+
   var place = props.event.place.translations.en.address_city;
-  //<!--| {place}-->
   return (
     
     <div>
@@ -126,6 +134,10 @@ const Event = (props) => {
             </a>
           ) : null}
         </div>
+
+
+        <AddToCalendar event={event}/>
+
       </article>
 
       <style jsx>{`
