@@ -10,31 +10,42 @@ import LanguageStorage from "../../components/LanguageStorage";
 const Index = (props) => (
   <Layout language={props.language}>
     <LanguageStorage language={props.language} />
+    <Head>
+    <title>Home</title>
+    </Head>
     <div className="container">
       <Link href="/[language]/settings" as={`/${props.language}/settings`}>
         <img className="infobutton" src="/icons/info.svg" />
       </Link>
 
-      <div id="header">
+        <div id="header">
         <div id="wrapper">
-          <div id="c1">busy</div>
-          <div id="c2">bring a light coat</div>
+            <div id="c1">busy</div>
+            <div id="c2">bring a light coat</div>
+            <div>
+                <img src={ `/icons/weather/${props.weather.icon}.png`}/>
+                <p>
+                    {props.weather.temperature} &amp; {props.weather.description}
+                </p>
+            </div>
         </div>
         ​
         <div id="position">
-          You are at
-          <p id="place">
-            <img src="/place.svg" /> <strong>Mellery Street</strong>
-          </p>
+            You are at
+            <p id="place">
+                <img src="/place.svg" /> <strong>Mellery Street</strong>
+            </p>
         </div>
-      </div>
+    </div>
 
       <div className="wrapper__search">
-      <p className="sub">What do you want to find?</p>
-      <SearchBar />
+          <p className="sub">What do you want to find?</p>
+          <SearchBar />
       </div>
 
-      <HomeGeoLocation />
+
+
+      <HomeGeoLocation language={props.language} />
 
       <HomeEvent events={props.data} language={props.language} />
 
@@ -117,7 +128,10 @@ const Index = (props) => (
           margin-left: auto;
           margin-right: auto;
           width: 30px;
+        }
+        img {
           height: 30px;
+          width: 30px;
         }
 
         img.infobutton {
@@ -152,6 +166,10 @@ Index.getInitialProps = async function ({ query }) {
     }`
   );
 
+  let weather = await getData(
+    `${host}/api/v1/weather/current?language=${query.language}`
+  );
+
   //console.log(events);
 
   function getData(url) {
@@ -165,6 +183,7 @@ Index.getInitialProps = async function ({ query }) {
   return {
     data: events.events,
     language: query.language,
+    weather: weather,
   };
 };
 

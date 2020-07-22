@@ -8,23 +8,45 @@ class HomeGeoLocation extends React.Component {
       displayComponents: false,
       lat: 0,
       lng: 0,
+      displayStreet: false,
+      street: "",
     };
   }
 
   componentDidMount() {
+    var host = "http://localhost:8080";
     if (!navigator.geolocation) {
       console.log("geolocation not available");
       this.setState({
         displayComponents: false,
         lat: 50.8503,
         lng: 4.33517,
+        data: this.state.data,
+        displayStreet: this.state.displayStreet,
+        street: this.state.street,
       });
-      fetchLocationData(this.state.lat, this.state.lng).then(res => this.setState({
-        displayComponents: true,
-        lat: this.state.lat,
-        lng: this.state.lng,
-        data: res,
-    }));
+      fetchLocationData(this.state.lat, this.state.lng).then((res) =>
+        this.setState({
+          displayComponents: true,
+          lat: this.state.lat,
+          lng: this.state.lng,
+          data: res,
+          displayStreet: this.state.displayStreet,
+          street: this.state.street,
+        })
+      );
+      getData(
+        `${host}/api/v1/map/current-street?lat=${this.state.lat}&lng=${this.state.lng}`
+      ).then((res) =>
+        this.setState({
+          displayComponents: this.state.displayComponents,
+          lat: this.state.lat,
+          lng: this.state.lng,
+          data: this.state.data,
+          displayStreet: true,
+          street: res,
+        })
+      );
     } else {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
@@ -32,26 +54,64 @@ class HomeGeoLocation extends React.Component {
             displayComponents: false,
             lat: pos.coords.latitude,
             lng: pos.coords.longitude,
+            data: this.state.data,
+            displayStreet: this.state.displayStreet,
+            street: this.state.street,
           });
-          fetchLocationData(this.state.lat, this.state.lng).then(res => this.setState({
+          fetchLocationData(this.state.lat, this.state.lng).then((res) =>
+            this.setState({
               displayComponents: true,
               lat: this.state.lat,
               lng: this.state.lng,
               data: res,
-          }));
+              displayStreet: this.state.displayStreet,
+              street: this.state.street,
+            })
+          );
+          getData(
+            `${host}/api/v1/map/current-street?lat=${this.state.lat}&lng=${this.state.lng}`
+          ).then((res) =>
+            this.setState({
+              displayComponents: this.state.displayComponents,
+              lat: this.state.lat,
+              lng: this.state.lng,
+              data: this.state.data,
+              displayStreet: true,
+              street: res,
+            })
+          );
         },
         () => {
           this.setState({
             displayComponents: false,
             lat: 50.8503,
             lng: 4.33517,
+            data: this.state.data,
+            displayStreet: this.state.displayStreet,
+            street: this.state.street,
           });
-          fetchLocationData(this.state.lat, this.state.lng).then(res => this.setState({
-            displayComponents: true,
-            lat: this.state.lat,
-            lng: this.state.lng,
-            data: res,
-        }));
+          fetchLocationData(this.state.lat, this.state.lng).then((res) =>
+            this.setState({
+              displayComponents: true,
+              lat: this.state.lat,
+              lng: this.state.lng,
+              data: res,
+              displayStreet: this.state.displayStreet,
+              street: this.state.street,
+            })
+          );
+          getData(
+            `${host}/api/v1/map/current-street?lat=${this.state.lat}&lng=${this.state.lng}`
+          ).then((res) =>
+            this.setState({
+              displayComponents: this.state.displayComponents,
+              lat: this.state.lat,
+              lng: this.state.lng,
+              data: this.state.data,
+              displayStreet: true,
+              street: res,
+            })
+          );
         }
       );
     }
@@ -74,6 +134,21 @@ class HomeGeoLocation extends React.Component {
       return data;
     }
 
+    async function fetchStreetData(lat, lng) {
+      let host = "http://localhost:8080";
+
+      getData(`${host}/api/v1/map/current-street?lat=${lat}&lng=${lng}`).then(
+        (res) =>
+          this.setState({
+            displayComponents: this.state.displayComponents,
+            lat: this.state.lat,
+            lng: this.state.lng,
+            displayStreet: true,
+            street: res,
+          })
+      );
+    }
+
     function getData(url) {
       return fetch(url)
         .then((res) => res.json())
@@ -89,6 +164,11 @@ class HomeGeoLocation extends React.Component {
     let longitude = this.state.lng;
     let data = this.state.data;
 
+    let displayStreet = this.state.displayStreet;
+    let street = this.state.street;
+
+    let language = this.props.language;
+
     return (
       <div className="wrapper">
         {/* <p>list view</p> */}
@@ -96,6 +176,22 @@ class HomeGeoLocation extends React.Component {
         <h2 className="sub">
           Within a <i>2 km</i> <br></br> radius from you are
         </h2>
+
+          {
+              language == "fr" ? (
+                  <h2 className="sub">TODO</h2>
+              ) : null
+          }
+          {
+              language == "en" ? (
+                  <h2 className="sub">Within a <i>2 km</i> <br></br> radius from you</h2>
+              ) : null
+          }
+          {
+              language == "nl" ? (
+                  <h2 className="sub">Binnen een straal <br></br> van <i>2 km</i></h2>
+              ) : null
+          }
 
         {displayComponents ? (
           <div>
