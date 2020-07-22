@@ -57,39 +57,51 @@ const Event = (props) => {
 
   try {
     var agenda = props.event.translations[props.language].agenda_url;
+    var starttime = props.event.dates.start;
+    var endtime = props.event.dates.end;
+    var date = props.event.date_start;
   } catch (err) {
     console.log(err);
   }
 
+  var place = props.event.place.translations.en.address_city;
+
   return (
+    
     <div>
+      {console.log(props.event)}
       <Head>
         <title>Event</title>
       </Head>
-      <LanguageStorage language={props.language}/>
+      <LanguageStorage language={props.language} />
       <Link href="/[language]/events" as={`/${props.language}/events`}>
         <img className="backbutton" src="/icons/back.svg" />
       </Link>
 
-      <img className="banner" src={image} />
+      <header className="wrapper__header">
+        <img className="banner" src={image} />
+        <h1 className="header__title">{title}</h1>
+        <p className="event__info">
+          {starttime} - {endtime} | {date} | {place}
+        </p>
+      </header>
 
       <article>
-        <h1>{title}</h1>
-        <p>{description}</p>
+        <p className="description">{description}</p>
         {props.language == "nl" ? (
-          <p>
+          <p className="organize">
             <b>georganiseerd door: </b>
             {organizer}
           </p>
         ) : null}
         {props.language == "fr" ? (
-          <p>
+          <p className="organize">
             <b>TODO: </b>
             {organizer}
           </p>
         ) : null}
         {props.language == "en" ? (
-          <p>
+          <p className="organize">
             <b>organized by: </b>
             {organizer}
           </p>
@@ -119,10 +131,26 @@ const Event = (props) => {
           font-weight: bold;
         }
 
-        img.banner {
-          width: 100%;
-          height: 45vh;
-          object-fit: cover;
+        .organize {
+          font-size 1.6rem;
+        }
+
+        .description {
+          font-size: 1.6rem;
+          margin-bottom: 2rem;
+        }
+
+        // img.banner {
+        //   width: 100%;
+        //   height: 45vh;
+        //   object-fit: cover;
+        // }
+
+        .banner {
+          border-radius: 50%;
+          width: 10rem;
+          height: 10rem;
+          margin: 2rem;
         }
 
         img.backbutton {
@@ -148,11 +176,28 @@ const Event = (props) => {
           text-align: center;
           border-radius: 8px;
           margin: 16px;
-          text-decoration:none;
+          text-decoration: none;
+          font-size: 1.6rem;
         }
-        div.buttonwrapper{
-          display:grid;
-          place-items:center;
+        div.buttonwrapper {
+          display: grid;
+          place-items: center;
+        }
+
+        .wrapper__header {
+          background-color: #003b8b;
+          padding: 2rem 0;
+        }
+
+        .header__title {
+          font-size: 2rem;
+          font-weight: 700;
+          padding: 0 2rem;
+        }
+
+        .event__info {
+          font-size: 1.6rem;
+          padding: 2rem
         }
       `}</style>
     </div>

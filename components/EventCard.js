@@ -22,6 +22,7 @@ class EventCard extends React.Component {
       } else {
         var starttime = this.props.event.dates.start;
         var endtime = this.props.event.dates.end;
+        var date = this.props.event.date_start;
       }
     } catch(error) {
       console.log(error)
@@ -32,14 +33,17 @@ class EventCard extends React.Component {
     var place = this.props.event.place.translations.en.address_city;
 
     return (
-      <div>
+      <div className="event">
         <img src={image} alt="title" />
-        <article>
-          <h3>{title}</h3>
-          <p>{starttime} - {endtime} | {place}</p>
+        <article className="info">
+          <h3 className="event__title">{title}</h3>
+          <p className="event__info">{starttime} - {endtime} | {date} | {place}</p>
+          <div className="tag__container">
+          <p className="event__tag">official</p>
+          </div>
         </article>
         <Link href="/[language]/event/[id]" as={`/${this.props.language}/event/${this.props.event.id}`}>
-          <a>More info</a>
+        <img className="more__info" src="/icons/detail.svg" />
         </Link>
 
         <style jsx>{`
@@ -59,6 +63,35 @@ class EventCard extends React.Component {
           article {
             padding: 8px;
           }
+
+          .event__title {
+            font-size: 1.4rem;
+            font-weight: 700;
+          }
+
+          .event__info {
+            font-size:1.4rem;
+          }
+        .info {
+          padding: 0 2rem
+        }
+
+        .more__info {
+          width: 3rem;
+          height: 3rem;
+        }
+
+        .event {
+          padding: 2.5rem 0 0 0;
+        }
+
+        .event__tag {
+          background-color: #003b8b;
+          color: white;
+          padding: 0.1rem 1rem;
+          border: .2rem #003b8b solid;
+          border-radius: 5rem;
+        }
         `}</style>
       </div>
     );

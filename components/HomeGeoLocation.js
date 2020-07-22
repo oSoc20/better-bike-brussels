@@ -170,71 +170,29 @@ class HomeGeoLocation extends React.Component {
     let language = this.props.language;
 
     return (
-      <div>
-        <header>
-          {displayStreet && language == "nl" ? (
-            <div>
-              <p>U bevindt zich hier</p>
-              <h1>{street.streetname_nl}</h1>
-            </div>
-          ) : (
-            ""
-          )}
-          {displayStreet && language == "fr" ? (
-            <div>
-              <p>Vous êtes sur</p>
-              <h1>{street.streetname_fr}</h1>
-            </div>
-          ) : (
-            ""
-          )}
-          {displayStreet && language == "en" ? (
-            <div>
-              <p>You are at</p>
-              <h1>{street.streetname_fr} - {street.streetname_nl}</h1>
-            </div>
-          ) : (
-            ""
-          )}
-        </header>
+      <div className="wrapper">
+        {/* <p>list view</p> */}
 
-        {
-          language == "nl" ? (
-            <h2>Wat zoekt u?</h2>
-          ) : null
-        }
-        {
-          language == "en" ? (
-            <h2>What do you want to find?</h2>
-          ) : null
-        }
-        {
-          language == "fr" ? (
-            <h2>TODO</h2>
-          ) : null
-        }
-
-        <p>list</p>
-
-        {
-          language == "nl" ? (
-            <h2>Binnen een straal van <i>2 km</i></h2>
-          ) : null
-        }
-        {
-          language == "en" ? (
-            <h2>Within a <i>2 km</i> radius from you</h2>
-          ) : null
-        }
-        {
-          language == "fr" ? (
-            <h2>TODO</h2>
-          ) : null
-        }
+          {
+              language == "fr" ? (
+                  <h2 className="sub">TODO</h2>
+              ) : null
+          }
+          {
+              language == "en" ? (
+                  <h2 className="sub">Within a <i>2 km</i> <br></br> radius from you</h2>
+              ) : null
+          }
+          {
+              language == "nl" ? (
+                  <h2 className="sub">Binnen een straal <br></br> van <i>2 km</i></h2>
+              ) : null
+          }
 
         {displayComponents ? (
           <div>
-            <Mansonry data={data} lat={latitude} lng={longitude} />
+            {/* {latitude}, {longitude} */}
+            <Mansonry data = {data} lat={latitude} lng={longitude}/>
           </div>
         ) : (
           "loading"
@@ -242,7 +200,22 @@ class HomeGeoLocation extends React.Component {
 
         <style jsx>{`
           i {
-            background-color: yellow;
+            background-color: #FDC400;
+            padding: 0 .3rem
+          }
+
+          .wrapper {
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+          }
+
+          .sub {
+            font-size:1.7rem;
+            font-weight: 700;
+            align-self: center;
+            margin: 1rem 0;
+            text-align: center;
           }
         `}</style>
       </div>

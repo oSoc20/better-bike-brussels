@@ -49,11 +49,11 @@ class LocationCard extends React.Component {
     }
     return (
       <div className="card">
-        <h1>{this.props.data.title}</h1>
+        <h1 className="title">{this.props.data.title}</h1>
         {valid ? this.props.data.features.map((x) => {
           return <div className="grid">
 
-            <p>{x.properties.dist.distance}{x.properties.dist.unit}</p>
+            <p className="distance">{x.properties.dist.distance}{x.properties.dist.unit}</p>
 
 
           </div>;
@@ -62,10 +62,27 @@ class LocationCard extends React.Component {
         <style jsx>{`
           .card {
             background-color: rgb(246, 246, 246);
-            border-radius: 16px;
+            border-radius: 10px;
+            display: flex;
+            flex-flow: column;
+            align-items: center;
 
             margin: 8px;
             padding: 16px;
+          }
+
+          .title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            align-self: center;
+            text-align: center;
+          }
+
+          .distance {
+            font-size: 1.4rem;
+            margin: .5rem;
+            text-decoration: underline;
+            color: #003B8B;
           }
         `}</style>
       </div>
