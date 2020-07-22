@@ -192,6 +192,7 @@ class HomeGeoLocation extends React.Component {
         {displayComponents ? (
           <div>
             {/* {latitude}, {longitude} */}
+            
             <Mansonry data = {data} lat={latitude} lng={longitude}/>
           </div>
         ) : (

@@ -35,10 +35,6 @@ class Map extends React.Component{
     }
   }
 
-  method() {
-    console.log('getAlert from Child');
-  }
-
   componentDidMount(){
     this.props.onRef(this);
 
@@ -185,7 +181,7 @@ class Map extends React.Component{
   render(){
     return (
       <Fragment>
-        <Wrapper width="100vw" height="100vh" id="map"></Wrapper>
+        <Wrapper width="100vw" height="75vh" id="map"></Wrapper>
       </Fragment>
     )
   }

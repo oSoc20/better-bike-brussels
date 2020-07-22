@@ -9,27 +9,67 @@ const Map = dynamic(() => import("../../components/Map"), { ssr: false });
 class MapPage extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      lat: 50.8503,
+      lng: 4.33517,
+      street: "",
+    }; 
   }
 
   showBikeBumps = (bool) => {
     this.map_component.showBikeBumps(bool);
-  };
+  }
 
   showWaterFountains = (bool) => {
     this.map_component.showWaterFountains(bool);
-  };
+  }
 
   showParkings = (bool) => {
     this.map_component.showParkings(bool);
-  };
+  }
 
   showRepairs = (bool) => {
     this.map_component.showRepairs(bool);
-  };
+  }
 
   showVillos = (bool) => {
     this.map_component.showVillos(bool);
-  };
+  }
+
+  componentDidMount() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          this.setState({
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+          });
+        }
+      );
+    }
+
+    let language = this.props.language;
+    let lat = this.state.lat;
+    let lng = this.state.lng;
+    let url = `${process.env.SERVER_URL}/api/v1/map/current-street?lat=${lat}&lng=${lng}`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        let street = json;
+
+        if(language == "fr")
+          street = street.streetname_fr;
+        else if(language == "nl")
+          street = street.streetname_nl;
+        else
+          street = street.streetname_fr + " - " + street.streetname_nl;
+
+        this.setState({
+          street: street,
+        });
+      });    
+  }
 
   render() {
     return (
@@ -58,7 +98,7 @@ class MapPage extends React.Component {
 
           <div className="search__wrapper">
             <p id="place">
-              <img src="/place.svg" /> <strong>Mellery Street</strong>
+            <img src="/place.svg" /> <strong>{this.state.street}</strong>
             </p>
             <SearchBar
               showBikeBumps={this.showBikeBumps}
@@ -111,7 +151,6 @@ class MapPage extends React.Component {
     );
   }
 }
-
 
 MapPage.getInitialProps = async function ({ query }) {
   return {

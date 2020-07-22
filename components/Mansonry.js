@@ -7,7 +7,7 @@ class Mansonry extends React.Component {
         {this.props.data.map((x) => {
           return (
             <div key={x.title} className="brick">
-              {console.log(x.title)}
+              {console.log("test hey " + x.title)}
               <LocationCard
                 data={x}
                 lat={this.props.lat}
