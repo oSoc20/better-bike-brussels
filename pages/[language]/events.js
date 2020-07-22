@@ -1,7 +1,6 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
 
-import SearchBar from "../components/search_bar";
 import Layout from "../../components/Layout";
 import HomeEvent from "../../components/HomeEvent";
 import HomeGeoLocation from "../../components/HomeGeoLocation";

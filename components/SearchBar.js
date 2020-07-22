@@ -8,56 +8,45 @@ class HeaderComponent extends Component {
             clicked: "#00BFFF"
         }
         this.state = {
-            defaultColor: true,
-            bikeBumpColor: true,
-            waterFountainColor: true,
-            parkingColor: true,
-            repairColor: true,
-            villoColor: true
+            bikeBump: true,
+            waterFountain: true,
+            parking: true,
+            repair: true,
+            villo: true
          }
     };
 
-    changeColor(){
-        this.setState({defaultColor: !this.state.defaultColor})
-    }
-
-
     showBikeBumps() {
-        //this.changeColor();
-        this.setState({bikeBumpColor: !this.state.bikeBumpColor})
-        this.props.showBikeBumps();
+        this.setState({bikeBump: !this.state.bikeBump})
+        this.props.showBikeBumps(this.state.bikeBump);
     }
 
-    showWaterFountains = () => {
-        //this.changeColor();
-        this.setState({waterFountainColor: !this.state.waterFountainColor})
-        this.props.showWaterFountains();
+    showWaterFountains() {
+        this.setState({waterFountain: !this.state.waterFountain});
+        this.props.showWaterFountains(this.state.waterFountain);
     }
 
-    showParkings = () => {
-        //this.changeColor();
-        this.setState({parkingColor: !this.state.parkingColor})
-        this.props.showParkings();
+    showParkings() {
+        this.setState({parking: !this.state.parking})
+        this.props.showParkings(this.state.parking);
     }
 
-    showRepairs = () => {
-        //this.changeColor();
-        this.setState({repairColor: !this.state.repairColor})
-        this.props.showRepairs();
+    showRepairs() {
+        this.setState({repair: !this.state.repair})
+        this.props.showRepairs(this.state.repair);
     }
 
-    showVillos = () => {
-        //this.changeColor();
-        this.setState({villoColor: !this.state.villoColor})
-        this.props.showVillos();
+    showVillos() {
+        this.setState({villo: !this.state.villo})
+        this.props.showVillos(this.state.villo);
     }
 
     render() {
-        let btn_bike_bump = this.state.bikeBumpColor ? "" : "buttonClicked";
-        let btn_water_fountain = this.state.waterFountainColor ? "" : "buttonClicked";
-        let btn_parking = this.state.parkingColor ? "" : "buttonClicked";
-        let btn_repair = this.state.repairColor ? "" : "buttonClicked";
-        let btn_villo = this.state.villoColor ? "" : "buttonClicked";
+        let btn_bike_bump = this.state.bikeBump ? "" : "buttonClicked";
+        let btn_water_fountain = this.state.waterFountain ? "" : "buttonClicked";
+        let btn_parking = this.state.parking ? "" : "buttonClicked";
+        let btn_repair = this.state.repair ? "" : "buttonClicked";
+        let btn_villo = this.state.villo ? "" : "buttonClicked";
         return (
             <div id="flex-container">
                 {/* <form>
