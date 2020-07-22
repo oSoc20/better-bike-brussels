@@ -2,6 +2,7 @@ import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import SearchBar from '../../components/SearchBar'
 import Footer from '../../components/Footer'
+import Layout from '../../components/Layout'
 
 const Map = dynamic(
   () => import('../../components/Map'),
@@ -35,6 +36,7 @@ class MapPage extends React.Component {
 
   render(){
     return (
+        <Layout>
       <div className="container">
         <Head>
           <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
@@ -47,6 +49,7 @@ class MapPage extends React.Component {
 
           <script type="text/javascript" src="https://leafletjs.com/examples/map-panes/eu-countries.js"></script>
         </Head>
+
 
         <SearchBar 
           showBikeBumps={this.showBikeBumps}
@@ -69,7 +72,8 @@ class MapPage extends React.Component {
             height: 20vh;
           }
           `}</style>
-      </div>    
+      </div>
+        </Layout>
     )
   }
   
