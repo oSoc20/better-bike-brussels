@@ -60,38 +60,33 @@ class HeaderComponent extends Component {
         let btn_villo = this.state.villoColor ? "" : "buttonClicked";
         return (
             <div id="flex-container">
-                <form>
+                {/* <form>
                     <div>
                         <input type="text" id="search-input" placeholder="What are you looking for?"/>
                         <button type="submit" id="search-button">search</button>
                     </div>
-                </form>
+                </form> */}
                 <div className="box">
                     <button className={btn_bike_bump} onClick={this.showBikeBumps.bind(this)}>
-                        <img src="/compressed_air.svg" /> bike bump
+                        <img src="/compressed_air.svg" /> <span>bike bump</span>
                     </button>
                     <button className={btn_water_fountain} onClick={this.showWaterFountains.bind(this)}>
-                        <img src="/drinking_water.svg" /> water fountain
+                        <img src="/drinking_water.svg" /> <span>water fountain</span>
                     </button>
                     <button className={btn_parking} onClick={this.showParkings.bind(this)}>
-                        <img src="/bicycle_parking.svg" /> parking
+                        <img src="/bicycle_parking.svg" /> <span>parking</span>
                     </button>
                     <button className={btn_repair} onClick={this.showRepairs.bind(this)}>
-                        <img src="/bicycle_repair_station.svg" /> repair
+                        <img src="/bicycle_repair_station.svg" /> <span>repair</span>
                     </button>
                     <button className={btn_villo} onClick={this.showVillos.bind(this)}>
-                        <img src="/villo_station.svg" /> villo
+                        <img src="/villo_station.svg" /> <span>villo</span>
                     </button>
                 </div>
                 <style jsx>{`
-                    #flex-container {
-                        background-color: #C4C4C4;
-                        height: 10vh;
-                    }
 
-                    form {
-                        width: 100%;
-                        display: flex;
+                    .box:first-child {
+                        margin-left: 1rem;
                     }
 
                     .box {
@@ -141,9 +136,25 @@ class HeaderComponent extends Component {
                         background-color: #A5A5A5;
                     }
 
-                    button {
-                        border-radius: 15px;
+                    img {
+                        fill: white;
                     }
+
+                    button {
+                        border-radius: 3rem;
+                        border: .5rem rgb(246,246,246) solid;
+                        margin: .5rem;
+                        padding: 1rem;
+                        display: flex;
+                        justify-content: center;
+                        background-color: rgb(246,246,246);
+                        font-size: 1.4rem;
+                    }
+
+                    // button span {
+                    //     font-size: 1.4rem;
+
+                    // }
 
                     .buttonClicked {
                         background-color: #00BFFF;

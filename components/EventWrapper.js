@@ -78,8 +78,8 @@ class EventWrapper extends React.Component {
     return (
       <div>
         <article className="todayview">
-          <h1>Ongoing events today</h1>
-          <h2>{date}</h2>
+          <h1 className="title__ongoing">Ongoing events today</h1>
+          <h2 className="date">{date}</h2>
           {displayTodayComponent ? (
             <EventLoop data={todayEvents} language={this.props.language}/>
           ) : (
@@ -87,7 +87,7 @@ class EventWrapper extends React.Component {
           )}
         </article>
         <article className="futureview">
-          <h1>Other events in the future</h1>
+          <h1 className="title__ongoing">Other events in the future</h1>
           {displayFutureComponent ? (
             <EventLoop data={futureEvents} language={this.props.language}/>
           ) : (
@@ -98,13 +98,29 @@ class EventWrapper extends React.Component {
         <style jsx>{`
           .todayview {
             background-color: rgb(246, 246, 246);
+          display: flex;
+          flex-flow: column;
+          align-items: center
           }
           .futureview {
             padding-bottom: 100px;
+            display: flex;
+            flex-flow: column;
+            align-items: center
           }
           article {
             padding: 20px 10px;
             background-color: white;
+          }
+
+          .title__ongoing {
+            font-size:2rem;
+            font-weight: 700;
+          }
+
+          .date {
+            font-size: 1.4rem;
+            padding: 1rem;
           }
         `}</style>
       </div>

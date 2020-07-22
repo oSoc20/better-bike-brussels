@@ -1,14 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html {
+  box-sizing: inherit;
+  font-size: 62.5%;
+  font-family: 'Open Sans', sans-serif;
+}
 header{
     color:white;
     background-color:#003b8b;
     text-align: center;
+    display: flex;
+    flex-flow: column;
 }
-header h1{
+/* header h1{
     padding:20px;
     font-size:2rem;
-}
+} */
 
 body{
     overflow-x: hidden;
     text-overflow: clip;
+    line-height: 1.4;
 }
+
+ 
