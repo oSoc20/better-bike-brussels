@@ -146,8 +146,15 @@ class HeaderComponent extends Component {
                     // }
 
                     .buttonClicked {
-                        background-color: #00BFFF;
-                        color: yellow;
+                        // background-color: #9C9B9A;
+                        border: .5rem #9C9B9A solid;
+                        // color: white;
+                        
+                    }
+
+                    .buttonClicked > span::after {
+                        content: "x";
+                        margin: 0 1rem;
                     }
                 `}
                 </style>

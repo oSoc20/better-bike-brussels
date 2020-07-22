@@ -3,17 +3,22 @@ import Link from 'next/link';
 
 class EventCard extends React.Component {
   render() {
+    if(this.props.event.media !== undefined){
     try{
       if (!this.props.event.media[0]) {
         var title = this.props.event.media.translations.en.title;
         var image = this.props.event.media.link;
       } else if (this.props.event.media[0].translations.en.title) {
         var title = this.props.event.media[0].translations.en.title;
+        console.log(this.props.event.media)
         var image = this.props.event.media[0].link;
       }
     } catch(error) {
       console.log(error)
     }
+  }else if(this.props.event.media === undefined){
+    var image = "../images/placeholder.jpg"
+  }
 
     try{
       if (this.props.event.recurring) {
@@ -35,6 +40,7 @@ class EventCard extends React.Component {
     return (
       <div className="event">
         <img src={image} alt="title" />
+        {console.log(image)}
         <article className="info">
           <h3 className="event__title">{title}</h3>
           <p className="event__info">{starttime} - {endtime} | {date} | {place}</p>

@@ -34,7 +34,7 @@ class MapPage extends React.Component {
   render() {
     return (
       <Layout language={this.props.language}>
-        <LanguageStorage language={this.props.language} />
+          <LanguageStorage language={this.props.language} />
         <div className="container">
           <Head>
             <link
@@ -56,27 +56,61 @@ class MapPage extends React.Component {
             ></script>
           </Head>
 
-          <SearchBar
-            showBikeBumps={this.showBikeBumps}
-            showWaterFountains={this.showWaterFountains}
-            showParkings={this.showParkings}
-            showRepairs={this.showRepairs}
-            showVillos={this.showVillos}
-          />
-        
-        <Map onRef={ref => (this.map_component = ref)} />
+          <div className="search__wrapper">
+            <p id="place">
+              <img src="/place.svg" /> <strong>Mellery Street</strong>
+            </p>
+            <SearchBar
+              showBikeBumps={this.showBikeBumps}
+              showWaterFountains={this.showWaterFountains}
+              showParkings={this.showParkings}
+              showRepairs={this.showRepairs}
+              showVillos={this.showVillos}
+            />
+          </div>
+          <Map onRef={(ref) => (this.map_component = ref)} />
 
+          {/* <Footer /> */}
           <style jsx>{`
             #main {
               width: 100%;
               display: flex;
               align: center;
+              // margin-top: 2rem;
+            }
+
+            #place {
+              display: flex;
+              align-items: center;
+              align-self: center;
+              color: white;
+              font-weight: 700;
+              font-size: 1.4rem;
+              margin-bottom: 2rem;
+            }
+
+            #place img {
+              margin-right: 1rem;
+
+            }
+
+            Footer {
+              height: 20vh;
+            }
+
+            .search__wrapper {
+              display: flex;
+              flex-flow: column;
+              padding: 3rem 0;
+              // padding-left: 1rem;
+              background-color: #003b8b;
             }
           `}</style>
         </div>
       </Layout>
     );
   }
+}
 }
 
 MapPage.getInitialProps = async function ({ query }) {

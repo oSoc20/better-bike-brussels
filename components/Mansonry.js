@@ -6,7 +6,8 @@ class Mansonry extends React.Component {
       <div className="grid">
         {this.props.data.map((x) => {
           return (
-            <div className="brick">
+            <div key={x.title} className="brick">
+              {console.log(x.title)}
               <LocationCard
                 data={x}
                 lat={this.props.lat}
