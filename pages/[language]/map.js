@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import SearchBar from '../../components/SearchBar'
-import Footer from '../../components/Footer'
 import Layout from '../../components/Layout'
 
 const Map = dynamic(
@@ -61,7 +60,6 @@ class MapPage extends React.Component {
         
         <Map onRef={ref => (this.map_component = ref)} />
   
-        <Footer />
         <style jsx>{`
           #main {
               width: 100%;
