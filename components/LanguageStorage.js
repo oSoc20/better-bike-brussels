@@ -2,7 +2,9 @@ import React from "react";
 
 class LanguageStorage extends React.Component {
   componentDidMount() {
-    localStorage.setItem('_language', this.props.language)
+    if(["nl","fr","en"].includes(this.props.language)){
+      localStorage.setItem('_language', this.props.language)
+    }
   }
 
   render() {
