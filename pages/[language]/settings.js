@@ -8,33 +8,71 @@ const Settings = (props) => (
       <Link href="/[language]/" as={`/${props.language}/`}>
         <img className="backbutton" src="/icons/back.svg" />
       </Link>
-      <h1 className="title">settings and resources</h1>
+      <h1 className="title">Settings and resources</h1>
     </header>
     <section>
-      <h2 className="sub">settings</h2>
+      <h2 className="sub">Settings</h2>
       <div className="wrapper">
-        <Link className="link" href="/fr/settings">
-          <a className="lang">Fr</a>
+        <Link href="/fr/settings">
+          <a className={props.language == "fr" ? "checked" : "lang"}>Fr</a>
         </Link>
-        <Link className="link" href="/nl/settings">
-          <a className="lang">Nl</a>
+        <Link href="/nl/settings">
+          <a className={props.language == "nl" ? "checked" : "lang"}>Nl</a>
         </Link>
-        <Link className="link" href="/en/settings">
-          <a className="lang">Eng</a>
+        <Link href="/en/settings">
+          <a className={props.language == "en" ? "checked" : "lang"}>Eng</a>
         </Link>
       </div>
     </section>
     <section>
-      <h2 className="sub">road code learnings</h2>
-      <div>
-          <a  href="https://www.gracq.org/le-code-de-la-route" className="rodecode">https://www.gracq.org/le-code-de-la-route </a>
-          <a href="https://www.provelo.org/" className="rodecode">https://www.provelo.org/ </a>
-          <a href="VIAS.be " className="rodecode">VIAS.be </a>
-          <a href="https://www.code-de-la-route.be/" className="rodecode">https://www.code-de-la-route.be/ </a>
-          <a href="https://mobilite-mobiliteit.brussels/fr" className="rodecode">https://mobilite-mobiliteit.brussels/fr </a>
+      <h2 className="sub">Road code learnings</h2>
+      <div className="link__wrapper">
+          <a  href="https://www.gracq.org/le-code-de-la-route" className="roadcode">https://www.gracq.org/le-code-de-la-route </a>
+          <a href="https://www.provelo.org/" className="roadcode">https://www.provelo.org/ </a>
+          <a href="VIAS.be " className="roadcode">VIAS.be </a>
+          <a href="https://www.code-de-la-route.be/" className="roadcode">https://www.code-de-la-route.be/ </a>
+          <a href="https://mobilite-mobiliteit.brussels/fr" className="roadcode">https://mobilite-mobiliteit.brussels/fr </a>
       </div>
     </section>
+    <section>
+    <h2 className="sub">Emrgency numbers</h2>
+    <div className="wrapper">
+      <div className="number__wrapper">
+        <p className="number__title">general</p>
+        <p className="number">112</p>
+      </div>
+      <div className="number__wrapper">
+        <p className="number__title">police</p>
+        <p className="number">101</p>
+      </div>
+    </div>
+    </section>
+    <section>
+    <h2 className="sub">Related apps</h2>
+    </section>
     <style jsx>{`
+      .wrapper {
+        display: flex;
+      }
+
+        .number {
+          font-size: 4rem;
+          font-weight: 700;
+        }
+
+        .number__wrapper {
+          display: flex;
+          flex-flow: column;
+          align-items: center;
+        }
+
+        .number__title {
+          font-size: 1.6rem;
+        }
+
+        .number::before {
+          content:"☎"
+        }
         img.backbutton {
           width: 40px;
           height: 40px;
@@ -85,8 +123,24 @@ const Settings = (props) => (
             
         }
 
-        .link {
-           
+        .checked {
+          font-size: 3rem;
+          text-decoration: none;
+          color: black;
+          background-color: #F6F6F6;
+          border-radius: 10px;
+          padding: 2rem
+        }
+
+        .roadcode {
+          font-size: 1.6rem;
+          color: #003B8B;
+          margin: 1rem 3rem;
+        }
+
+        .link__wrapper {
+          display: flex;
+          flex-flow: column;
         }
       `}</style>
   </div>

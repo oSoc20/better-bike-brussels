@@ -153,7 +153,7 @@ class HeaderComponent extends Component {
                     }
 
                     .buttonClicked > span::after {
-                        content: "x";
+                        content: "✕";
                         margin: 0 1rem;
                     }
                 `}
