@@ -1,6 +1,4 @@
-import EventCard from '../components/EventCard';
-
-
+import EventCard from "../components/EventCard";
 
 class HomeEvent extends React.Component {
   render() {
@@ -12,19 +10,42 @@ class HomeEvent extends React.Component {
 
     return (
       <div className="wrapper">
-        <h1 className="events__title">Ongoing events today</h1>
+        {this.props.language == "nl" ? (
+          <h1 className="events__title">Lopende evenementen</h1>
+        ) : null}
+        {this.props.language == "en" ? (
+          <h1 className="events__title">Ongoing events today</h1>
+        ) : null}
+        {this.props.language == "fr" ? (
+          <h1 className="events__title">TODO</h1>
+        ) : null}
+
         <h2 className="date">{today}</h2>
         {console.log(this.props.events.length)}
 
-        {this.props.events.length !== 0? this.props.events.map(x => {
-            return <EventCard key={x.id} event={x} language={this.props.language}/>
-        }) : "no events today"}
+        {this.props.events.length !== 0
+          ? this.props.events.map((x) => {
+              return (
+                <EventCard
+                  key={x.id}
+                  event={x}
+                  language={this.props.language}
+                />
+              );
+            })
+          : this.props.language == "nl"
+          ? "geen evenementen vandaag"
+          : this.props.language == "en"
+          ? "no events today"
+          : this.props.language == "fr"
+          ? "TODO"
+          : ""}
 
         <style jsx>{`
           div {
-              color:white;
+            color: white;
             background-color: #003b8b;
-            padding:20px 10px 100px 10px;
+            padding: 20px 10px 100px 10px;
           }
 
           .date {

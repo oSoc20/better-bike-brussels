@@ -1,8 +1,8 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import SearchBar from "../../components/SearchBar";
-import Footer from "../../components/Footer";
 import Layout from "../../components/Layout";
+import LanguageStorage from "../../components/LanguageStorage"
 
 const Map = dynamic(() => import("../../components/Map"), { ssr: false });
 
@@ -33,7 +33,8 @@ class MapPage extends React.Component {
 
   render() {
     return (
-      <Layout>
+      <Layout language={this.props.language}>
+          <LanguageStorage language={this.props.language} />
         <div className="container">
           <Head>
             <link
@@ -98,7 +99,7 @@ class MapPage extends React.Component {
             }
 
             .search__wrapper {
-              display: flex; 
+              display: flex;
               flex-flow: column;
               padding: 3rem 0;
               // padding-left: 1rem;
@@ -110,5 +111,12 @@ class MapPage extends React.Component {
     );
   }
 }
+
+
+MapPage.getInitialProps = async function ({ query }) {
+  return {
+    language: query.language,
+  };
+};
 
 export default MapPage;

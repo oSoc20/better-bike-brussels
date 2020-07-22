@@ -39,7 +39,9 @@ const Index = (props) => (
     </div>
 
       <div className="wrapper__search">
-          <p className="sub">What do you want to find?</p>
+      {props.language == "nl" ? <p className="sub">Wat zoekt u?</p> : null}
+      {props.language == "en" ? <p className="sub">What do you want to find?</p> : null}
+      {props.language == "fr" ? <p className="sub">TODO</p> : null}
           <SearchBar />
       </div>
 
