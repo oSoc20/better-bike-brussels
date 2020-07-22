@@ -39,30 +39,6 @@ const Settings = (props) => (
           <a href="VIAS.be " className="roadcode">VIAS.be </a>
           <a href="https://www.code-de-la-route.be/" className="roadcode">https://www.code-de-la-route.be/ </a>
           <a href="https://mobilite-mobiliteit.brussels/fr" className="roadcode">https://mobilite-mobiliteit.brussels/fr </a>
-      <div>
-        <a
-          href="https://www.gracq.org/le-code-de-la-route"
-          className="rodecode"
-          target="_blank"
-        >
-          https://www.gracq.org/le-code-de-la-route{" "}
-        </a>
-        <br/>
-        <a href="https://www.provelo.org/" className="rodecode" target="_blank">
-          https://www.provelo.org/{" "}
-        </a>
-        <br/>
-        <a href="VIAS.be " className="rodecode">
-          VIAS.be{" "}
-        </a>
-        <br/>
-        <a href="https://www.code-de-la-route.be/" className="rodecode" target="_blank">
-          https://www.code-de-la-route.be/{" "}
-        </a>
-        <br/>
-        <a href="https://mobilite-mobiliteit.brussels/fr" className="rodecode" target="_blank">
-          https://mobilite-mobiliteit.brussels/fr{" "}
-        </a>
       </div>
     </section>
     <section>

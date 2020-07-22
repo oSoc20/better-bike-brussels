@@ -14,13 +14,13 @@ class Index extends React.Component {
     return (
       <div className="wrapper">
     <Link href="/fr/">
-    <a className="lang">Fr</a>
+    <a className="lang">FR</a>
     </Link>
     <Link href="/nl/">
-    <a className="lang">Nl</a>
+    <a className="lang">NL</a>
     </Link>
     <Link href="/en/">
-    <a className="lang">Eng</a>
+    <a className="lang">ENG</a>
     </Link>
 
     <style jsx>{`
