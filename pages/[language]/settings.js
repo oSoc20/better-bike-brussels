@@ -8,30 +8,56 @@ const Settings = (props) => (
       <Link href="/[language]/" as={`/${props.language}/`}>
         <img className="backbutton" src="/icons/back.svg" />
       </Link>
-      <h1 className="title">settings and resources</h1>
+      {props.language == "nl" ? <h1 className="title">instellingen en hulpmiddelen</h1> : null}
+      {props.language == "en" ? <h1 className="title">settings and resources</h1> : null}
+      {props.language == "fr" ? <h1 className="title">TODO</h1> : null}
     </header>
     <section>
-      <h2 className="sub">settings</h2>
+      {props.language == "nl" ? <h2 className="sub">instellingen</h2> : null}
+      {props.language == "en" ? <h2 className="sub">settings</h2> : null}
+      {props.language == "fr" ? <h2 className="sub">TODO</h2> : null}
+
       <div className="wrapper">
         <Link className="link" href="/fr/settings">
-          <a className="lang">Fr</a>
+          <a className="lang">FR</a>
         </Link>
         <Link className="link" href="/nl/settings">
-          <a className="lang">Nl</a>
+          <a className="lang">NL</a>
         </Link>
         <Link className="link" href="/en/settings">
-          <a className="lang">Eng</a>
+          <a className="lang">ENG</a>
         </Link>
       </div>
     </section>
     <section>
-      <h2 className="sub">road code learnings</h2>
+      {props.language == "nl" ? <h2 className="sub">verkeersregelgeving</h2> : null}
+      {props.language == "en" ? <h2 className="sub">road code learnings</h2> : null}
+      {props.language == "fr" ? <h2 className="sub">TODO</h2> : null}
+
       <div>
-          <a  href="https://www.gracq.org/le-code-de-la-route" className="rodecode">https://www.gracq.org/le-code-de-la-route </a>
-          <a href="https://www.provelo.org/" className="rodecode">https://www.provelo.org/ </a>
-          <a href="VIAS.be " className="rodecode">VIAS.be </a>
-          <a href="https://www.code-de-la-route.be/" className="rodecode">https://www.code-de-la-route.be/ </a>
-          <a href="https://mobilite-mobiliteit.brussels/fr" className="rodecode">https://mobilite-mobiliteit.brussels/fr </a>
+        <a
+          href="https://www.gracq.org/le-code-de-la-route"
+          className="rodecode"
+          target="_blank"
+        >
+          https://www.gracq.org/le-code-de-la-route{" "}
+        </a>
+        <br/>
+        <a href="https://www.provelo.org/" className="rodecode" target="_blank">
+          https://www.provelo.org/{" "}
+        </a>
+        <br/>
+        <a href="VIAS.be " className="rodecode">
+          VIAS.be{" "}
+        </a>
+        <br/>
+        <a href="https://www.code-de-la-route.be/" className="rodecode" target="_blank">
+          https://www.code-de-la-route.be/{" "}
+        </a>
+        <br/>
+        <a href="https://mobilite-mobiliteit.brussels/fr" className="rodecode" target="_blank">
+          https://mobilite-mobiliteit.brussels/fr{" "}
+        </a>
       </div>
     </section>
     <style jsx>{`

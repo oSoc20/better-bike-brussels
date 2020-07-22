@@ -111,7 +111,7 @@ class MapPage extends React.Component {
     );
   }
 }
-}
+
 
 MapPage.getInitialProps = async function ({ query }) {
   return {

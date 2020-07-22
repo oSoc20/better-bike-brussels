@@ -64,8 +64,10 @@ const Event = (props) => {
     console.log(err);
   }
 
-  var place = props.event.place.translations.en.address_city;
+  console.log(props.event)
 
+  var place = props.event.place.translations.en.address_city;
+  //<!--| {place}-->
   return (
     
     <div>
