@@ -21,8 +21,7 @@ const Index = (props) => (
         <div id="header">
         <div id="wrapper">
             <div id="c1">busy</div>
-            <div id="c2">bring a light coat</div>
-            <div>
+            <div id="c2">
                 <img src={ `/icons/weather/${props.weather.icon}.png`}/>
                 <p>
                     {props.weather.temperature} &amp; {props.weather.description}

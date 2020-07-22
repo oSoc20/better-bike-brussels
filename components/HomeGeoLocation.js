@@ -173,10 +173,6 @@ class HomeGeoLocation extends React.Component {
       <div className="wrapper">
         {/* <p>list view</p> */}
 
-        <h2 className="sub">
-          Within a <i>2 km</i> <br></br> radius from you are
-        </h2>
-
           {
               language == "fr" ? (
                   <h2 className="sub">TODO</h2>
