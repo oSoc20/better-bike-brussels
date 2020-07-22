@@ -1,13 +1,10 @@
-import Head from 'next/head'
-import dynamic from 'next/dynamic'
-import SearchBar from '../../components/SearchBar'
-import Footer from '../../components/Footer'
-import Layout from '../../components/Layout'
+import Head from "next/head";
+import dynamic from "next/dynamic";
+import SearchBar from "../../components/SearchBar";
+import Footer from "../../components/Footer";
+import Layout from "../../components/Layout";
 
-const Map = dynamic(
-  () => import('../../components/Map'),
-  { ssr: false }
-)
+const Map = dynamic(() => import("../../components/Map"), { ssr: false });
 
 class MapPage extends React.Component {
   constructor(props) {
@@ -15,7 +12,7 @@ class MapPage extends React.Component {
   }
 
   showBikeBumps = (bool) => {
-    this.map_component.showBikeBumps(bool)
+    this.map_component.showBikeBumps(bool);
   };
 
   showWaterFountains = (bool) => {
@@ -34,49 +31,84 @@ class MapPage extends React.Component {
     this.map_component.showVillos(bool);
   };
 
-  render(){
+  render() {
     return (
-        <Layout>
-      <div className="container">
-        <Head>
-          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-            integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-            crossOrigin=""/> 
-  
-          <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
-            integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
-            crossOrigin=""></script>
+      <Layout>
+        <div className="container">
+          <Head>
+            <link
+              rel="stylesheet"
+              href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+              integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+              crossOrigin=""
+            />
 
-          <script type="text/javascript" src="https://leafletjs.com/examples/map-panes/eu-countries.js"></script>
-        </Head>
+            <script
+              src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+              integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+              crossOrigin=""
+            ></script>
 
+            <script
+              type="text/javascript"
+              src="https://leafletjs.com/examples/map-panes/eu-countries.js"
+            ></script>
+          </Head>
 
-        <SearchBar 
-          showBikeBumps={this.showBikeBumps}
-          showWaterFountains={this.showWaterFountains}
-          showParkings={this.showParkings}
-          showRepairs={this.showRepairs}
-          showVillos={this.showVillos}
-          />
-        
-        <Map onRef={ref => (this.map_component = ref)} />
-  
-        <Footer />
-        <style jsx>{`
-          #main {
+          <div className="search__wrapper">
+            <p id="place">
+              <img src="/place.svg" /> <strong>Mellery Street</strong>
+            </p>
+            <SearchBar
+              showBikeBumps={this.showBikeBumps}
+              showWaterFountains={this.showWaterFountains}
+              showParkings={this.showParkings}
+              showRepairs={this.showRepairs}
+              showVillos={this.showVillos}
+            />
+          </div>
+          <Map onRef={(ref) => (this.map_component = ref)} />
+
+          {/* <Footer /> */}
+          <style jsx>{`
+            #main {
               width: 100%;
               display: flex;
               align: center;
+              // margin-top: 2rem;
             }
-          Footer {
-            height: 20vh;
-          }
+
+            #place {
+              display: flex;
+              align-items: center;
+              align-self: center;
+              color: white;
+              font-weight: 700;
+              font-size: 1.4rem;
+              margin-bottom: 2rem;
+            }
+
+            #place img {
+              margin-right: 1rem;
+
+            }
+
+            Footer {
+              height: 20vh;
+            }
+
+            .search__wrapper {
+              display: flex; 
+              flex-flow: column;
+              padding: 3rem 0;
+              // padding-left: 1rem;
+              background-color: #003b8b;
+            }
           `}</style>
-      </div>
-        </Layout>
-    )
+        </div>
+      </Layout>
+    );
   }
-  
 }
 
-export default MapPage
+export default MapPage;

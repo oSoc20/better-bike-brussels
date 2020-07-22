@@ -151,6 +151,7 @@ const Event = (props) => {
           width: 10rem;
           height: 10rem;
           margin: 2rem;
+          align-self: center;
         }
 
         img.backbutton {

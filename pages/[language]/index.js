@@ -21,10 +21,11 @@ const Index = (props) => (
         <div id="header">
         <div id="wrapper">
             <div id="c1">busy</div>
-            <div id="c2">
-                <img src={ `/icons/weather/${props.weather.icon}.png`}/>
-                <p>
-                    {props.weather.temperature} &amp; {props.weather.description}
+            <div className="wrapper__weather" id="c2">
+                <img className="weather__img" src={ `/icons/weather/${props.weather.icon}.png`}/>
+                <p >
+                  {console.log(props.weather.temperature)}
+                    {props.weather.temperature}°C | {props.weather.description}
                 </p>
             </div>
         </div>
@@ -63,6 +64,11 @@ const Index = (props) => (
           margin: 1rem 0;
         }
 
+        .weather__img {
+          margin-top: -1rem;
+          margin-right: 1rem;
+        }
+
         .wrapper__search {
           display: flex;
           // justify-content: center;
@@ -87,6 +93,11 @@ const Index = (props) => (
           text-align: center;
           color: white;
           font-size: 1.2rem;
+        }
+
+        .wrapper__weather {
+          display: flex;
+          // align-items: center;
         }
 
         #place {

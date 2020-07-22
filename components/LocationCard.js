@@ -51,9 +51,10 @@ class LocationCard extends React.Component {
       <div className="card">
         <h1 className="title">{this.props.data.title}</h1>
         {valid ? this.props.data.features.map((x) => {
-          return <div className="grid">
+          // console.log(x.id);
+          return <div key={x.id} className="grid">
 
-            <p className="distance">{x.properties.dist.distance}{x.properties.dist.unit}</p>
+            <p key={x.id} className="distance">{x.properties.dist.distance}{x.properties.dist.unit}</p>
 
 
           </div>;
