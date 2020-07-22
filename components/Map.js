@@ -90,6 +90,13 @@ class Map extends React.Component{
     this.map.on('locationfound', onLocationFound);
     this.map.on('locationerror', onLocationError);
     this.state.map = this.map;
+
+    // Show everything on the map
+    this.showBikeBumps(true);
+    this.showWaterFountains(true);
+    this.showParkings(true);
+    this.showRepairs(true);
+    this.showVillos(true);
   }
 
   componentWillUnmount() {
@@ -178,7 +185,7 @@ class Map extends React.Component{
   render(){
     return (
       <Fragment>
-        <Wrapper width="100vw" height="75vh" id="map"></Wrapper>
+        <Wrapper width="100vw" height="100vh" id="map"></Wrapper>
       </Fragment>
     )
   }

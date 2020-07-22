@@ -1,7 +1,6 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import SearchBar from "../../components/SearchBar";
-import Footer from "../../components/Footer";
 import Layout from "../../components/Layout";
 
 const Map = dynamic(() => import("../../components/Map"), { ssr: false });
@@ -63,17 +62,14 @@ class MapPage extends React.Component {
             showRepairs={this.showRepairs}
             showVillos={this.showVillos}
           />
-
-          <Map onRef={(ref) => (this.map_component = ref)} />
+        
+        <Map onRef={ref => (this.map_component = ref)} />
 
           <style jsx>{`
             #main {
               width: 100%;
               display: flex;
               align: center;
-            }
-            Footer {
-              height: 20vh;
             }
           `}</style>
         </div>
