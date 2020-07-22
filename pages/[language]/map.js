@@ -1,11 +1,10 @@
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
-
-import SearchBar from '../components/search_bar'
-import Footer from '../components/footer'
+import SearchBar from '../../components/SearchBar'
+import Footer from '../../components/Footer'
 
 const Map = dynamic(
-  () => import('../components/map_component'),
+  () => import('../../components/Map'),
   { ssr: false }
 )
 
@@ -14,56 +13,25 @@ class MapPage extends React.Component {
     super(props);
   }
 
-  showBikeBumps = () => {
-    this.map_component.showBikeBumps()
+  showBikeBumps = (bool) => {
+    this.map_component.showBikeBumps(bool)
   };
 
-  showWaterFountains = () => {
-    this.map_component.showWaterFountains();
+  showWaterFountains = (bool) => {
+    this.map_component.showWaterFountains(bool);
   };
 
-  showParkings = () => {
-    this.map_component.showParkings();
+  showParkings = (bool) => {
+    this.map_component.showParkings(bool);
   };
 
-  showRepairs = () => {
-    this.map_component.showRepairs();
+  showRepairs = (bool) => {
+    this.map_component.showRepairs(bool);
   };
 
-  showVillos = () => {
-    this.map_component.showVillos();
+  showVillos = (bool) => {
+    this.map_component.showVillos(bool);
   };
-
-
-  static async getInitialProps(ctx) {
-    const server_url = process.env.SERVER_URL;
-    let radius = 1000;
-    let pos = {coords:{
-      "latitude": 50.846859,
-      "longitude": 4.352297,
-      "accuracy": 5,
-    }}
-
-    let geolocation = "?lat=" + pos.coords.latitude + "&lng=" + pos.coords.longitude + "&radius=" + radius;      
-    let url = server_url + "/api/v1/map/endpoints" + geolocation;
-
-    const response = await fetch(url)
-    const json = await response.json()
-    const datapoints = json.success
-
-    let reg = /\W(\w+)\W(\w+)\W(\w+)\W/;
-    let result = []; 
-                
-    for(let i in datapoints) {
-      let str = JSON.stringify(datapoints[i]);
-      let feature = str.replace(reg, " ");
-      result.push(feature);
-    }
-
-    pos = JSON.stringify(pos);
-    return { position: pos }
-  }
-
 
   render(){
     return (
@@ -90,7 +58,7 @@ class MapPage extends React.Component {
         
         <Map onRef={ref => (this.map_component = ref)} />
   
-        <Footer id="footer"/>
+        <Footer />
         <style jsx>{`
           #main {
               width: 100%;

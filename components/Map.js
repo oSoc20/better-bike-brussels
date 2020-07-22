@@ -12,18 +12,18 @@ class Map extends React.Component{
     super(props);
 
     this.state = {
-      map: '',
+      map: {},
       radius: 1000,
       pos: [50.846859, 4.352297],
       max_answers: 10
     }
 
     this.pois_layer = {
-      bike_bump: '',
-      water_fountain: '',
-      parking: '',
-      repair: '',
-      villo: ''
+      bike_bump: {},
+      water_fountain: {},
+      parking: {},
+      repair: {},
+      villo: {}
     }
 
     this.endpoint = {
@@ -48,7 +48,7 @@ class Map extends React.Component{
     }}
 
     this.map= L.map("map").setView([pos.coords.latitude, pos.coords.longitude], 11);
-    //this.map = L.map('map').fitWorld();
+    
     L.tileLayer(
       "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
       {
@@ -69,10 +69,10 @@ class Map extends React.Component{
     function onLocationFound(e) {
       var radius = e.accuracy;
 
-      L.marker(e.latlng).addTo(this.map)
+      L.marker(e.latlng).addTo(this)
         .bindPopup("You are within " + radius + " meters from this point").openPopup();
 
-      L.circle(e.latlng, radius).addTo(this.map);
+      L.circle(e.latlng, radius).addTo(this);
       this.setView([e.latitude, e.longitude], 18);
     }
     function onLocationError(e) {
@@ -96,57 +96,27 @@ class Map extends React.Component{
     this.props.onRef(undefined)
   }
 
-  showBikeBumps() {
-    if (this.pois_layer.bike_bump == '') {
-      this.getDataFromEndpoint(this.endpoint.bike_bump);
-    }
-    else {
-      this.map.removeLayer(this.pois_layer.bike_bump);
-      this.pois_layer.bike_bump = '';
-    }
+  showBikeBumps(bool) {
+    bool ? this.getDataFromEndpoint(this.endpoint.bike_bump) : this.map.removeLayer(this.pois_layer.bike_bump)
   }
 
-  async showWaterFountains() {
-    if (this.pois_layer.water_fountain == '') {
-      this.getDataFromEndpoint(this.endpoint.water_fountain);
-    }
-    else {
-      this.map.removeLayer(this.pois_layer.water_fountain);
-      this.pois_layer.water_fountain = '';
-    }
+  showWaterFountains(bool) {
+    bool ? this.getDataFromEndpoint(this.endpoint.water_fountain) : this.map.removeLayer(this.pois_layer.water_fountain)
   }
 
-  showParkings() {
-    if (this.pois_layer.parking == '') {
-      this.getDataFromEndpoint(this.endpoint.parking);
-    }
-    else {
-      this.map.removeLayer(this.pois_layer.parking);
-      this.pois_layer.parking = '';
-    }
+  showParkings(bool) {
+    bool ? this.getDataFromEndpoint(this.endpoint.parking) : this.map.removeLayer(this.pois_layer.parking)
   }
 
-  showRepairs() {
-    if (this.pois_layer.repair == '') {
-      this.getDataFromEndpoint(this.endpoint.repair);
-    }
-    else {
-      this.map.removeLayer(this.pois_layer.repair);
-      this.pois_layer.repair = '';
-    }
+  showRepairs(bool) {
+    bool ? this.getDataFromEndpoint(this.endpoint.repair) : this.map.removeLayer(this.pois_layer.repair)
   }
 
-  showVillos() {
-    if (this.pois_layer.villo == '') {
-      this.getDataFromEndpoint(this.endpoint.villo);
-    }
-    else {
-      this.map.removeLayer(this.pois_layer.villo);
-      this.pois_layer.villo = '';
-    }
+  showVillos(bool) {
+    bool ? this.getDataFromEndpoint(this.endpoint.villo) : this.map.removeLayer(this.pois_layer.villo)
   }
 
-  async getDataFromEndpoint(endpoint) {
+  getDataFromEndpoint(endpoint) {
     let position = "?lat=" + this.state.pos[0] + "&lng=" + this.state.pos[1] + "&radius=" + this.state.radius
     let endpoint_url = "http://localhost:8080" + "/api/v1/map/" + endpoint + "/" + position + "&max_answers=" + this.state.max_answers;
     
@@ -178,26 +148,26 @@ class Map extends React.Component{
       });
   }
 
-  saveEndpoint(endpoint, poisGeoJSON) {
+  saveEndpoint(endpoint, pois_layer) {
     switch (endpoint) {
       case this.endpoint.bike_bump:
-        this.pois_layer.bike_bump = poisGeoJSON;
+        this.pois_layer.bike_bump = pois_layer;
         break;
 
       case this.endpoint.water_fountain:
-        this.pois_layer.water_fountain = poisGeoJSON;
+        this.pois_layer.water_fountain = pois_layer;
         break;
 
       case this.endpoint.parking:
-        this.pois_layer.parking = poisGeoJSON;
+        this.pois_layer.parking = pois_layer;
         break;
 
       case this.endpoint.repair:
-        this.pois_layer.repair = poisGeoJSON;
+        this.pois_layer.repair = pois_layer;
         break;
 
       case this.endpoint.villo:
-        this.pois_layer.villo = poisGeoJSON;
+        this.pois_layer.villo = pois_layer;
         break;
     
       default:
