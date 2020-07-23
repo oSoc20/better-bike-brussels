@@ -12,6 +12,11 @@ const Index = (props) => (
     <LanguageStorage language={props.language} />
     <Head>
     <title>Home</title>
+
+    <link rel="manifest" href="/manifest.json"/>
+    <link href='/favicon-16x16.png' rel='icon' type='image/png' sizes='16x16'/>
+    <link href='/favicon-32x32.png' rel='icon' type='image/png' sizes='32x32'/>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png"></link>
     </Head>
     <div className="container">
       <Link href="/[language]/settings" as={`/${props.language}/settings`}>
@@ -50,6 +55,8 @@ const Index = (props) => (
       <HomeGeoLocation language={props.language} />
 
       <HomeEvent events={props.data} language={props.language} />
+
+      <script type="text/javascript" src="js/script.js"/>
 
       <style jsx>{`
         .box {
