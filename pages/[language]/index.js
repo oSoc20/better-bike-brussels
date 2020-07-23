@@ -14,23 +14,37 @@ const Index = (props) => (
     <title>Home</title>
 
     <link rel="manifest" href="/manifest.json"/>
-    <link href='/favicon-16x16.png' rel='icon' type='image/png' sizes='16x16'/>
-    <link href='/favicon-32x32.png' rel='icon' type='image/png' sizes='32x32'/>
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png"></link>
+
+    <link href='/touch/favicon-16x16.png' rel='icon' type='image/png' sizes='16x16'/>
+    <link href='/touch/favicon-32x32.png' rel='icon' type='image/png' sizes='32x32'/>
+    <link href="shortcut icon" href="/touch/favicon.ico"/>
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-status-bar-style" content="black"/>
+    <meta name="apple-mobile-web-app-title" content="BetterBike"/>
+    <link rel="apple-touch-icon" href="/touch/apple-touch-icon.png"/>
+
+    <meta name="theme-color" content="#003b8b"/>
+
+    <meta name="Description" content="BetterBikeBrussels is the digital tool imagined by and made for 
+    Brussels citizens to have a safe and hassle-free bike ride in the city. It is designed 
+    to help you before and after your bike trip. You have a flat tire and need access to 
+    an air pump or a bike service station? No problem. Just arrived at your destination but 
+    there is no secure bike parking in sight? We got you! Ready to head out but not sure if 
+    you need that raincoat? We’ll get you informed."/>
+
     </Head>
     <div className="container">
       <Link href="/[language]/settings" as={`/${props.language}/settings`}>
         <img className="infobutton" src="/icons/info.svg" />
       </Link>
-
         <div id="header">
         <div id="wrapper">
             <div id="c1">busy</div>
             <div className="wrapper__weather" id="c2">
                 <img className="weather__img" src={ `/icons/weather/${props.weather.icon}.png`}/>
                 <p >
-                  {console.log(props.weather.temperature)}
-                    {props.weather.temperature}°C | {props.weather.description}
+                    {Math.round(props.weather.temperature*2)/2}°C | {props.weather.description}
                 </p>
             </div>
         </div>
@@ -56,7 +70,7 @@ const Index = (props) => (
 
       <HomeEvent events={props.data} language={props.language} />
 
-      <script type="text/javascript" src="js/script.js"/>
+      <script type="text/javascript" src="/js/script.js"/>
 
       <style jsx>{`
         .box {
@@ -177,8 +191,6 @@ Index.getInitialProps = async function ({ query }) {
 
   enddate.setDate(enddate.getDate() + 1);
 
-  console.log(Date.parse(startdate) / 1000, Date.parse(enddate) / 1000);
-
   let events = await getData(
     `${host}/api/v1/event/official?from=${Date.parse(startdate) / 1000}&to=${
       Date.parse(enddate) / 1000
@@ -188,8 +200,6 @@ Index.getInitialProps = async function ({ query }) {
   let weather = await getData(
     `${host}/api/v1/weather/current?language=${query.language}`
   );
-
-  //console.log(events);
 
   function getData(url) {
     return fetch(url)

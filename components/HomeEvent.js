@@ -21,7 +21,6 @@ class HomeEvent extends React.Component {
         ) : null}
 
         <h2 className="date">{today}</h2>
-        {console.log(this.props.events.length)}
 
         {this.props.events.length !== 0
           ? this.props.events.map((x) => {
