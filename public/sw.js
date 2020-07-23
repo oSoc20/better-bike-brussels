@@ -7,6 +7,8 @@ const assets = [
   "/images/logo.png",
   "/stylesheets/reset.css",
   "/stylesheets/style.css",
+  "/images/placeholder_minified.jpg",
+  "/images/placeholder.jpg"
 ];
 
 self.addEventListener("install", (event) => {

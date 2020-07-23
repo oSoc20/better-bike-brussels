@@ -34,6 +34,7 @@ const Index = (props) => (
     you need that raincoat? We’ll get you informed."/>
 
     </Head>
+    
     <div className="container">
       <Link href="/[language]/settings" as={`/${props.language}/settings`}>
         <img className="infobutton" src="/icons/info.svg" />
