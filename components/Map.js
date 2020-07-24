@@ -15,24 +15,38 @@ class Map extends React.Component{
       map: {},
       radius: 1000,
       pos: [50.846859, 4.352297],
-      max_answers: 10
-    }
+      max_answers: 10,
+      first_load: true
+    };
 
     this.pois_layer = {
       bike_bump: {},
       water_fountain: {},
       parking: {},
       repair: {},
-      villo: {}
-    }
+      villo: {},
+      shop: {}
+    };
+
+    this.single_poi = {};
 
     this.endpoint = {
       bike_bump: 'air-pump',
       water_fountain: 'drinking-water',
       parking: 'bicycle-parking',
       repair: 'bicycle-repair-station',
-      villo: 'villo-stations'
-    }
+      villo: 'villo-stations',
+      shop: 'bicycle-shop'
+    };
+  }
+
+  static async getInitialProps({query}) {
+    return {
+      language: query.language,
+      poi: query.poi, 
+      poi_lat: query.poi_lat, 
+      poi_lng: query.poi_lng
+    };
   }
 
   componentDidMount(){
@@ -78,6 +92,7 @@ class Map extends React.Component{
         iconAnchor: [12, 12],
         popupAnchor: [-3, -76],
       });
+      console.log(L.marker([pos.coords.latitude, pos.coords.longitude], { icon: endpoint_icon }));
       L.marker([pos.coords.latitude, pos.coords.longitude], { icon: endpoint_icon }).addTo(this);
       this.setView([pos.coords.latitude, pos.coords.longitude], 18);
     }
@@ -85,14 +100,55 @@ class Map extends React.Component{
     this.map.locate({setView: true, maxZoom: 16});
     this.map.on('locationfound', onLocationFound);
     this.map.on('locationerror', onLocationError);
-    this.state.map = this.map;
+    
 
-    // Show everything on the map
-    this.showBikeBumps(true);
-    this.showWaterFountains(true);
-    this.showParkings(true);
-    this.showRepairs(true);
-    this.showVillos(true);
+    // Show single POI or every POIs on the map
+
+    if(this.props.poi !== undefined && this.props.poi_lat !== undefined && this.props.poi_lng !== undefined)
+      this.showSinglePOI(this.props.poi, this.props.poi_lat, this.props.poi_lng);
+    else
+      //this.showAllPOIs(true);
+
+    this.state.map = this.map;
+  }
+
+  showSinglePOI(poi, poi_lat, poi_lng) {
+    let pois_icon = new L.Icon({
+      iconUrl: process.env.APP_URL + "/" + poi + ".svg",
+      iconSize: [35, 35],
+      iconAnchor: [12, 12],
+      popupAnchor: [-3, -76],
+    });
+    let single_poi = L.marker([poi_lat, poi_lng], { icon: pois_icon });
+    single_poi.addTo(this.map);
+    this.single_poi = single_poi;
+  }
+
+  showAllPOIs(bool) {
+    if (bool) {
+      this.getDataFromEndpoint(this.endpoint.bike_bump);
+      this.getDataFromEndpoint(this.endpoint.water_fountain);
+      this.getDataFromEndpoint(this.endpoint.parking);
+      this.getDataFromEndpoint(this.endpoint.repair);
+      this.getDataFromEndpoint(this.endpoint.villo);
+      this.getDataFromEndpoint(this.endpoint.shop);
+    } else {
+      hideAllPOIs();
+    }
+  }
+
+  hideAllPOIs() {
+    for (let key in this.pois_layer) {
+      let layer = this.pois_layer[key];
+      this.state.map.removeLayer(layer);
+    }
+    this.state.map.removeLayer(this.single_poi);
+    this.single_poi = {};
+  }
+
+  firstLoad() {
+    this.hideAllPOIs();
+    this.state.first_load = false;
   }
 
   componentWillUnmount() {
@@ -100,23 +156,57 @@ class Map extends React.Component{
   }
 
   showBikeBumps(bool) {
-    bool ? this.getDataFromEndpoint(this.endpoint.bike_bump) : this.map.removeLayer(this.pois_layer.bike_bump)
+    if (this.state.first_load)
+        this.firstLoad();
+    if (bool)
+      this.getDataFromEndpoint(this.endpoint.bike_bump);
+    else
+      this.map.removeLayer(this.pois_layer.bike_bump);
   }
 
   showWaterFountains(bool) {
-    bool ? this.getDataFromEndpoint(this.endpoint.water_fountain) : this.map.removeLayer(this.pois_layer.water_fountain)
+    if (this.state.first_load)
+        this.firstLoad();
+    if (bool)
+      this.getDataFromEndpoint(this.endpoint.water_fountain);
+    else
+      this.map.removeLayer(this.pois_layer.water_fountain);
   }
 
   showParkings(bool) {
-    bool ? this.getDataFromEndpoint(this.endpoint.parking) : this.map.removeLayer(this.pois_layer.parking)
+    if (this.state.first_load)
+        this.firstLoad();
+    if (bool)
+      this.getDataFromEndpoint(this.endpoint.parking);
+    else
+      this.map.removeLayer(this.pois_layer.parking);
   }
 
   showRepairs(bool) {
-    bool ? this.getDataFromEndpoint(this.endpoint.repair) : this.map.removeLayer(this.pois_layer.repair)
+    if (this.state.first_load)
+        this.firstLoad();
+    if (bool)
+      this.getDataFromEndpoint(this.endpoint.repair);
+    else
+      this.map.removeLayer(this.pois_layer.repair);
   }
 
   showVillos(bool) {
-    bool ? this.getDataFromEndpoint(this.endpoint.villo) : this.map.removeLayer(this.pois_layer.villo)
+    if (this.state.first_load)
+        this.firstLoad();
+    if (bool)
+      this.getDataFromEndpoint(this.endpoint.villo);
+    else
+      this.map.removeLayer(this.pois_layer.villo);
+  }
+
+  showShops(bool) {
+    if (this.state.first_load)
+        this.firstLoad();
+    if (bool)
+      this.getDataFromEndpoint(this.endpoint.shop);
+    else
+      this.map.removeLayer(this.pois_layer.shop);
   }
 
   getDataFromEndpoint(endpoint) {
@@ -126,13 +216,14 @@ class Map extends React.Component{
     fetch(endpoint_url)
       .then((response) => response.json())
       .then((json) => {
+        console.log(json);
         let pois_layer = L.geoJSON(json, {
           pointToLayer: function (feature, latlng) {
             // Check if a image file exists
             let image = new Image();
             let icon_url = process.env.APP_URL + "/" + json.icon;
             image.src = icon_url;
-            let endpoint_icon = process.env.APP_URL + "/favicon.ico"; // default icon
+            let endpoint_icon = process.env.APP_URL + "/favicon.ico";
 
             if (image != null && image.width != 0)
               endpoint_icon = icon_url;
@@ -147,6 +238,7 @@ class Map extends React.Component{
           }
         });
         pois_layer.addTo(this.state.map);
+        
         this.saveEndpoint(endpoint, pois_layer);
       });
   }
@@ -171,6 +263,10 @@ class Map extends React.Component{
 
       case this.endpoint.villo:
         this.pois_layer.villo = pois_layer;
+        break;
+
+      case this.endpoint.shop:
+        this.pois_layer.shop = pois_layer;
         break;
     
       default:

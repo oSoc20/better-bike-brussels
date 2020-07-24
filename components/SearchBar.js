@@ -12,7 +12,8 @@ class HeaderComponent extends Component {
             waterFountain: true,
             parking: true,
             repair: true,
-            villo: true
+            villo: true,
+            shop: true
          }
     };
 
@@ -41,12 +42,18 @@ class HeaderComponent extends Component {
         this.props.showVillos(this.state.villo);
     }
 
+    showShops() {
+        this.setState({shop: !this.state.shop})
+        this.props.showShops(this.state.shop);
+    }
+
     render() {
         let btn_bike_bump = this.state.bikeBump ? "" : "buttonClicked";
         let btn_water_fountain = this.state.waterFountain ? "" : "buttonClicked";
         let btn_parking = this.state.parking ? "" : "buttonClicked";
         let btn_repair = this.state.repair ? "" : "buttonClicked";
         let btn_villo = this.state.villo ? "" : "buttonClicked";
+        let btn_shop = this.state.shop ? "" : "buttonClicked";
         return (
             <div id="flex-container">
                 {/* <form>
@@ -70,6 +77,9 @@ class HeaderComponent extends Component {
                     </button>
                     <button className={btn_villo} onClick={this.showVillos.bind(this)}>
                         <img src="/villo_station.svg" /> <span>villo</span>
+                    </button>
+                    <button className={btn_shop} onClick={this.showShops.bind(this)}>
+                        <img src="/bicycle_shop.svg" /> <span>shop</span>
                     </button>
                 </div>
                 <style jsx>{`
