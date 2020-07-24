@@ -1,4 +1,4 @@
-import EventLoop from "../components/EventLoop";
+import EventCard from "../components/EventCard";
 
 class EventWrapper extends React.Component {
   constructor(props) {
@@ -80,24 +80,46 @@ class EventWrapper extends React.Component {
     return (
       <div>
         <article className="todayview">
-          {language == "nl" ? <h1 className="title__ongoing">Lopende evenementen</h1> : null}
-          {language == "en" ? <h1 className="title__ongoing">Ongoing events today</h1> : null}
+          {language == "nl" ? (
+            <h1 className="title__ongoing">Lopende evenementen</h1>
+          ) : null}
+          {language == "en" ? (
+            <h1 className="title__ongoing">Ongoing events today</h1>
+          ) : null}
           {language == "fr" ? <h1 className="title__ongoing">TODO</h1> : null}
 
           <h2 className="date">{date}</h2>
           {displayTodayComponent ? (
-            <EventLoop data={todayEvents} language={this.props.language}/>
+            todayEvents.map((x) => {
+              return (
+                <div key={x.id}>
+                  <EventCard event={x} language={this.props.language} />
+                </div>
+              );
+            })
           ) : (
             <p>loading</p>
           )}
         </article>
         <article className="futureview">
-          {language == "nl" ? <h1 className="title__ongoing">Andere evenementen in de toekomst</h1> : null}
-          {language == "en" ? <h1 className="title__ongoing">Other events in the future</h1> : null}
+          {language == "nl" ? (
+            <h1 className="title__ongoing">
+              Andere evenementen in de toekomst
+            </h1>
+          ) : null}
+          {language == "en" ? (
+            <h1 className="title__ongoing">Other events in the future</h1>
+          ) : null}
           {language == "fr" ? <h1 className="title__ongoing">TODO</h1> : null}
 
           {displayFutureComponent ? (
-            <EventLoop data={futureEvents} language={this.props.language}/>
+            futureEvents.map((x) => {
+              return (
+                <div key={x.id}>
+                  <EventCard event={x} language={this.props.language} />
+                </div>
+              );
+            })
           ) : (
             <p>loading</p>
           )}
@@ -106,15 +128,15 @@ class EventWrapper extends React.Component {
         <style jsx>{`
           .todayview {
             background-color: rgb(246, 246, 246);
-          display: flex;
-          flex-flow: column;
-          align-items: center
+            display: flex;
+            flex-flow: column;
+            align-items: center;
           }
           .futureview {
             padding-bottom: 100px;
             display: flex;
             flex-flow: column;
-            align-items: center
+            align-items: center;
           }
           article {
             padding: 20px 10px;
@@ -122,7 +144,7 @@ class EventWrapper extends React.Component {
           }
 
           .title__ongoing {
-            font-size:2rem;
+            font-size: 2rem;
             font-weight: 700;
           }
 
