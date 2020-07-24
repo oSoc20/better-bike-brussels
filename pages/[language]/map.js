@@ -14,7 +14,16 @@ class MapPage extends React.Component {
       lat: 50.8503,
       lng: 4.33517,
       street: "",
-    }; 
+    };
+  }
+
+  static async getInitialProps({query}) {
+    return {
+      language: query.language,
+      poi: query.poi, 
+      poi_lat: query.poi_lat, 
+      poi_lng: query.poi_lng
+    };
   }
 
   showBikeBumps = (bool) => {
@@ -35,6 +44,10 @@ class MapPage extends React.Component {
 
   showVillos = (bool) => {
     this.map_component.showVillos(bool);
+  }
+
+  showShops = (bool) => {
+    this.map_component.showShops(bool);
   }
 
   componentDidMount() {
@@ -106,9 +119,16 @@ class MapPage extends React.Component {
               showParkings={this.showParkings}
               showRepairs={this.showRepairs}
               showVillos={this.showVillos}
+              showShops={this.showShops}
             />
           </div>
-          <Map onRef={(ref) => (this.map_component = ref)} />
+
+          <Map 
+            onRef={(ref) => (this.map_component = ref)} 
+            poi={this.props.poi} 
+            poi_lat={this.props.poi_lat} 
+            poi_lng={this.props.poi_lng} 
+          />
 
           {/* <Footer /> */}
           <style jsx>{`
@@ -151,11 +171,5 @@ class MapPage extends React.Component {
     );
   }
 }
-
-MapPage.getInitialProps = async function ({ query }) {
-  return {
-    language: query.language,
-  };
-};
 
 export default MapPage;

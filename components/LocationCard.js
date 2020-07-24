@@ -7,55 +7,41 @@ class LocationCard extends React.Component {
     this.state = {
       displayComponents: false,
     };
-    this.pois = '';
+    this.poi = '';
   }
 
   componentDidMount() {
     switch (this.props.data.title) {
       case "Bicycle parking":
-        this.pois = "";
+        this.poi = "bicycle_parking";
         break;
+
+      case "Villo station":
+        this.poi = "villo_station";
+        break;
+
+      case "Air pump":
+        this.poi = "compressed_air";
+        break;
+
+      case "Repair station":
+        this.poi = "bicycle_repair_station";
+        break;
+
+      case "Bicycle shop":
+        this.poi = "bicycle_shop";
+        break;
+
+        case "Water tap":
+          this.poi = "drinking_water";
+          break;
     
       default:
         break;
     }
-    /*
-
-        if(this.props.data.features && this.props.data.features[0]){
-            fetchStreetData(this.props.data);
-        }
-
-        //console.log(fetchStreetData(this.props.data));
-
-        async function fetchStreetData(pointData){
-            //console.log(pointData.features);
-            let host = "http://localhost:8080";            
-
-            const promises = pointData.features.map(feature => {
-                getData(`${host}/api/v1/map/current-street?lat=${feature.geometry.coordinates[0]}&lng=${feature.geometry.coordinates[1]}`);
-            })
-            console.log(promises);
-
-            let data = await Promise.all(promises).then((responses)=>{
-                return responses;
-            })
-
-            console.log(data);
-            return data;
-        }*/
-
-    function getData(url) {
-      return fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          return data;
-        });
-    }
   }
 
   render() {
-    let lat = this.props.lat;
-    let lng = this.props.lng;
     let language = localStorage.getItem('_language');
     console.log(this.props.data.features);
     if(this.props.data.features && this.props.data.features[0]){
@@ -65,10 +51,11 @@ class LocationCard extends React.Component {
       <div className="card">
         <h1 className="title">{this.props.data.title}</h1>
         {valid ? this.props.data.features.map((x) => {
-          // console.log(x.id);
+          let lat = x.geometry.coordinates[0];
+          let lng = x.geometry.coordinates[1];
           return <div key={x.id} className="grid">
             <p key={x.id} className="distance">
-              <Link href={`/${language}/map/?lat=${lat}&lng=${lng}&pois=${this.props.data.title}`}>
+              <Link href={{ pathname: `/${language}/map`, query: { poi: this.poi, poi_lat: lat, poi_lng: lng } }}>
                 <a>{x.properties.dist.distance}{x.properties.dist.unit}</a>
               </Link>
             </p>
