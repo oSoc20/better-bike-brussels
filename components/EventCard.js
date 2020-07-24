@@ -3,6 +3,8 @@ import Link from "next/link";
 
 class EventCard extends React.Component {
   render() {
+
+    //title
     try {
       var title = this.props.event.translations[this.props.language].name;
     } catch (err) {
@@ -10,6 +12,7 @@ class EventCard extends React.Component {
       var title = "unknown";
     }
 
+    //image
     try {
       if (!this.props.event.media) {
         var image = "../images/placeholder_minified.jpg";
@@ -34,10 +37,12 @@ class EventCard extends React.Component {
       var image = "/images/placeholder_minified.jpg";
     }
 
+    //start & endtime
     try {
       if (this.props.event.recurring) {
         var starttime = this.props.event.recurring.time_start;
         var endtime = this.props.event.recurring.time_end;
+        
       } else {
         var starttime = this.props.event.dates.start;
         var endtime = this.props.event.dates.end;
@@ -63,7 +68,6 @@ class EventCard extends React.Component {
       var starttime = "NA";
       var endtime = "NA";
     }
-
     if (starttime == null) var starttime = "NA";
     if (endtime == null) var endtime = "NA";
 
