@@ -17,7 +17,7 @@ class EventCard extends React.Component {
       console.log(error)
     }
   }else if(this.props.event.media === undefined){
-    var image = "../images/placeholder.jpg"
+    var image = "../images/placeholder_minified.jpg"
   }
 
     try{

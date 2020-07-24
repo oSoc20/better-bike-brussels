@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 
 const Layout = (props) => (
-    <div>
+    <div lang={props.language}>
 
         <Navbar language={props.language}/>
         {props.children}
