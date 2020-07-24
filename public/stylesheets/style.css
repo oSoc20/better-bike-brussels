@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
 
 *,
 *:before,
@@ -9,24 +9,53 @@
 html {
   box-sizing: inherit;
   font-size: 62.5%;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
-header{
-    color:white;
-    background-color:#003b8b;
-    text-align: center;
-    display: flex;
-    flex-flow: column;
+header {
+  color: white;
+  background-color: #003b8b;
+  text-align: center;
+  display: flex;
+  flex-flow: column;
 }
 /* header h1{
     padding:20px;
     font-size:2rem;
 } */
 
-body{
-    overflow-x: hidden;
-    text-overflow: clip;
-    line-height: 1.4;
+body {
+  overflow-x: hidden;
+  text-overflow: clip;
+  line-height: 1.4;
 }
 
- 
+div.react-add-to-calendar {
+  background-color: #003b8b;
+  color: white;
+  display: inline-block;
+  padding: 10px;
+  text-align: center;
+  border-radius: 8px;
+  text-decoration: none;
+  margin:8px;
+  font-size: 1.6rem;
+}
+
+div.react-add-to-calendar ul{
+  columns: 2;
+  margin-top: 10px;
+}
+
+div.react-add-to-calendar li a{
+  background-color: white;
+
+  color: #003b8b;
+  padding: 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1.6rem;
+  text-align: center;
+  display: inline-block;
+  margin-bottom: 10px;
+  width: 100%;
+}
