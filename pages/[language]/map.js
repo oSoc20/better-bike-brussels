@@ -26,29 +26,10 @@ class MapPage extends React.Component {
     };
   }
 
-  showBikeBumps = (bool) => {
-    this.map_component.showBikeBumps(bool);
+  showPOICategory = (title, isShown) => {
+    this.map_component.showPOICategory(title, isShown);
   }
-
-  showWaterFountains = (bool) => {
-    this.map_component.showWaterFountains(bool);
-  }
-
-  showParkings = (bool) => {
-    this.map_component.showParkings(bool);
-  }
-
-  showRepairs = (bool) => {
-    this.map_component.showRepairs(bool);
-  }
-
-  showVillos = (bool) => {
-    this.map_component.showVillos(bool);
-  }
-
-  showShops = (bool) => {
-    this.map_component.showShops(bool);
-  }
+  
 
   componentDidMount() {
     if (navigator.geolocation) {
@@ -142,7 +123,7 @@ class MapPage extends React.Component {
               showWaterFountains={this.showWaterFountains}
               showParkings={this.showParkings}
               showRepairs={this.showRepairs}
-              showVillos={this.showVillos}
+              showPOICategory={this.showPOICategory}
               showShops={this.showShops}
             />
           </div>

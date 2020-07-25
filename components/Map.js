@@ -15,7 +15,7 @@ class Map extends React.Component{
       map: {},
       radius: 1000,
       pos: [50.846859, 4.352297],
-      max_answers: 10,
+      max_answers: 30,
       first_load: true
     };
 
@@ -97,7 +97,7 @@ class Map extends React.Component{
       this.setView([pos.coords.latitude, pos.coords.longitude], 18);
     }
 
-    this.map.locate({setView: true, maxZoom: 16});
+    this.map.locate({setView: true, maxZoom: 18});
     this.map.on('locationfound', onLocationFound);
     this.map.on('locationerror', onLocationError);
     
@@ -106,8 +106,12 @@ class Map extends React.Component{
 
     if(this.props.poi !== undefined && this.props.poi_lat !== undefined && this.props.poi_lng !== undefined)
       this.showSinglePOI(this.props.poi, this.props.poi_lat, this.props.poi_lng);
-    else
-      //this.showAllPOIs(true);
+    else if(this.props.poi !== undefined){
+      //show all poi's in map
+    } else {
+      this.showAllPOIs(true);
+    }
+      
 
     this.state.map = this.map;
   }
@@ -115,13 +119,15 @@ class Map extends React.Component{
   showSinglePOI(poi, poi_lat, poi_lng) {
     let pois_icon = new L.Icon({
       iconUrl: process.env.APP_URL + "/" + poi + ".svg",
-      iconSize: [35, 35],
+      iconSize: [25, 25],
       iconAnchor: [12, 12],
       popupAnchor: [-3, -76],
     });
     let single_poi = L.marker([poi_lat, poi_lng], { icon: pois_icon });
     single_poi.addTo(this.map);
     this.single_poi = single_poi;
+
+    //Maybe focus on this point, not always visible!
   }
 
   showAllPOIs(bool) {
@@ -155,59 +161,20 @@ class Map extends React.Component{
     this.props.onRef(undefined)
   }
 
-  showBikeBumps(bool) {
-    if (this.state.first_load)
-        this.firstLoad();
-    if (bool)
-      this.getDataFromEndpoint(this.endpoint.bike_bump);
-    else
-      this.map.removeLayer(this.pois_layer.bike_bump);
+  showPOICategory(title, isShown) {
+    console.log(title, isShown);
+    if (this.state.first_load) this.firstLoad();
+    if (isShown) {
+      console.log(this.endpoint[title]);
+      this.getDataFromEndpoint(this.endpoint[title])
+    }
+    else {
+      //this has to remove the layer
+      
+      this.map.removeLayer(this.pois_layer[title])
+    }
   }
 
-  showWaterFountains(bool) {
-    if (this.state.first_load)
-        this.firstLoad();
-    if (bool)
-      this.getDataFromEndpoint(this.endpoint.water_fountain);
-    else
-      this.map.removeLayer(this.pois_layer.water_fountain);
-  }
-
-  showParkings(bool) {
-    if (this.state.first_load)
-        this.firstLoad();
-    if (bool)
-      this.getDataFromEndpoint(this.endpoint.parking);
-    else
-      this.map.removeLayer(this.pois_layer.parking);
-  }
-
-  showRepairs(bool) {
-    if (this.state.first_load)
-        this.firstLoad();
-    if (bool)
-      this.getDataFromEndpoint(this.endpoint.repair);
-    else
-      this.map.removeLayer(this.pois_layer.repair);
-  }
-
-  showVillos(bool) {
-    if (this.state.first_load)
-        this.firstLoad();
-    if (bool)
-      this.getDataFromEndpoint(this.endpoint.villo);
-    else
-      this.map.removeLayer(this.pois_layer.villo);
-  }
-
-  showShops(bool) {
-    if (this.state.first_load)
-        this.firstLoad();
-    if (bool)
-      this.getDataFromEndpoint(this.endpoint.shop);
-    else
-      this.map.removeLayer(this.pois_layer.shop);
-  }
 
   getDataFromEndpoint(endpoint) {
     let position = "?lat=" + this.state.pos[0] + "&lng=" + this.state.pos[1] + "&radius=" + this.state.radius
