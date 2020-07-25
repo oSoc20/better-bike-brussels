@@ -88,9 +88,7 @@ class EventWrapper extends React.Component {
           {displayTodayComponent ? (
             todayEvents.map((x) => {
               return (
-                <div key={x.id}>
-                  <EventCard event={x} language={this.props.language} />
-                </div>
+                  <EventCard key={x.id} event={x} language={this.props.language} />
               );
             })
           ) : (
@@ -105,9 +103,9 @@ class EventWrapper extends React.Component {
           {displayFutureComponent ? (
             futureEvents.map((x) => {
               return (
-                <div key={x.id}>
-                  <EventCard event={x} language={this.props.language} />
-                </div>
+                
+                  <EventCard key={x.id} event={x} language={this.props.language} />
+                
               );
             })
           ) : (
@@ -117,16 +115,21 @@ class EventWrapper extends React.Component {
 
         <style jsx>{`
           .todayview {
+            padding: 16px;
             background-color: rgb(246, 246, 246);
             display: flex;
             flex-flow: column;
             align-items: center;
+            width: 100%;
           }
           .futureview {
+            padding: 16px;
             padding-bottom: 100px;
             display: flex;
             flex-flow: column;
             align-items: center;
+            width: 100%;
+            
           }
           article {
             padding: 20px 10px;
@@ -141,6 +144,10 @@ class EventWrapper extends React.Component {
           .date {
             font-size: 1.4rem;
             padding: 1rem;
+          }
+
+          h1{
+            text-align:center;
           }
         `}</style>
       </div>

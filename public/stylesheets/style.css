@@ -17,6 +17,7 @@ header {
   text-align: center;
   display: flex;
   flex-flow: column;
+  width: 100%;
 }
 /* header h1{
     padding:20px;
@@ -27,6 +28,7 @@ body {
   overflow-x: hidden;
   text-overflow: clip;
   line-height: 1.4;
+  word-break: break-word;
 }
 
 div.react-add-to-calendar {

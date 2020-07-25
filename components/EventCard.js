@@ -101,9 +101,11 @@ class EventCard extends React.Component {
           }
 
           div {
-            margin: 16px 8px;
+            margin: 12px;
             display: grid;
             grid-template-columns: min-content auto min-content;
+            width: 100%;
+            max-width: 580px;
           }
 
           article {
@@ -137,6 +139,11 @@ class EventCard extends React.Component {
             padding: 0.1rem 1rem;
             border: 0.2rem #003b8b solid;
             border-radius: 5rem;
+            word-break: normal;
+          }
+
+          .tag__container{
+            margin: 0;
           }
         `}</style>
       </div>
