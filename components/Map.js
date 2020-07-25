@@ -1,13 +1,13 @@
-import React, {Component, Fragment} from "react"
-import L from "leaflet"
-import styled from "styled-components"
+import React, { Component, Fragment } from "react";
+import L from "leaflet";
+import styled from "styled-components";
 
-const Wrapper= styled.div`
-  width:${props => props.width};
-  height:${props => props.height};
+const Wrapper = styled.div`
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
 `;
 
-class Map extends React.Component{
+class Map extends React.Component {
   constructor(props) {
     super(props);
 
@@ -16,49 +16,37 @@ class Map extends React.Component{
       radius: 1000,
       pos: [50.846859, 4.352297],
       max_answers: 30,
-      first_load: true
+      first_load: true,
     };
 
-    this.pois_layer = {
-      bike_bump: {},
-      water_fountain: {},
-      parking: {},
-      repair: {},
-      villo: {},
-      shop: {}
-    };
+    this.pois_layer = {};
 
     this.single_poi = {};
+  }  
 
-    this.endpoint = {
-      bike_bump: 'air-pump',
-      water_fountain: 'drinking-water',
-      parking: 'bicycle-parking',
-      repair: 'bicycle-repair-station',
-      villo: 'villo-stations',
-      shop: 'bicycle-shop'
-    };
+  getData(url) {
+    return fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        return json;
+      });
   }
 
-  static async getInitialProps({query}) {
-    return {
-      language: query.language,
-      poi: query.poi, 
-      poi_lat: query.poi_lat, 
-      poi_lng: query.poi_lng
-    };
-  }
-
-  componentDidMount(){
+  componentDidMount() {
     this.props.onRef(this);
 
-    let pos = {coords:{
-      "latitude": this.state.pos[0],
-      "longitude": this.state.pos[1],
-    }}
+    let pos = {
+      coords: {
+        latitude: this.state.pos[0],
+        longitude: this.state.pos[1],
+      },
+    };
 
-    this.map= L.map("map").setView([pos.coords.latitude, pos.coords.longitude], 11);
-    
+    this.map = L.map("map").setView(
+      [pos.coords.latitude, pos.coords.longitude],
+      11
+    );
+
     L.tileLayer(
       "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
       {
@@ -73,45 +61,73 @@ class Map extends React.Component{
       }
     ).addTo(this.map);
 
-
     // USER LOCATION
 
     function onLocationFound(e) {
       var radius = e.accuracy;
 
-      L.marker(e.latlng).addTo(this)
-        .bindPopup("You are within " + radius + " meters from this point").openPopup();
+      L.marker(e.latlng)
+        .addTo(this)
+        .bindPopup("You are within " + radius + " meters from this point")
+        .openPopup();
 
       L.circle(e.latlng, radius).addTo(this);
       this.setView([e.latitude, e.longitude], 18);
     }
+
     function onLocationError(e) {
       let endpoint_icon = new L.Icon({
         iconUrl: process.env.APP_URL + "/place.svg",
-        iconSize: [35, 35],
-        iconAnchor: [12, 12],
+        iconSize: [36, 36],
+        iconAnchor: [18, 36],
         popupAnchor: [-3, -76],
       });
-      console.log(L.marker([pos.coords.latitude, pos.coords.longitude], { icon: endpoint_icon }));
-      L.marker([pos.coords.latitude, pos.coords.longitude], { icon: endpoint_icon }).addTo(this);
+      console.log(
+        L.marker([pos.coords.latitude, pos.coords.longitude], {
+          icon: endpoint_icon,
+        })
+      );
+      L.marker([pos.coords.latitude, pos.coords.longitude], {
+        icon: endpoint_icon,
+      }).addTo(this);
       this.setView([pos.coords.latitude, pos.coords.longitude], 18);
     }
 
-    this.map.locate({setView: true, maxZoom: 18});
-    this.map.on('locationfound', onLocationFound);
-    this.map.on('locationerror', onLocationError);
-    
+    this.map.locate({ setView: true, maxZoom: 18 });
+    this.map.on("locationfound", onLocationFound);
+    this.map.on("locationerror", onLocationError);
 
-    // Show single POI or every POIs on the map
+    if (
+      //show single poi
+      this.props.poi !== undefined &&
+      this.props.poi_lat !== undefined &&
+      this.props.poi_lng !== undefined
+    )
+      this.showSinglePOI(
+        this.props.poi,
+        this.props.poi_lat,
+        this.props.poi_lng
+      );
+    else if (this.props.poi !== undefined) {
+      //show a poi category on the map
 
-    if(this.props.poi !== undefined && this.props.poi_lat !== undefined && this.props.poi_lng !== undefined)
-      this.showSinglePOI(this.props.poi, this.props.poi_lat, this.props.poi_lng);
-    else if(this.props.poi !== undefined){
-      //show all poi's in map
+      let endpointname = this.props.poi
+        .split("")
+        .filter(function (c) {
+          return c != "-";
+        })
+        .join("");
+
+      try {
+        var endpoint = this.props.endpoint[endpointname];
+        if (endpoint !== undefined) this.getDataFromEndpoint(endpoint);
+        else this.showAllPOIs();
+      } catch (err) {
+        this.showAllPOIs();
+      }
     } else {
-      this.showAllPOIs(true);
+      this.showAllPOIs();
     }
-      
 
     this.state.map = this.map;
   }
@@ -130,16 +146,9 @@ class Map extends React.Component{
     //Maybe focus on this point, not always visible!
   }
 
-  showAllPOIs(bool) {
-    if (bool) {
-      this.getDataFromEndpoint(this.endpoint.bike_bump);
-      this.getDataFromEndpoint(this.endpoint.water_fountain);
-      this.getDataFromEndpoint(this.endpoint.parking);
-      this.getDataFromEndpoint(this.endpoint.repair);
-      this.getDataFromEndpoint(this.endpoint.villo);
-      this.getDataFromEndpoint(this.endpoint.shop);
-    } else {
-      hideAllPOIs();
+  showAllPOIs() {
+    for (const key in this.props.endpoint) {
+      this.getDataFromEndpoint(this.props.endpoint[key]);
     }
   }
 
@@ -158,28 +167,49 @@ class Map extends React.Component{
   }
 
   componentWillUnmount() {
-    this.props.onRef(undefined)
+    this.props.onRef(undefined);
   }
 
   showPOICategory(title, isShown) {
-    console.log(title, isShown);
     if (this.state.first_load) this.firstLoad();
     if (isShown) {
-      console.log(this.endpoint[title]);
-      this.getDataFromEndpoint(this.endpoint[title])
-    }
-    else {
-      //this has to remove the layer
-      
-      this.map.removeLayer(this.pois_layer[title])
+      let endpointname = title
+        .split("")
+        .filter(function (c) {
+          return c != "-";
+        })
+        .join("");
+
+      this.getDataFromEndpoint(this.props.endpoint[endpointname]);
+    } else {
+      let endpointname = title
+        .split("")
+        .filter(function (c) {
+          return c != "-";
+        })
+        .join("");
+
+      this.map.removeLayer(this.pois_layer[this.props.endpoint[endpointname]]);
     }
   }
 
-
   getDataFromEndpoint(endpoint) {
-    let position = "?lat=" + this.state.pos[0] + "&lng=" + this.state.pos[1] + "&radius=" + this.state.radius
-    let endpoint_url = "http://localhost:8080" + "/api/v1/map/" + endpoint + "/" + position + "&max_answers=" + this.state.max_answers;
-    
+    let position =
+      "?lat=" +
+      this.state.pos[0] +
+      "&lng=" +
+      this.state.pos[1] +
+      "&radius=" +
+      this.state.radius;
+
+    let endpoint_url =
+      process.env.SERVER_URL +
+      endpoint +
+      "/" +
+      position +
+      "&max_answers=" +
+      this.state.max_answers;
+
     fetch(endpoint_url)
       .then((response) => response.json())
       .then((json) => {
@@ -192,8 +222,7 @@ class Map extends React.Component{
             image.src = icon_url;
             let endpoint_icon = process.env.APP_URL + "/favicon.ico";
 
-            if (image != null && image.width != 0)
-              endpoint_icon = icon_url;
+            if (image != null && image.width != 0) endpoint_icon = icon_url;
 
             endpoint_icon = new L.Icon({
               iconUrl: process.env.APP_URL + "/" + json.icon,
@@ -202,53 +231,25 @@ class Map extends React.Component{
               popupAnchor: [-3, -76],
             });
             return L.marker(latlng, { icon: endpoint_icon });
-          }
+          },
         });
         pois_layer.addTo(this.state.map);
-        
+
         this.saveEndpoint(endpoint, pois_layer);
       });
   }
 
   saveEndpoint(endpoint, pois_layer) {
-    switch (endpoint) {
-      case this.endpoint.bike_bump:
-        this.pois_layer.bike_bump = pois_layer;
-        break;
-
-      case this.endpoint.water_fountain:
-        this.pois_layer.water_fountain = pois_layer;
-        break;
-
-      case this.endpoint.parking:
-        this.pois_layer.parking = pois_layer;
-        break;
-
-      case this.endpoint.repair:
-        this.pois_layer.repair = pois_layer;
-        break;
-
-      case this.endpoint.villo:
-        this.pois_layer.villo = pois_layer;
-        break;
-
-      case this.endpoint.shop:
-        this.pois_layer.shop = pois_layer;
-        break;
-    
-      default:
-        break;
-    }
+    this.pois_layer[endpoint] = pois_layer;
   }
 
-  render(){
+  render() {
     return (
       <Fragment>
         <Wrapper width="100vw" height="75vh" id="map"></Wrapper>
       </Fragment>
-    )
+    );
   }
-
 }
 
-export default Map
+export default Map;

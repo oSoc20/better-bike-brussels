@@ -19,32 +19,32 @@ class HeaderComponent extends Component {
 
     showBikeBumps() {
         this.setState({bike_pump: !this.state.bike_pump})
-        this.props.showPOICategory("bike_bump", this.state.bike_pump);
+        this.props.showPOICategory("air-pump", this.state.bike_pump);
     }
 
     showWaterFountains() {
         this.setState({water_fountain: !this.state.water_fountain});
-        this.props.showPOICategory("water_fountain", this.state.water_fountain);
+        this.props.showPOICategory("drinking-water", this.state.water_fountain);
     }
 
     showParkings() {
         this.setState({parking: !this.state.parking})
-        this.props.showPOICategory("parking", this.state.parking);
+        this.props.showPOICategory("bicycle-parking", this.state.parking);
     }
 
     showRepairs() {
         this.setState({repair: !this.state.repair})
-        this.props.showPOICategory("repair", this.state.repair);
+        this.props.showPOICategory("bicycle-repair-station", this.state.repair);
     }
 
     showVillos() {
         this.setState({villo: !this.state.villo})
-        this.props.showPOICategory("villo", this.state.villo);
+        this.props.showPOICategory("villo-stations", this.state.villo);
     }
 
     showShops() {
         this.setState({shop: !this.state.shop})
-        this.props.showPOICategory("shop", this.state.shop);
+        this.props.showPOICategory("bicycle-shop", this.state.shop);
     }
 
     render() {
