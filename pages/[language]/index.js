@@ -147,7 +147,8 @@ class Index extends React.Component {
                 />
                 <p>
                   {console.log(weather.temperature)}
-                  {Math.round(weather.temperature * 10) /10}°C | {weather.description}
+                  {Math.round(weather.temperature * 10) / 10}°C |{" "}
+                  {weather.description}
                 </p>
               </div>
             </div>
