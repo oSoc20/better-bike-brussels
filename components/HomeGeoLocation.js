@@ -6,8 +6,8 @@ class HomeGeoLocation extends React.Component {
 
     this.state = {
       displayComponents: false,
-      lat: 0,
-      lng: 0,
+      lat: 50.846859,
+      lng: 4.352297,
       displayStreet: false,
       street: "",
     };
@@ -17,14 +17,6 @@ class HomeGeoLocation extends React.Component {
     var host = "http://localhost:8080";
     if (!navigator.geolocation) {
       console.log("geolocation not available");
-      this.setState({
-        displayComponents: false,
-        lat: 50.8503,
-        lng: 4.33517,
-        data: this.state.data,
-        displayStreet: this.state.displayStreet,
-        street: this.state.street,
-      });
       fetchLocationData(this.state.lat, this.state.lng).then((res) =>
         this.setState({
           displayComponents: true,
@@ -82,14 +74,6 @@ class HomeGeoLocation extends React.Component {
           );
         },
         () => {
-          this.setState({
-            displayComponents: false,
-            lat: 50.8503,
-            lng: 4.33517,
-            data: this.state.data,
-            displayStreet: this.state.displayStreet,
-            street: this.state.street,
-          });
           fetchLocationData(this.state.lat, this.state.lng).then((res) =>
             this.setState({
               displayComponents: true,
