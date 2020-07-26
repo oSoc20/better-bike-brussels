@@ -11,8 +11,8 @@ class MapPage extends React.Component {
     super(props);
 
     this.state = {
-      lat: 50.8503,
-      lng: 4.33517,
+      lat: 50.846859,
+      lng: 4.352297,
       street: "",
     };
   }
@@ -34,7 +34,7 @@ class MapPage extends React.Component {
           .join("");
 
         endpoints[endpointname] = res.success[i];
-        }
+      }
       return endpoints;
     });
 
@@ -55,6 +55,10 @@ class MapPage extends React.Component {
     this.map_component.showPOICategory(title, isShown);
   };
 
+  forceUpdateHandler() {
+    this.forceUpdate();
+  }
+
   componentDidMount() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((pos) => {
@@ -62,26 +66,31 @@ class MapPage extends React.Component {
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
         });
+        let language = this.props.language;
+        let lat = this.state.lat;
+        let lng = this.state.lng;
+        let url = `${process.env.SERVER_URL}/api/v1/map/current-street?lat=${lat}&lng=${lng}`;
+        fetch(url)
+          .then((response) => response.json())
+          .then((json) => {
+            let street = json;
+
+            if (language == "fr") street = street.streetname_fr;
+            else if (language == "nl") street = street.streetname_nl;
+            else street = street.streetname_fr + " - " + street.streetname_nl;
+
+            this.setState({
+              street: street,
+            });
+          });
       });
+
+      this.render();
     }
+  }
 
-    let language = this.props.language;
-    let lat = this.state.lat;
-    let lng = this.state.lng;
-    let url = `${process.env.SERVER_URL}/api/v1/map/current-street?lat=${lat}&lng=${lng}`;
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => {
-        let street = json;
-
-        if (language == "fr") street = street.streetname_fr;
-        else if (language == "nl") street = street.streetname_nl;
-        else street = street.streetname_fr + " - " + street.streetname_nl;
-
-        this.setState({
-          street: street,
-        });
-      });
+  forceUpdateHandler() {
+    this.forceUpdate();
   }
 
   render() {
@@ -158,6 +167,8 @@ class MapPage extends React.Component {
             poi_lat={this.props.poi_lat}
             poi_lng={this.props.poi_lng}
             endpoint={this.props.endpoint}
+            lat={this.state.lat}
+            lng={this.state.lng}
           />
 
           <script type="text/javascript" src="/js/script.js" />

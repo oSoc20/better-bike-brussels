@@ -14,7 +14,6 @@ class Map extends React.Component {
     this.state = {
       map: {},
       radius: 1000,
-      pos: [50.846859, 4.352297],
       max_answers: 30,
       first_load: true,
     };
@@ -22,7 +21,7 @@ class Map extends React.Component {
     this.pois_layer = {};
 
     this.single_poi = {};
-  }  
+  }
 
   getData(url) {
     return fetch(url)
@@ -32,26 +31,21 @@ class Map extends React.Component {
       });
   }
 
+  forceUpdateHandler() {
+    this.forceUpdate();
+  }
+
   componentDidMount() {
     this.props.onRef(this);
 
-    let pos = {
-      coords: {
-        latitude: this.state.pos[0],
-        longitude: this.state.pos[1],
-      },
-    };
-
-    this.map = L.map("map").setView(
-      [pos.coords.latitude, pos.coords.longitude],
-      11
-    );
+    this.map = L.map("map").setView([this.props.lat, this.props.lng], 17);
 
     L.tileLayer(
       "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
       {
         attribution:
           'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        minZoom: 12,
         maxZoom: 18,
         id: "mapbox/light-v10",
         tileSize: 512,
@@ -61,41 +55,16 @@ class Map extends React.Component {
       }
     ).addTo(this.map);
 
-    // USER LOCATION
+    let endpoint_icon = new L.Icon({
+      iconUrl: "/place.svg",
+      iconSize: [36, 36],
+      iconAnchor: [18, 36],
+      popupAnchor: [-3, -76],
+    });
 
-    function onLocationFound(e) {
-      var radius = e.accuracy;
-
-      L.marker(e.latlng)
-        .addTo(this)
-        .bindPopup("You are within " + radius + " meters from this point")
-        .openPopup();
-
-      L.circle(e.latlng, radius).addTo(this);
-      this.setView([e.latitude, e.longitude], 18);
-    }
-
-    function onLocationError(e) {
-      let endpoint_icon = new L.Icon({
-        iconUrl: process.env.APP_URL + "/place.svg",
-        iconSize: [36, 36],
-        iconAnchor: [18, 36],
-        popupAnchor: [-3, -76],
-      });
-      console.log(
-        L.marker([pos.coords.latitude, pos.coords.longitude], {
-          icon: endpoint_icon,
-        })
-      );
-      L.marker([pos.coords.latitude, pos.coords.longitude], {
-        icon: endpoint_icon,
-      }).addTo(this);
-      this.setView([pos.coords.latitude, pos.coords.longitude], 18);
-    }
-
-    this.map.locate({ setView: true, maxZoom: 18 });
-    this.map.on("locationfound", onLocationFound);
-    this.map.on("locationerror", onLocationError);
+    L.marker([this.props.lat, this.props.lng], {
+      icon: endpoint_icon,
+    }).addTo(this.map);
 
     if (
       //show single poi
@@ -134,7 +103,7 @@ class Map extends React.Component {
 
   showSinglePOI(poi, poi_lat, poi_lng) {
     let pois_icon = new L.Icon({
-      iconUrl: process.env.APP_URL + "/" + poi + ".svg",
+      iconUrl: "/" + poi + ".svg",
       iconSize: [25, 25],
       iconAnchor: [12, 12],
       popupAnchor: [-3, -76],
@@ -143,7 +112,7 @@ class Map extends React.Component {
     single_poi.addTo(this.map);
     this.single_poi = single_poi;
 
-    //Maybe focus on this point, not always visible!
+    this.map.setView([poi_lat, poi_lng], 13);
   }
 
   showAllPOIs() {
@@ -196,9 +165,9 @@ class Map extends React.Component {
   getDataFromEndpoint(endpoint) {
     let position =
       "?lat=" +
-      this.state.pos[0] +
+      this.props.lat +
       "&lng=" +
-      this.state.pos[1] +
+      this.props.lng +
       "&radius=" +
       this.state.radius;
 
@@ -218,14 +187,14 @@ class Map extends React.Component {
           pointToLayer: function (feature, latlng) {
             // Check if a image file exists
             let image = new Image();
-            let icon_url = process.env.APP_URL + "/" + json.icon;
+            let icon_url = "/" + json.icon;
             image.src = icon_url;
-            let endpoint_icon = process.env.APP_URL + "/favicon.ico";
+            let endpoint_icon = "/favicon.ico";
 
             if (image != null && image.width != 0) endpoint_icon = icon_url;
 
             endpoint_icon = new L.Icon({
-              iconUrl: process.env.APP_URL + "/" + json.icon,
+              iconUrl: "/" + json.icon,
               iconSize: [25, 25],
               iconAnchor: [12, 12],
               popupAnchor: [-3, -76],
