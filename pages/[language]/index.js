@@ -6,6 +6,7 @@ import Layout from "../../components/Layout";
 import HomeEvent from "../../components/HomeEvent";
 import HomeGeoLocation from "../../components/HomeGeoLocation";
 import LanguageStorage from "../../components/LanguageStorage";
+import HomeSearchBar from "../../components/HomeSearchBar";
 
 class Index extends React.Component {
   constructor(props) {
@@ -42,6 +43,19 @@ class Index extends React.Component {
       `${host}/api/v1/weather/current?language=${query.language}`
     );
 
+    var endpoints = await getData(
+      `${process.env.SERVER_URL}/api/v1/map/endpoints`
+    ).then((res) => {
+      let endpoints = [];
+      for (let i = 0; i < res.success.length; i++) {
+        let endpoint = res.success[i].split("/", 9)[
+          res.success[i].split("/", 9).length - 1
+        ];
+        endpoints.push(endpoint);
+        }
+      return endpoints;
+    });
+
     function getData(url) {
       return fetch(url)
         .then((res) => res.json())
@@ -51,6 +65,7 @@ class Index extends React.Component {
     }
 
     return {
+      endpoint: endpoints,
       data: events.events,
       language: query.language,
       weather: weather,
@@ -91,6 +106,7 @@ class Index extends React.Component {
     let language = this.props.language;
     let weather = this.props.weather;
     let streetname = this.state.street;
+    let endpoint = this.props.endpoint;
 
     return (
       <Layout language={language}>
@@ -147,7 +163,8 @@ class Index extends React.Component {
                 />
                 <p>
                   {console.log(weather.temperature)}
-                  {weather.temperature}°C | {weather.description}
+                  {Math.round(weather.temperature * 10) / 10}°C |{" "}
+                  {weather.description}
                 </p>
               </div>
             </div>
@@ -171,7 +188,7 @@ class Index extends React.Component {
               <p className="sub">What do you want to find?</p>
             ) : null}
 
-            <SearchBar />
+            <HomeSearchBar language={language} endpoint={endpoint}/>
           </div>
 
           <HomeGeoLocation language={language} />

@@ -59,8 +59,6 @@ const Index = (props) => (
           align-items: center;
           justify-content: center;
         }
-
-
       `}</style>
     </div>
   </Layout>

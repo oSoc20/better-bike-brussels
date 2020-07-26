@@ -8,8 +8,8 @@ class HeaderComponent extends Component {
             clicked: "#00BFFF"
         }
         this.state = {
-            bikeBump: true,
-            waterFountain: true,
+            bike_pump: true,
+            water_fountain: true,
             parking: true,
             repair: true,
             villo: true,
@@ -18,38 +18,38 @@ class HeaderComponent extends Component {
     };
 
     showBikeBumps() {
-        this.setState({bikeBump: !this.state.bikeBump})
-        this.props.showBikeBumps(this.state.bikeBump);
+        this.setState({bike_pump: !this.state.bike_pump})
+        this.props.showPOICategory("air-pump", this.state.bike_pump);
     }
 
     showWaterFountains() {
-        this.setState({waterFountain: !this.state.waterFountain});
-        this.props.showWaterFountains(this.state.waterFountain);
+        this.setState({water_fountain: !this.state.water_fountain});
+        this.props.showPOICategory("drinking-water", this.state.water_fountain);
     }
 
     showParkings() {
         this.setState({parking: !this.state.parking})
-        this.props.showParkings(this.state.parking);
+        this.props.showPOICategory("bicycle-parking", this.state.parking);
     }
 
     showRepairs() {
         this.setState({repair: !this.state.repair})
-        this.props.showRepairs(this.state.repair);
+        this.props.showPOICategory("bicycle-repair-station", this.state.repair);
     }
 
     showVillos() {
         this.setState({villo: !this.state.villo})
-        this.props.showVillos(this.state.villo);
+        this.props.showPOICategory("villo-stations", this.state.villo);
     }
 
     showShops() {
         this.setState({shop: !this.state.shop})
-        this.props.showShops(this.state.shop);
+        this.props.showPOICategory("bicycle-shop", this.state.shop);
     }
 
     render() {
-        let btn_bike_bump = this.state.bikeBump ? "" : "buttonClicked";
-        let btn_water_fountain = this.state.waterFountain ? "" : "buttonClicked";
+        let btn_bike_bump = this.state.bike_pump ? "" : "buttonClicked";
+        let btn_water_fountain = this.state.water_fountain ? "" : "buttonClicked";
         let btn_parking = this.state.parking ? "" : "buttonClicked";
         let btn_repair = this.state.repair ? "" : "buttonClicked";
         let btn_villo = this.state.villo ? "" : "buttonClicked";

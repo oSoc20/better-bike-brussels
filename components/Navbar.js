@@ -12,7 +12,7 @@ class Navbar extends React.Component{
         </Link>
       </li>
       <li key={"map"}>
-        <Link href="/[language/map" as={`/${language}/map`}>
+        <Link href="/[language]/map" as={`/${language}/map`}>
           <a><img src="/map.svg" alt="map"/></a>
         </Link>
       </li>

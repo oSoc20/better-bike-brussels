@@ -51,8 +51,8 @@ class LocationCard extends React.Component {
       <div className="card">
         <h1 className="title">{this.props.data.title}</h1>
         {valid ? this.props.data.features.map((x) => {
-          let lat = x.geometry.coordinates[0];
-          let lng = x.geometry.coordinates[1];
+          let lat = x.geometry.coordinates[1];
+          let lng = x.geometry.coordinates[0];
           return <div key={x.id} className="grid">
             <p key={x.id} className="distance">
               <Link href={{ pathname: `/${language}/map`, query: { poi: this.poi, poi_lat: lat, poi_lng: lng } }}>
