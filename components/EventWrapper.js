@@ -13,7 +13,7 @@ class EventWrapper extends React.Component {
   }
 
   componentDidMount() {
-    let host = "http://localhost:8080";
+    let host = process.env.SERVER_URL;
 
     let startdate = new Date();
     startdate.setHours(0);
