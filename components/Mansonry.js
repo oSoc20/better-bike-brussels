@@ -5,16 +5,17 @@ class Mansonry extends React.Component {
     return (
       <div className="grid">
         {this.props.data.map((x) => {
-          return (
-            <div key={x.title} className="brick">
-              {console.log("test hey " + x.title)}
-              <LocationCard
-                data={x}
-                lat={this.props.lat}
-                lng={this.props.lng}
-              />
-            </div>
-          );
+          if (x.features && x.features.length) {
+            return (
+              <div key={x.title} className="brick">
+                <LocationCard
+                  data={x}
+                  lat={this.props.lat}
+                  lng={this.props.lng}
+                />
+              </div>
+            );
+          } else return null;
         })}
 
         <style jsx>{`

@@ -1,4 +1,4 @@
-import EventLoop from "../components/EventLoop";
+import EventCard from "../components/EventCard";
 
 class EventWrapper extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class EventWrapper extends React.Component {
   }
 
   componentDidMount() {
-    let host = "http://localhost:8080";
+    let host = process.env.SERVER_URL;
 
     let startdate = new Date();
     startdate.setHours(0);
@@ -86,7 +86,11 @@ class EventWrapper extends React.Component {
 
           <h2 className="date">{date}</h2>
           {displayTodayComponent ? (
-            <EventLoop data={todayEvents} language={this.props.language}/>
+            todayEvents.map((x) => {
+              return (
+                  <EventCard key={x.id} event={x} language={this.props.language} />
+              );
+            })
           ) : (
             <p>loading</p>
           )}
@@ -97,7 +101,13 @@ class EventWrapper extends React.Component {
           {language == "fr" ? <h1 className="title__ongoing">Autres évènement à venir</h1> : null}
 
           {displayFutureComponent ? (
-            <EventLoop data={futureEvents} language={this.props.language}/>
+            futureEvents.map((x) => {
+              return (
+                
+                  <EventCard key={x.id} event={x} language={this.props.language} />
+                
+              );
+            })
           ) : (
             <p>loading</p>
           )}
@@ -105,16 +115,21 @@ class EventWrapper extends React.Component {
 
         <style jsx>{`
           .todayview {
+            padding: 16px;
             background-color: rgb(246, 246, 246);
-          display: flex;
-          flex-flow: column;
-          align-items: center
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            width: 100%;
           }
           .futureview {
+            padding: 16px;
             padding-bottom: 100px;
             display: flex;
             flex-flow: column;
-            align-items: center
+            align-items: center;
+            width: 100%;
+            
           }
           article {
             padding: 20px 10px;
@@ -122,13 +137,17 @@ class EventWrapper extends React.Component {
           }
 
           .title__ongoing {
-            font-size:2rem;
+            font-size: 2rem;
             font-weight: 700;
           }
 
           .date {
             font-size: 1.4rem;
             padding: 1rem;
+          }
+
+          h1{
+            text-align:center;
           }
         `}</style>
       </div>

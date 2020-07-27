@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /offline.html
+Disallow: /*/event/*
+Disallow: /*/settings
+Disallow: /touch
+Disallow: /stylesheets
+Disallow: /js
+Disallow: /images

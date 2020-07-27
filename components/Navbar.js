@@ -6,19 +6,19 @@ class Navbar extends React.Component{
     return(
       <div>
     <ul>
-      <li>
+      <li key={"home"}>
         <Link href="/[language]/" as={`/${language}/`}>
-          <a><img src="/home.svg" /></a>
+          <a><img src="/home.svg" alt="home"/></a>
         </Link>
       </li>
-      <li>
-        <Link href="/[language/map" as={`/${language}/map`}>
-          <a><img src="/map.svg" /></a>
+      <li key={"map"}>
+        <Link href="/[language]/map" as={`/${language}/map`}>
+          <a><img src="/map.svg" alt="map"/></a>
         </Link>
       </li>
-      <li>
+      <li key={"events"}>
         <Link href="/[language]/events" as={`/${language}/events`}>
-          <a><img src="/events.svg" /></a>
+          <a><img src="/events.svg" alt="events"/></a>
         </Link>
       </li>
     </ul>
