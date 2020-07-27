@@ -14,7 +14,7 @@ COPY . /usr/src/app
 
 # Building app
 RUN npm run build
-EXPOSE 3001
+EXPOSE $PORT
 
 # Running the app
 CMD "npm" "run" "start"

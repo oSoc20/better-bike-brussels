@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3001",
+    "dev": "next dev -p $PORT",
     "build": "next build",
-    "start": "next start"
+    "start": "sh nextstart.sh"
   },
   "dependencies": {
     "leaflet": "^1.6.0",
