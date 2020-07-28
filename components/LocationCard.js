@@ -6,35 +6,69 @@ class LocationCard extends React.Component {
 
     this.state = {
       displayComponents: false,
+      title: ''
     };
     this.poi = '';
   }
 
   componentDidMount() {
+    let language = localStorage.getItem('_language');
+    
     switch (this.props.data.title) {
       case "Bicycle parking":
         this.poi = "bicycle_parking";
+        if (language == "nl")
+          this.setState({title: "Fietsenparkeren"});
+        else if (language == "fr")
+          this.setState({title: "Parking à vélos"});
+        else
+          this.setState({title: "Bicycle parking"});
         break;
 
       case "Villo station":
         this.poi = "villo_station";
+        this.setState({title: "Villo"});
         break;
 
       case "Air pump":
         this.poi = "compressed_air";
+        if (language == "nl")
+          this.setState({title: "Fietspomp"});
+        else if (language == "fr")
+          this.setState({title: "Pompe à air"});
+        else if (language == "en")
+          this.setState({title: "Air pump"});
         break;
 
       case "Repair station":
         this.poi = "bicycle_repair_station";
+        if (language == "nl")
+        this.setState({title: "Fietsreparatie"});
+        else if (language == "fr")
+        this.setState({title: "Réparation de vélos"});
+        else if (language == "en")
+        this.setState({title: "Bicycle repair"});
         break;
 
       case "Bicycle shop":
         this.poi = "bicycle_shop";
+        if (language == "nl")
+          this.setState({title: "Fietswinkel"});
+        else if (language == "fr")
+          this.setState({title: "Magasin de vélos"});
+        else if (language == "en")
+          this.setState({title: "Bicycle shop"});
         break;
 
-        case "Water tap":
-          this.poi = "drinking_water";
-          break;
+      case "Water tap":
+        this.poi = "drinking_water";
+        if (language == "nl")
+          this.setState({title: "Waterfontein"});
+        else if (language == "fr")
+          this.setState({title: "Fontaine à eau"});
+        else if (language == "en")
+          this.setState({title: "Water fountain"});
+        break;
     
       default:
         break;
@@ -43,14 +77,17 @@ class LocationCard extends React.Component {
 
   render() {
     let language = localStorage.getItem('_language');
-    console.log(this.props.data.features);
-    if(this.props.data.features && this.props.data.features[0]){
-      var valid = true;
-    }
+    
+    let valid = false;
+    if(this.props.data.features && this.props.data.features[0]) 
+      valid = true;
+    
     return (
       <div className="card">
-        <h1 className="title">{this.props.data.title}</h1>
-        {valid ? this.props.data.features.map((x) => {
+        <h1 className="title">{this.state.title}</h1>
+        {valid ? this.props.data.features.map((x, i) => {
+          if (x.id === undefined)
+            x.id = (this.state.title + i);
           let lat = x.geometry.coordinates[1];
           let lng = x.geometry.coordinates[0];
           return <div key={x.id} className="grid">
@@ -61,7 +98,9 @@ class LocationCard extends React.Component {
             </p>
 
           </div>;
-        }) : 'Nothing in your area'}
+        }) : (language == "nl") ? 'Niets in uw omgeving' 
+           : (language == "fr") ? 'Rien dans votre région'
+           : 'Nothing in your area'}
 
         <style jsx>{`
           .card {

@@ -5,19 +5,53 @@ class SearchBar extends React.Component {
     super(props);
   }
 
+  renameEndpoint(endpoint) {
+    let language = this.props.language;
+    switch (endpoint) {
+      case "bicycle-parking":
+        if (language == "nl") return "parkeren";
+        else return "parking";
+
+      case "villo-stations": return "villo";
+
+      case "air-pump":
+        if (language == "nl") return "fietspomp";
+        else if (language == "fr") return "pompe à air";
+        else if (language == "en") return "air pump";
+
+      case "bicycle-repair-station":
+        if (language == "nl") return "reparatie";
+        else if (language == "fr") return "réparation";
+        else if (language == "en") return "repair";
+
+      case "bicycle-shop":
+        if (language == "nl") return "winkel";
+        else if (language == "fr") return "magasin";
+        else if (language == "en") return "shop";
+
+      case "drinking-water":
+        if (language == "nl") return "waterfontein";
+        else if (language == "fr") return "fontaine à eau";
+        else if (language == "en") return "water fountain";
+    
+      default: return "";
+    }
+  }
+
   render() {
     let endpointarray = this.props.endpoint.map((x) => {
       return {
         endpoint: x,
-        name: x.replace(/-/g, " "),
+        name: this.renameEndpoint(x)
       };
     });
+    
     let language = this.props.language;
     return (
       <div className="box">
         {endpointarray.map((x) => {
           return (
-            <Link href={`/${language}/map?poi=${x.endpoint}`}>
+            <Link href={`/${language}/map?poi=${x.endpoint}`} key={x.endpoint}>
               <button className={"btn-" + x.endpoint}>
                 <img src={"/icons/map/" + x.endpoint + ".svg"} alt={x.name}/> <span>{x.name}</span>
               </button>

@@ -60,33 +60,47 @@ class MapPage extends React.Component {
   }
 
   componentDidMount() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos) => {
+    let language = this.props.language;
+
+    let options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
+
+    function error(err) {
+      if(language == "nl") alert("Fout: onbekende gebruikerslocatie");
+      else if(language == "fr") alert("Erreur : position de l'utilisateur inconnue");
+      else alert("Error: unknown user location");
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
         this.setState({
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
         });
-        let language = this.props.language;
-        let lat = this.state.lat;
-        let lng = this.state.lng;
-        let url = `${process.env.SERVER_URL}/api/v1/map/current-street?lat=${lat}&lng=${lng}`;
-        fetch(url)
-          .then((response) => response.json())
-          .then((json) => {
-            let street = json;
+      }
+      , error, options);
 
-            if (language == "fr") street = street.streetname_fr;
-            else if (language == "nl") street = street.streetname_nl;
-            else street = street.streetname_fr + " - " + street.streetname_nl;
+    
+    let lat = this.state.lat;
+    let lng = this.state.lng;
+    let url = `${process.env.SERVER_URL}/api/v1/map/current-street?lat=${lat}&lng=${lng}`;
+    fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        let street = json;
 
-            this.setState({
-              street: street,
-            });
-          });
+        if (language == "fr") street = street.streetname_fr;
+        else if (language == "nl") street = street.streetname_nl;
+        else street = street.streetname_fr + " - " + street.streetname_nl;
+
+        this.setState({
+          street: street,
+        });
       });
-
-      this.render();
-    }
+    this.render();
   }
 
   forceUpdateHandler() {
@@ -158,7 +172,7 @@ class MapPage extends React.Component {
             <p id="place">
               <img src="/place.svg" /> <strong>{this.state.street}</strong>
             </p>
-            <SearchBar showPOICategory={this.showPOICategory} />
+            <SearchBar language={this.props.language} showPOICategory={this.showPOICategory} />
           </div>
 
           <Map

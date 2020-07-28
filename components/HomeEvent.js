@@ -11,13 +11,13 @@ class HomeEvent extends React.Component {
     return (
       <div className="wrapper">
         {this.props.language == "nl" ? (
-          <h1 className="events__title">Lopende evenementen</h1>
+          <h1 className="events__title">Lopende evenement(en)</h1>
         ) : null}
         {this.props.language == "en" ? (
-          <h1 className="events__title">Ongoing events today</h1>
+          <h1 className="events__title">Ongoing event(s) today</h1>
         ) : null}
         {this.props.language == "fr" ? (
-          <h1 className="events__title">Évènement se déroulant aujourd'hui</h1>
+          <h1 className="events__title">Évènement(s) en cours aujourd'hui</h1>
         ) : null}
 
         <h2 className="date">{today}</h2>
@@ -36,7 +36,7 @@ class HomeEvent extends React.Component {
           : this.props.language == "en"
           ? "no events today"
           : this.props.language == "fr"
-          ? "Aucun énènements aujourd'hui"
+          ? "Aucun énènement aujourd'hui"
           : ""}
 
         <style jsx>{`

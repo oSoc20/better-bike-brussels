@@ -15,7 +15,13 @@ class HeaderComponent extends Component {
             villo: true,
             shop: true
          }
-    };
+    }
+
+    static async getInitialProps({ query }) {
+        return {
+          language: query.language
+        };
+    }
 
     showBikeBumps() {
         this.setState({bike_pump: !this.state.bike_pump})
@@ -54,6 +60,7 @@ class HeaderComponent extends Component {
         let btn_repair = this.state.repair ? "" : "buttonClicked";
         let btn_villo = this.state.villo ? "" : "buttonClicked";
         let btn_shop = this.state.shop ? "" : "buttonClicked";
+        let language = this.props.language;
         return (
             <div id="flex-container">
                 {/* <form>
@@ -64,22 +71,37 @@ class HeaderComponent extends Component {
                 </form> */}
                 <div className="box">
                     <button className={btn_bike_bump} onClick={this.showBikeBumps.bind(this)}>
-                        <img src="/compressed_air.svg" /> <span>bike bump</span>
+                        <img src="/compressed_air.svg" />&nbsp;
+                        {language == "fr" ? <span>pompe à vélo</span> : ""}
+                        {language == "nl" ? <span>fietspomp</span> : ""}
+                        {language == "en" ? <span>bike pump</span> : ""}
                     </button>
                     <button className={btn_water_fountain} onClick={this.showWaterFountains.bind(this)}>
-                        <img src="/drinking_water.svg" /> <span>water fountain</span>
+                        <img src="/drinking_water.svg" />&nbsp;
+                        {language == "fr" ? <span>fontaine à eau</span> : ""}
+                        {language == "nl" ? <span>waterfontein</span> : ""}
+                        {language == "en" ? <span>water fountain</span> : ""}
                     </button>
                     <button className={btn_parking} onClick={this.showParkings.bind(this)}>
-                        <img src="/bicycle_parking.svg" /> <span>parking</span>
+                        <img src="/bicycle_parking.svg" />&nbsp;
+                        {language == "nl" ? <span>parkeren</span> : ""}
+                        {language != "nl" ? <span>parking</span> : ""}
                     </button>
                     <button className={btn_repair} onClick={this.showRepairs.bind(this)}>
-                        <img src="/bicycle_repair_station.svg" /> <span>repair</span>
+                        <img src="/bicycle_repair_station.svg" />&nbsp;
+                        {language == "fr" ? <span>réparation</span> : ""}
+                        {language == "nl" ? <span>reparatie</span> : ""}
+                        {language == "en" ? <span>repair</span> : ""}
                     </button>
                     <button className={btn_villo} onClick={this.showVillos.bind(this)}>
-                        <img src="/villo_station.svg" /> <span>villo</span>
+                        <img src="/villo_station.svg" />&nbsp;
+                        <span>villo</span>
                     </button>
                     <button className={btn_shop} onClick={this.showShops.bind(this)}>
-                        <img src="/bicycle_shop.svg" /> <span>shop</span>
+                        <img src="/bicycle_shop.svg" />&nbsp;
+                        {language == "fr" ? <span>magasin</span> : ""}
+                        {language == "nl" ? <span>winkel</span> : ""}
+                        {language == "en" ? <span>shop</span> : ""}
                     </button>
                 </div>
                 <style jsx>{`

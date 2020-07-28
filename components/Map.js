@@ -182,7 +182,6 @@ class Map extends React.Component {
     fetch(endpoint_url)
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
         let pois_layer = L.geoJSON(json, {
           pointToLayer: function (feature, latlng) {
             // Check if a image file exists

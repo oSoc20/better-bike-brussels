@@ -8,13 +8,18 @@ import HomeGeoLocation from "../../components/HomeGeoLocation";
 import LanguageStorage from "../../components/LanguageStorage";
 import HomeSearchBar from "../../components/HomeSearchBar";
 
+const fetchRelative = path => {
+  const {origin} = absoluteUrl(req, 'localhost:3000');
+  return fetch(`${origin}${path}`);
+}
+
 class Index extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      lat: 50.8503,
-      lng: 4.33517,
+      lat: 50.846859,
+      lng: 4.352297,
       street: "",
     };
   }
@@ -30,8 +35,6 @@ class Index extends React.Component {
     let enddate = new Date(startdate);
 
     enddate.setDate(enddate.getDate() + 1);
-
-    console.log(Date.parse(startdate) / 1000, Date.parse(enddate) / 1000);
 
     let events = await getData(
       `${host}/api/v1/event/official?from=${Date.parse(startdate) / 1000}&to=${
@@ -73,17 +76,32 @@ class Index extends React.Component {
   }
 
   componentDidMount() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos) => {
+    let language = this.props.language;
+
+    let options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
+
+    function error(err) {
+      //alert(`ERROR (${err.code}): ${err.message}`);
+      if(language == "nl") alert("Fout: onbekende gebruikerslocatie");
+      else if(language == "fr") alert("Erreur : position de l'utilisateur inconnue");
+      else alert("Error: unknown user location");
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
         this.setState({
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
         });
-      });
-    }
+      }
+      , error, options);
 
-    let language = this.props.language;
-    console.log(language);
+
+    
     let lat = this.state.lat;
     let lng = this.state.lng;
     let url = `${process.env.SERVER_URL}/api/v1/map/current-street?lat=${lat}&lng=${lng}`;
@@ -155,14 +173,12 @@ class Index extends React.Component {
 
           <div id="header">
             <div id="wrapper">
-              <div id="c1">busy</div>
               <div className="wrapper__weather" id="c2">
                 <img
                   className="weather__img"
                   src={`/icons/weather/${weather.icon}.png`}
                 />
                 <p>
-                  {console.log(weather.temperature)}
                   {Math.round(weather.temperature * 10) / 10}°C |{" "}
                   {weather.description}
                 </p>
@@ -172,7 +188,7 @@ class Index extends React.Component {
             <div id="position">
               {language == "fr" ? <p>Vous êtes sur</p> : ""}
               {language == "nl" ? <p>U bevindt zich hier</p> : ""}
-              {language != "fr" && language != "nl" ? <p>You are at</p> : ""}
+              {language == "en" ? <p>You are at</p> : ""}
               <p id="place">
                 <img src="/place.svg" /> <strong>{streetname}</strong>
               </p>
@@ -184,7 +200,7 @@ class Index extends React.Component {
             {language == "fr" ? (
               <p className="sub">Que cherchez vous ?</p>
             ) : null}
-            {language != "nl" && language != "fr" ? (
+            {language == "en" ? (
               <p className="sub">What do you want to find?</p>
             ) : null}
 
