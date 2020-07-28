@@ -82,7 +82,10 @@ class EventCard extends React.Component {
             {starttime.substr(0, 5)} - {endtime.substr(0, 5)} | {date} | {place}
           </p>
           <div className="tag__container">
-            <p className="event__tag">official</p>
+            {this.props.language == "nl" ? <p className="event__tag">officieel</p> : null}
+            {this.props.language == "en" ? <p className="event__tag">official</p> : null}
+            {this.props.language == "fr" ? <p className="event__tag">officiel</p> : null}
+            
           </div>
         </article>
         <Link

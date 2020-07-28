@@ -114,23 +114,7 @@ class HomeGeoLocation extends React.Component {
       let data = await Promise.all(promises).then((responses) => {
         return responses;
       });
-      console.log(data);
       return data;
-    }
-
-    async function fetchStreetData(lat, lng) {
-      let host = process.env.SERVER_URL;
-
-      getData(`${host}/api/v1/map/current-street?lat=${lat}&lng=${lng}`).then(
-        (res) =>
-          this.setState({
-            displayComponents: this.state.displayComponents,
-            lat: this.state.lat,
-            lng: this.state.lng,
-            displayStreet: true,
-            street: res,
-          })
-      );
     }
 
     function getData(url) {
@@ -179,9 +163,10 @@ class HomeGeoLocation extends React.Component {
             
             <Mansonry data = {data} lat={latitude} lng={longitude}/>
           </div>
-        ) : (
-          "loading"
-        )}
+        ) : (language == "nl" ? "laden"
+          :language == "fr" ? "chargement"
+          :"loading")
+        }
 
         <style jsx>{`
           i {

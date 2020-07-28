@@ -38,9 +38,9 @@ const Index = (props) => (
 
     <div>
       <header className="title__wrapper">
-        {props.language == "nl" ? <h1 className="events__title">evenementen</h1> : null}
-        {props.language == "en" ? <h1 className="events__title">events</h1> : null}
-        {props.language == "fr" ? <h1 className="events__title">évènement</h1> : null}
+        {props.language == "nl" ? <h1 className="events__title">Evenementen</h1> : null}
+        {props.language == "en" ? <h1 className="events__title">Events</h1> : null}
+        {props.language == "fr" ? <h1 className="events__title">Évènement</h1> : null}
       </header>
 
       <EventWrapper language={props.language}/>

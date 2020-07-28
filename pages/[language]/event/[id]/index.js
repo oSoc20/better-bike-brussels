@@ -163,8 +163,13 @@ class Event extends React.Component {
         endTime: new Date(date + "T" + endtime),
       };
 
-      console.log(calendarEvent);
     }
+
+    let addEventButtonLabel = 
+      (language == "nl" ? "Toevoegen aan mijn agenda"
+      :language == "fr" ? "Ajouter à mon agenda"
+      : "Add to My Calendar");
+
     return (
       <div>
         <Head>
@@ -199,47 +204,30 @@ class Event extends React.Component {
         {displayComponent ? (
           <article>
             <p className="description">{description}</p>
-            {language == "nl" ? (
-              <p className="organize">
-                <b>georganiseerd door: </b>
-                {organizer}
-              </p>
-            ) : null}
-            {language == "fr" ? (
-              <p className="organize">
-                <b>TODO: </b>
-                {organizer}
-              </p>
-            ) : null}
-            {language == "en" ? (
-              <p className="organize">
-                <b>organized by: </b>
-                {organizer}
-              </p>
-            ) : null}
+            <p className="organize">
+              <b>
+                {language == "nl" ? "georganiseerd door: "
+                :language == "fr" ? "organisé par: "
+                :"organized by: "}
+              </b>
+              {organizer}
+            </p>
           </article>
-        ) : (
-          "loading"
-        )}
+        ) : (language == "nl" ? "laden"
+          :language == "fr" ? "chargement"
+          :"loading")
+        }
 
         <article>
           <div className="buttonwrapper">
-            {displayComponent ? (
-              language === "en" ? (
-                <a className="button" href={agenda} target="_blank">
-                  More info
-                </a>
-              ) : language === "nl" ? (
-                <a className="button" href={agenda} target="_blank">
-                  Meer informatie
-                </a>
-              ) : language === "fr" ? (
-                <a className="button" href={agenda} target="_blank">
-                  TODO
-                </a>
-              ) : null
-            ) : null}
-            {displayComponent ? <AddToCalendar event={calendarEvent} /> : null}
+            <a className="button" href={agenda} target="_blank">
+              {displayComponent ? 
+                (language === "nl" ? "Meer informatie"
+                :language === "fr" ? "Plus d'infos"
+                :"More info")
+              : null}
+            </a>
+            {displayComponent ? <AddToCalendar event={calendarEvent} buttonLabel={addEventButtonLabel} /> : null}
           </div>
         </article>
 

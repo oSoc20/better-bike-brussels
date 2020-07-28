@@ -8,14 +8,14 @@ const Settings = (props) => (
       <Link href="/[language]/" as={`/${props.language}/`}>
         <img className="backbutton" src="/icons/back.svg" />
       </Link>
-      {props.language == "nl" ? <h1 className="title">instellingen en hulpmiddelen</h1> : null}
-      {props.language == "en" ? <h1 className="title">settings and resources</h1> : null}
-      {props.language == "fr" ? <h1 className="title">TODO</h1> : null}
+      {props.language == "nl" ? <h1 className="title">Instellingen en hulpmiddelen</h1> : null}
+      {props.language == "en" ? <h1 className="title">Settings and resources</h1> : null}
+      {props.language == "fr" ? <h1 className="title">Réglages et outils</h1> : null}
     </header>
     <section>
-      {props.language == "nl" ? <h2 className="sub">instellingen</h2> : null}
-      {props.language == "en" ? <h2 className="sub">settings</h2> : null}
-      {props.language == "fr" ? <h2 className="sub">TODO</h2> : null}
+      {props.language == "nl" ? <h2 className="sub">Instellingen</h2> : null}
+      {props.language == "en" ? <h2 className="sub">Settings</h2> : null}
+      {props.language == "fr" ? <h2 className="sub">Réglages</h2> : null}
 
       <div className="wrapper">
         <Link href="/fr/settings">
@@ -30,9 +30,9 @@ const Settings = (props) => (
       </div>
     </section>
     <section>
-        {props.language == "nl" ? <h2 className="sub">verkeersregelgeving</h2> : null}
-        {props.language == "en" ? <h2 className="sub">road code learnings</h2> : null}
-        {props.language == "fr" ? <h2 className="sub">TODO</h2> : null}
+        {props.language == "nl" ? <h2 className="sub">Verkeersregelgeving</h2> : null}
+        {props.language == "en" ? <h2 className="sub">Road code learnings</h2> : null}
+        {props.language == "fr" ? <h2 className="sub">Code de la route</h2> : null}
       <div className="link__wrapper">
           <a  href="https://www.gracq.org/le-code-de-la-route" className="roadcode">https://www.gracq.org/le-code-de-la-route </a>
           <a href="https://www.provelo.org/" className="roadcode">https://www.provelo.org/ </a>
@@ -42,20 +42,27 @@ const Settings = (props) => (
       </div>
     </section>
     <section>
-    <h2 className="sub">Emrgency numbers</h2>
+    <h2 className="sub">    </h2>
+    {props.language == "nl" ? <h2 className="sub">Noodnummers</h2> : null}
+    {props.language == "en" ? <h2 className="sub">Emergency</h2> : null}
+    {props.language == "fr" ? <h2 className="sub">Urgences</h2> : null}
     <div className="wrapper">
       <div className="number__wrapper">
-        <p className="number__title">general</p>
-        <p className="number">112</p>
+        {props.language == "nl" ? <p className="number__title">Europeese Unie</p> : null}
+        {props.language == "en" ? <p className="number__title">European Union</p> : null}
+        {props.language == "fr" ? <p className="number__title">Union européenne</p> : null}        
+        <p className="number">
+          <a href="tel:112">112</a>
+        </p>
       </div>
       <div className="number__wrapper">
-        <p className="number__title">police</p>
-        <p className="number">101</p>
+        {props.language == "nl" ? <p className="number__title">Politie</p> : null}
+        {props.language != "nl" ? <p className="number__title">Police</p> : null}
+        <p className="number">
+          <a href="tel:101">101</a>
+        </p>
       </div>
     </div>
-    </section>
-    <section>
-    <h2 className="sub">Related apps</h2>
     </section>
     <style jsx>{`
       .wrapper {
