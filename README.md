@@ -35,9 +35,13 @@ npm install
 npm run build
 
 # Start the service
-export PORT=3000 #Choose the port here
+export PORT=3000    # choose your port here
 npm run start
 ```
+
+#### Backend
+
+The base code can be found [here](https://github.com/oSoc20/better-bike-brussels-backend)
 
 Please note the following requirements:
 
