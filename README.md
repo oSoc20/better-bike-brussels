@@ -4,6 +4,8 @@
 
 Better Bike Brussels is a Progressive Web App imagined by and made for Brussels citizens to have a safe and hassle-free bike ride in the city.
 
+![Promo](https://user-images.githubusercontent.com/30930211/88786410-c512de80-d192-11ea-89b3-756d0abc3a9e.gif)
+
 Try it [now](https://better-bike-brussels.herokuapp.com)!
 
 ## Deployment
