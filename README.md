@@ -32,9 +32,10 @@ BetterBikeBrussels is a NEXT.js app. As such if you don't want to use docker, yo
 npm install
 
 # Build website
-npm run dev
+npm run build
 
 # Start the service
+export PORT=3000 #Choose the port here
 npm run start
 ```
 
