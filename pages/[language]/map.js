@@ -59,31 +59,9 @@ class MapPage extends React.Component {
     this.forceUpdate();
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const location = await this.getUserLocation();
     let language = this.props.language;
-
-    let options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0
-    };
-
-    function error(err) {
-      if(language == "nl") alert("Fout: onbekende gebruikerslocatie");
-      else if(language == "fr") alert("Erreur : position de l'utilisateur inconnue");
-      else alert("Error: unknown user location");
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        this.setState({
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-        });
-      }
-      , error, options);
-
-    
     let lat = this.state.lat;
     let lng = this.state.lng;
     let url = `${process.env.SERVER_URL}/api/v1/map/current-street?lat=${lat}&lng=${lng}`;
@@ -99,8 +77,21 @@ class MapPage extends React.Component {
         this.setState({
           street: street,
         });
-      });
-    this.render();
+        
+      }).then(this.render());
+  }
+
+  getUserLocation() {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (location) => {
+            resolve(this.setState({
+              lat: location.coords.latitude,
+              lng: location.coords.longitude,
+            }));
+        }
+      );
+    });
   }
 
   forceUpdateHandler() {
