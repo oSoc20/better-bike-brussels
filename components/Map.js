@@ -31,13 +31,8 @@ class Map extends React.Component {
       });
   }
 
-  forceUpdateHandler() {
-    this.forceUpdate();
-  }
-
   componentDidMount() {
     this.props.onRef(this);
-
     this.map = L.map("map").setView([this.props.lat, this.props.lng], 17);
 
     L.tileLayer(
@@ -99,6 +94,7 @@ class Map extends React.Component {
     }
 
     this.state.map = this.map;
+    
   }
 
   showSinglePOI(poi, poi_lat, poi_lng) {

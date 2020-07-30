@@ -1,17 +1,13 @@
-import Head from "next/head";
-import dynamic from "next/dynamic";
-import Link from "next/link";
-import SearchBar from "../../components/SearchBar";
-import Layout from "../../components/Layout";
-import HomeEvent from "../../components/HomeEvent";
-import HomeGeoLocation from "../../components/HomeGeoLocation";
-import LanguageStorage from "../../components/LanguageStorage";
-import HomeSearchBar from "../../components/HomeSearchBar";
+import Head from "next/head"
+import dynamic from "next/dynamic"
+import Link from "next/link"
+import Layout from "../../components/Layout"
+import HomeEvent from "../../components/HomeEvent"
+import HomeGeoLocation from "../../components/HomeGeoLocation"
+import LanguageStorage from "../../components/LanguageStorage"
+import HomeSearchBar from "../../components/HomeSearchBar"
 
-const fetchRelative = path => {
-  const {origin} = absoluteUrl(req, 'localhost:3000');
-  return fetch(`${origin}${path}`);
-}
+const UserLocation = dynamic(() => import("../../components/UserLocation"));
 
 class Index extends React.Component {
   constructor(props) {
@@ -75,40 +71,13 @@ class Index extends React.Component {
     };
   }
 
-  async componentDidMount() {
-    const location = await this.getUserLocation();
-    let language = this.props.language;
-    let lat = this.state.lat;
-    let lng = this.state.lng;
-    let url = `${process.env.SERVER_URL}/api/v1/map/current-street?lat=${lat}&lng=${lng}`;
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => {
-        let street = json;
-
-        if (language == "fr") street = street.streetname_fr;
-        else if (language == "nl") street = street.streetname_nl;
-        else street = street.streetname_fr + " - " + street.streetname_nl;
-
-        this.setState({
-          street: street,
-        });
-        
-      }).then(this.render());
-  }
-
-  getUserLocation() {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(
-        (location) => {
-            resolve(this.setState({
-              lat: location.coords.latitude,
-              lng: location.coords.longitude,
-            }));
-        }
-      );
-    });
-  }
+  getUserLocation = (location) => {
+    this.setState({
+      lat: location.lat,
+      lng: location.lng,
+      street: location.street
+    })
+  };
 
   render() {
     let language = this.props.language;
@@ -176,6 +145,12 @@ class Index extends React.Component {
             </div>
             ​
             <div id="position">
+              <UserLocation 
+                onRef={(ref) => (this.UserLocation = ref)}
+                language={language}
+                location={this.getUserLocation}
+                key={streetname}
+              />
               {language == "fr" ? <p>Vous êtes sur</p> : ""}
               {language == "nl" ? <p>U bevindt zich hier</p> : ""}
               {language == "en" ? <p>You are at</p> : ""}

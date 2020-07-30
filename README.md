@@ -8,9 +8,30 @@ Better Bike Brussels is a Progressive Web App imagined by and made for Brussels 
 
 Try it [now](https://better-bike-brussels.herokuapp.com)!
 
-## Deployment
+## Backend
 
-First, change the `next.config.js` file with the right info, in the case of the main instance:
+The base code can be found [here](https://github.com/oSoc20/better-bike-brussels-backend)
+
+## Frontend
+
+BetterBikeBrussels is a NEXT.js app and uses Docker to ease the building and deployment procedure.
+
+### Deployment
+
+As such if you don't want to use docker, you can run it locally using:
+
+#### Requirements
+
+Please note the following requirements:
+
+* Node.JS (^v14.x.x)
+* npm (^v6.x.x)
+
+#### Before anything
+
+Clone the github repository and open a terminal in the repository.
+
+Change the `next.config.js` file with the right info, in the case of the main instance:
 
 ```js
 module.exports = {
@@ -22,10 +43,7 @@ module.exports = {
     },
 }
 ```
-
-BetterBikeBrussels uses Docker to ease the building and deployment procedure. 
-
-BetterBikeBrussels is a NEXT.js app. As such if you don't want to use docker, you can run it locally using:
+#### Set up and launch
 
 ```bash
 # Install npm dependencies
@@ -38,15 +56,6 @@ npm run build
 export PORT=3000    # choose your port here
 npm run start
 ```
-
-#### Backend
-
-The base code can be found [here](https://github.com/oSoc20/better-bike-brussels-backend)
-
-Please note the following requirements:
-
-* Node.JS (^v10.x.x)
-* npm (^v6.x.x)
 
 ### Installation from DockerHub
 
